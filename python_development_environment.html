@@ -1,0 +1,1011 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Python Development Environment &mdash; Snake Charming for Beginners 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started with PyCharm" href="getting_started_with_pycharm.html" />
+    <link rel="prev" title="Installing Python 3.7" href="installation.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Snake Charming for Beginners
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="welcome_to_the_jungle.html">Welcome to the Jungle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions_used_in_this_guide.html">Conventions Used in this Document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing Python 3.7</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Development Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#python-pip">Python &amp; <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#virtualenv"><code class="docutils literal notranslate"><span class="pre">virtualenv</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-usage">Basic Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#linux-and-mac-os-x">Linux and Mac OS X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#deleting-virtual-environments">Deleting Virtual Environments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#requirements-txt"><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#virtualenvwrapper"><code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#virtualenvwrapper-key-commands"><code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> Key Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pipenv">Pipenv</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation-on-os-x-and-linux">Installation on OS X and Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-packages">Installing packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipenv-key-commands"><code class="docutils literal notranslate"><span class="pre">pipenv</span></code> Key Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Python &amp; <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pip-and-virtualenv"><code class="docutils literal notranslate"><span class="pre">pip</span></code> and <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Basic Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Linux and Mac OS X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Deleting Virtual Environments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> Key Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">Pipenv</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Installation on OS X and Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Installing packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">pipenv</span></code> Key Commands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started_with_pycharm.html">Getting Started with PyCharm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_your_command_center.html">Build Your Command Center</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploit.html">Exploit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gathering_system_level_information.html">Gathering System Level Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contacting_the_unix_daemons_of_old.html">Contacting the UNIX Daemons of Old</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Snake Charming for Beginners</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Python Development Environment</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/python_development_environment.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="python-development-environment">
+<h1>Python Development Environment<a class="headerlink" href="#python-development-environment" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You will not be required to install any of these tools on your host operating system (the one installed on your laptop) as you will be provided with a Ubuntu 18.04 LTS “Bionic Beaver” Virtual Machine provided as an OVA with PyCharm Community Edition. This section has been included for completeness.</p>
+</div>
+<p>This section will walk you through installing and using <code class="docutils literal notranslate"><span class="pre">pipenv</span></code>, <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> and <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> as well as how you can use these tools to better manage your Python development environment.</p>
+<p>Keep in mind Python is used for a great many different reasons, so how you specifically use these tools is up to you.</p>
+<div class="section" id="python-pip">
+<h2>Python &amp; <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#python-pip" title="Permalink to this headline">¶</a></h2>
+<p>Before going any further, if you haven’t already, you will want to ensure you have Python installed. You can check this by running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> python --version
+</pre></div>
+</div>
+<p>The second thing we want to check is installed is <code class="docutils literal notranslate"><span class="pre">pip</span></code>. <code class="docutils literal notranslate"><span class="pre">pip</span></code> is “the Python Packaging Authority (PyPA) recommended tool for installing Python packages” - however alternatives to <code class="docutils literal notranslate"><span class="pre">pip</span></code> do exist. You can check if <code class="docutils literal notranslate"><span class="pre">pip</span></code> is installed by running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip --version
+</pre></div>
+</div>
+<p>If you are running Python2 and Python3 you may need to use <code class="docutils literal notranslate"><span class="pre">pip3</span></code> rather than <code class="docutils literal notranslate"><span class="pre">pip</span></code>, for example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip3 --version
+<span class="gp">%</span> pip3 install requests
+</pre></div>
+</div>
+<p>If you installed Python from source or with an installer from <a class="reference external" href="https://python.org">https://python.org</a>, or via Homebrew, <code class="docutils literal notranslate"><span class="pre">pip</span></code> should be installed by default. If you are on Linux and used your package manager (<code class="docutils literal notranslate"><span class="pre">apt</span></code>), you may need to install pip separately.</p>
+</div>
+<div class="section" id="virtualenv">
+<h2><code class="docutils literal notranslate"><span class="pre">virtualenv</span></code><a class="headerlink" href="#virtualenv" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> is a tool used to create isolated Python environments, it does this by creating a directory that contains all the executables, including the correct Python version needed to use the package - this can be helpful in situations where you have conflicting package requirements, or are developing tools that use a different Python version – for example when your system version of Python is 2.7.1 but you want to write Python 3.7.1 tools.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> can be used standalone, instead of <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> however, we suggest using <code class="docutils literal notranslate"><span class="pre">pipenv</span></code>.</p>
+</div>
+<p>To install <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> via <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip install virtualenv
+</pre></div>
+</div>
+<div class="section" id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="linux-and-mac-os-x">
+<h4>Linux and Mac OS X<a class="headerlink" href="#linux-and-mac-os-x" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>Create a virtual environment for a project:</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="nb">cd</span> project_folder
+<span class="gp">%</span> virtualenv venv
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">virtualenv</span> <span class="pre">venv</span></code> will create a directory in your current directory which will contain the Python executable file and copy of the <code class="docutils literal notranslate"><span class="pre">pip</span></code> library which you will use to install other packages. <code class="docutils literal notranslate"><span class="pre">venv</span></code> is a customisable value that can be anything – the name of your project, the street you grew up on, or your mothers maiden name.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">venv</span></code> is just a naming convention and is typically included in default <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> files by default (when automatically generated).</p>
+</div>
+<p>You can also specify a particular Python interpreter (like Python 3.7!)</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="nb">cd</span> project_folder
+<span class="gp">#</span> You might need to find the path to the Python version you are using - on Linux/OSX this
+<span class="gp">#</span> can be <span class="k">done</span> by running which
+<span class="gp">%</span> which python3
+<span class="go">/Library/Frameworks/Python.framework/Versions/3.7/bin/python3</span>
+<span class="gp">%</span> virtualenv -p /Library/Frameworks/Python.framework/Versions/3.7/bin/python3 venv
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Before starting work on your project you will want to activate the virtual environment:</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="nb">cd</span> project_folder
+<span class="gp">%</span> <span class="nb">source</span> venv/bin/activate
+<span class="gp">#</span> If you <span class="k">do</span> not run a custom terminal prompt it will change to look something like:
+<span class="gp">%</span> <span class="o">(</span>venv<span class="o">)</span> ayiig:your_project errbufferoverfl
+</pre></div>
+</div>
+<p>From now on any package that you install using <code class="docutils literal notranslate"><span class="pre">pip</span></code> will be placed in the <code class="docutils literal notranslate"><span class="pre">venv</span></code> directory, isolated from the global Python installation.</p>
+<ol class="arabic simple" start="3">
+<li>If you are done working in the virtual environment, you can deactivate it:</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> deactivate
+</pre></div>
+</div>
+<p>This will return you to the global Python interpreter and its installed packages.</p>
+</div>
+<div class="section" id="windows">
+<h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>% cd project_folder
+% virtualenv venv
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">virtualenv</span> <span class="pre">venv</span></code> will create a directory in your current directory which will contain the Python executable file and copy of the <code class="docutils literal notranslate"><span class="pre">pip</span></code> library which you will use to install other packages. <code class="docutils literal notranslate"><span class="pre">venv</span></code> is a customisable value that can be anything – the name of your project, the street you grew up on, or your mothers maiden name.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">venv</span></code> is just a naming convention and is typically included in default <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> files.</p>
+</div>
+<p>You can also specify a particular Python interpreter (like Python 3.7!)</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">&gt;</span> cd project_folder
+<span class="p">&gt;</span> virtualenv -p C:\Program Files\Python 3.7 venv
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Before starting work on your project you will want to activate the virtual environment:</li>
+</ol>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">&gt;</span> cd project_folder
+<span class="p">&gt;</span> \venv\Scripts\activate
+</pre></div>
+</div>
+<p>From now on any package that you install using <code class="docutils literal notranslate"><span class="pre">pip</span></code> will be placed in the <code class="docutils literal notranslate"><span class="pre">venv</span></code> directory, isolated from the global Python installation.</p>
+<ol class="arabic simple" start="3">
+<li>If you are done working in the virtual environment, you can deactivate it:</li>
+</ol>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">&gt;</span> deactivate
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="deleting-virtual-environments">
+<h3>Deleting Virtual Environments<a class="headerlink" href="#deleting-virtual-environments" title="Permalink to this headline">¶</a></h3>
+<p>Deleting a virtual environment is as simple as deleting its folder. For Linux and OSX users you can do this via the terminal:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> rm -rf venv
+</pre></div>
+</div>
+</div>
+<div class="section" id="requirements-txt">
+<h3><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code><a class="headerlink" href="#requirements-txt" title="Permalink to this headline">¶</a></h3>
+<p>In order to keep your environment consistent and to allow other people to use your package we “freeze” the current state of the environment packages and record it in a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file. To do this, you can run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip freeze &gt; requirements.txt
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> command will create a file (or overwrites an existing file) called <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> and move the output from <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">freeze</span></code> into the newly created file.</p>
+</div>
+<p>This creates a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file which contains a simple list of all the packages in the current environment and their respective versions. You can also view all the current environment without the requirements format as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip list
+<span class="go">Package                  Version</span>
+<span class="go">------------------------ ----------</span>
+<span class="go">alabaster                0.7.12</span>
+<span class="go">Babel                    2.6.0</span>
+<span class="go">certifi                  2018.11.29</span>
+<span class="go">chardet                  3.0.4</span>
+<span class="go">docutils                 0.14</span>
+<span class="go">idna                     2.8</span>
+<span class="go">imagesize                1.1.0</span>
+<span class="go">Jinja2                   2.10</span>
+<span class="go">MarkupSafe               1.1.0</span>
+<span class="go">packaging                18.0</span>
+<span class="go">pbr                      5.1.1</span>
+<span class="go">pip                      18.1</span>
+<span class="go">Pygments                 2.3.0</span>
+<span class="go">pyparsing                2.3.0</span>
+<span class="go">pytz                     2018.7</span>
+<span class="go">requests                 2.21.0</span>
+<span class="go">setuptools               39.1.0</span>
+<span class="go">six                      1.12.0</span>
+<span class="go">snowballstemmer          1.2.1</span>
+<span class="go">Sphinx                   1.8.2</span>
+<span class="go">sphinx-rtd-theme         0.4.2</span>
+<span class="go">sphinxcontrib-websupport 1.1.0</span>
+<span class="go">stevedore                1.30.0</span>
+<span class="go">urllib3                  1.24.1</span>
+<span class="go">virtualenv               16.2.0</span>
+<span class="go">virtualenv-clone         0.4.0</span>
+<span class="go">virtualenvwrapper        4.8.2</span>
+</pre></div>
+</div>
+<p>If you publish your code on GitHub or other service it will be easier for other people (or you, if you need to re-create the environment) to install the same packages using the same versions:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip install -r requirements.txt
+</pre></div>
+</div>
+<p>This will help ensure consistency across installations and developers.</p>
+</div>
+</div>
+<div class="section" id="virtualenvwrapper">
+<h2><code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code><a class="headerlink" href="#virtualenvwrapper" title="Permalink to this headline">¶</a></h2>
+<p>&gt; We need to go deeper…
+- Not actually a quote from Inception (2010)</p>
+<p><code class="docutils literal notranslate"><span class="pre">Virtualenvwrapper</span></code> as the name suggests is a handy little wrapper application for <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> that provides a set of (easier to remember) commands that make working with virtual environments easier. It also places all your virtual environments in one place meaning, !. You are less likely to commit them to source control by accident and 2. Makes them easier to manage in the long term.</p>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>To install <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> you will want to be in the global environment, so make sure you deactivate any virtual environments you are currently working in and run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip install virtualenvwrapper
+</pre></div>
+</div>
+<p>Once the package has been installed you will need to configure <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> once by adding the following three lines to your shell start up file (<code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> for most Linux Bourne-Again SHell (BASH) users, and <code class="docutils literal notranslate"><span class="pre">.bash_profile</span></code> for Mac OS X users) to set where the virtual environment directories should live, the location of your development projects, and location of the <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper.sh</span></code> script that was installed with the package.</p>
+<p>We have included comments along the way describing what each entry is doing, for those who are unfamiliar with BASH configuration.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># filename: .bashrc / .profile / .bash_profile etc.</span>
+
+<span class="c1"># This would be a hidden directory (denoted by the period (.) at the start on the file name</span>
+<span class="c1"># located in your &quot;home&quot; directory typically /Users/your_username/.virtualenv on Mac OS X or</span>
+<span class="c1"># /home/your_username/.virtualenv on Ubuntu</span>
+<span class="nb">export</span> <span class="nv">WORKON_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/.virtualenvs
+
+<span class="c1"># This is a projects directory located in your &quot;home&quot; directory typically</span>
+<span class="c1"># /Users/your_username/src on Mac OS X or /home/your_username/src on Ubuntu</span>
+<span class="c1"># This can be a directory of any name, I typically use src, which is short for</span>
+<span class="c1"># source (like source code)</span>
+<span class="nb">export</span> <span class="nv">PROJECT_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/src
+
+<span class="c1"># This is the path that points to the location of the virtualenvwrapper initialisation script.</span>
+<span class="c1"># It is important not to miss this option or each time you open a new terminal window you will</span>
+<span class="c1"># need to run this command manually which is tedious and will not bring you joy.</span>
+<span class="nb">export</span> <span class="nv">VIRTUALENVWRAPPER_SCRIPT</span><span class="o">=</span>/usr/local/bin/virtualenvwrapper.sh
+</pre></div>
+</div>
+<p>After you have made these modifications you should either close all your terminal windows, or an easier option is to reload the startup file by running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="nb">source</span> ~/.bashrc
+<span class="gp">#</span> or <span class="k">if</span> you are using Mac OS X
+<span class="gp">%</span> <span class="nb">source</span> ~/.bash_profile
+</pre></div>
+</div>
+<p>You can also configure <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> but we won’t go into detail about that here, instead if you are interested you can checkout the official documentation for the project at <a class="reference external" href="https://virtualenvwrapper.readthedocs.io">https://virtualenvwrapper.readthedocs.io</a>. What we will mention before moving onto the key commands, is you can add a line into the same file that you modified in the previous step to set the default version of Python <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> will use when creating new environments for you.</p>
+<p>Once you know where Python is installed we can open up the file we were modifying earlier (your shell start up file (<code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> for most Linux Bourne-Again SHell (BASH) users, and <code class="docutils literal notranslate"><span class="pre">.bash_profile</span></code> for Mac OS X users)) and adding the following line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># filename: .bashrc / .profile / .bash_profile etc.</span>
+<span class="nb">export</span> <span class="nv">WORKON_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/.virtualenvs
+<span class="nb">export</span> <span class="nv">PROJECT_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/src
+<span class="nb">export</span> <span class="nv">VIRTUALENVWRAPPER_SCRIPT</span><span class="o">=</span>/usr/local/bin/virtualenvwrapper.sh
+
+<span class="c1"># The following line tells virtualenvwrapper that the version of python3 we</span>
+<span class="c1"># want to use is the system version of Python 3 which in this case, will be</span>
+<span class="c1"># Python 3.7</span>
+<span class="nb">export</span> <span class="nv">VIRTUALENVWRAPPER_PYTHON</span><span class="o">=</span>/usr/local/bin/python3
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">If at a later time you install a different version of Python 3 <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> may complain it is unable to find the correct interpreter, this can generally be fixed by running <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">virtualenvwrapper</span></code>. However, depending on the <cite>actual</cite> problem, your kilomerterage may vary with this fix.</p>
+</div>
+</div>
+<div class="section" id="virtualenvwrapper-key-commands">
+<h3><code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> Key Commands<a class="headerlink" href="#virtualenvwrapper-key-commands" title="Permalink to this headline">¶</a></h3>
+<p>There are a handful of commands you should make yourself familiar with to get started with <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> these are outlined below:</p>
+<p>To create a new virtual environment, we use <code class="docutils literal notranslate"><span class="pre">mkvirtualenv</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> mkvirtualenv angolan
+<span class="go">Using base prefix &#39;/usr/local/Cellar/python/3.7.1/Frameworks/Python.framework/Versions/3.7&#39;</span>
+<span class="go">New python executable in /Users/errbufferoverfl/.virtualenvs/angolan/bin/python3.7</span>
+<span class="go">Also creating executable in /Users/errbufferoverfl/.virtualenvs/angolan/bin/python</span>
+<span class="go">Installing setuptools, pip, wheel...done.</span>
+<span class="go">virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/predeactivate</span>
+<span class="go">virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/postdeactivate</span>
+<span class="go">virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/preactivate</span>
+<span class="go">virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/postactivate</span>
+<span class="go">virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/get_env_details</span>
+</pre></div>
+</div>
+<p>Once created you will be moved into this working environment, you may notice the <code class="docutils literal notranslate"><span class="pre">angolan</span></code> at the start of your terminal prompt.</p>
+<p>Once, you have finished working in this environment, you can run <code class="docutils literal notranslate"><span class="pre">deactivate</span></code> to be moved back to your global environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="o">(</span>angolan<span class="o">)</span> deactivate
+</pre></div>
+</div>
+<p>When you come back to your computer, or want to work on a different project (or you can’t remember which the name of the virtual environment you should be working on) you can use either <code class="docutils literal notranslate"><span class="pre">workon</span></code> or <code class="docutils literal notranslate"><span class="pre">lsvirtualenv</span></code> to list all configured virtual environments:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> workon
+<span class="go">angolan</span>
+<span class="go">artemisia-jSICGO99</span>
+<span class="go">artemisia</span>
+<span class="go">aws</span>
+<span class="go">boudicca</span>
+<span class="go">clubhaus-JIHAVKvX</span>
+<span class="go">ergasia-XYyrAsCj</span>
+<span class="go">ergasia</span>
+<span class="go">errbufferoverfl.me</span>
+<span class="go">gitfindings</span>
+<span class="go">heracles</span>
+<span class="go">htmlfiveup</span>
+<span class="go">itsawitchadventure</span>
+<span class="go">itsawitchingadventure</span>
+<span class="go">itsawitchinggoodtime</span>
+<span class="go">kotcw</span>
+<span class="go">lovemelbournetrees-82Nd9r8H</span>
+<span class="go">lovemelbournetrees</span>
+<span class="go">malicella</span>
+<span class="go">malicella35</span>
+<span class="go">malicella370</span>
+<span class="go">nakano</span>
+<span class="go">python27</span>
+<span class="go">pythoncharmingforbeginners</span>
+<span class="go">scout</span>
+<span class="go">toool.com.au</span>
+<span class="go">trieu</span>
+<span class="go">utopia</span>
+<span class="go">xsshunter</span>
+<span class="go">zenobia</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> lsvirtualenv -b
+<span class="go">angolan</span>
+<span class="go">artemisia-jSICGO99</span>
+<span class="go">artemisia</span>
+<span class="go">aws</span>
+<span class="go">boudicca</span>
+<span class="go">clubhaus-JIHAVKvX</span>
+<span class="go">ergasia-XYyrAsCj</span>
+<span class="go">ergasia</span>
+<span class="go">errbufferoverfl.me</span>
+<span class="go">gitfindings</span>
+<span class="go">heracles</span>
+<span class="go">htmlfiveup</span>
+<span class="go">itsawitchadventure</span>
+<span class="go">itsawitchingadventure</span>
+<span class="go">itsawitchinggoodtime</span>
+<span class="go">kotcw</span>
+<span class="go">lovemelbournetrees-82Nd9r8H</span>
+<span class="go">lovemelbournetrees</span>
+<span class="go">malicella</span>
+<span class="go">malicella35</span>
+<span class="go">malicella370</span>
+<span class="go">nakano</span>
+<span class="go">python27</span>
+<span class="go">pythoncharmingforbeginners</span>
+<span class="go">scout</span>
+<span class="go">toool.com.au</span>
+<span class="go">trieu</span>
+<span class="go">utopia</span>
+<span class="go">xsshunter</span>
+<span class="go">zenobia</span>
+</pre></div>
+</div>
+<p>Once you have found the environment you want to use, simply run <code class="docutils literal notranslate"><span class="pre">workon</span></code> again with the name of the environment, once activated you should notice the name of the environment in your terminal prompt.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> workon angolan
+
+<span class="go">(angolan) ayiig:your_project errbufferoverfl</span>
+</pre></div>
+</div>
+<p>Finally, if you ever want to delete your virtual environments this can be done by using <code class="docutils literal notranslate"><span class="pre">rmvirtualenv</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> rmvirtualenv angolan
+<span class="go">Removing angolan...</span>
+</pre></div>
+</div>
+<p>Remember you will want to be in the global environment before removing an environment, if you are still within the virtual environment you want to delete you will get the following error:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="o">(</span>angolan<span class="o">)</span> rmvirtualenv angolan
+<span class="go">Removing angolan...</span>
+<span class="go">ERROR: You cannot remove the active environment (&#39;angolan&#39;).</span>
+<span class="go">Either switch to another environment, or run &#39;deactivate&#39;.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="pipenv">
+<h2>Pipenv<a class="headerlink" href="#pipenv" title="Permalink to this headline">¶</a></h2>
+<p>If you have ever used <code class="docutils literal notranslate"><span class="pre">npm</span></code> for Node.js or <code class="docutils literal notranslate"><span class="pre">bundler</span></code> for Ruby, that is what <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> is for Python. While <code class="docutils literal notranslate"><span class="pre">pip</span></code> can handle installation of Python packages, <code class="docutils literal notranslate"><span class="pre">Pipenv</span></code> gives you better control over dependency management in testing and development as well as ensuring less problems with version conflicts.</p>
+<p>You can try it out on “Root ‘n’ Roll” at <a class="reference external" href="https://rootnroll.com/d/pipenv">https://rootnroll.com/d/pipenv</a></p>
+<div class="section" id="installation-on-os-x-and-linux">
+<h3>Installation on OS X and Linux<a class="headerlink" href="#installation-on-os-x-and-linux" title="Permalink to this headline">¶</a></h3>
+<p>Mac OS X users can install <code class="docutils literal notranslate"><span class="pre">Pipenv</span></code> using Homebrew:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> brew install pipenv
+</pre></div>
+</div>
+<p>Linux users can install <code class="docutils literal notranslate"><span class="pre">Pipenv</span></code> using Linuxbrew:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> brew install pipenv
+</pre></div>
+</div>
+<p>For more installation options checkout their official documentation at <a class="reference external" href="https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv">https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv</a></p>
+</div>
+<div class="section" id="installing-packages">
+<h3>Installing packages<a class="headerlink" href="#installing-packages" title="Permalink to this headline">¶</a></h3>
+<p>Pipenv will manage your dependencies on a per-project basis, so to install packages, change into your project’s directory and run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pipenv install requests
+</pre></div>
+</div>
+<p>Pipenv will take care of the hard work, installing the Requests library and create a <code class="docutils literal notranslate"><span class="pre">Pipfile</span></code> for you in the project’s directory. This <code class="docutils literal notranslate"><span class="pre">Pipfile</span></code> is used to track which dependencies your project needs. It will also create the ever important <code class="docutils literal notranslate"><span class="pre">Pipfile.lock</span></code>, which is used to produce reproducible builds, which is just a fancy way of saying the compilation will always build the same binary. For more information about reproducible builds and why they are important see Wikipedia <a class="reference external" href="https://en.wikipedia.org/wiki/Reproducible_builds">https://en.wikipedia.org/wiki/Reproducible_builds</a>.</p>
+</div>
+<div class="section" id="pipenv-key-commands">
+<h3><code class="docutils literal notranslate"><span class="pre">pipenv</span></code> Key Commands<a class="headerlink" href="#pipenv-key-commands" title="Permalink to this headline">¶</a></h3>
+<p>There are a handful of commands you should make yourself familiar with to get started with <code class="docutils literal notranslate"><span class="pre">pipenv</span></code>:</p>
+<p>We’ve covered how to install packages using <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> but how do we uninstall them? In a similar way:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pipenv uninstall requests
+</pre></div>
+</div>
+<p>If you have downloaded another project or have previously been using a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file you can install the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> in your environment as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pipenv install -r requirements.txt
+</pre></div>
+</div>
+<p>Unlike vanilla <code class="docutils literal notranslate"><span class="pre">pip</span></code> you can also check for security vulnerabilities in your dependencies:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pipenv check
+<span class="go">Virtualenv location: /Users/errbufferoverfl/.virtualenvs/blog.errbufferoverfl.me-UnS6on39</span>
+<span class="go">Checking PEP 508 requirements…</span>
+<span class="go">Passed!</span>
+<span class="go">Checking installed package safety…</span>
+<span class="go">All good!</span>
+</pre></div>
+</div>
+<p>Keep in mind Python is used for a great many different reasons, so how you specifically use these tools is up to you.</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>Python &amp; <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Before going any further, if you haven’t already, you will want to ensure you have Python installed. You can check this by running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> python --version
+</pre></div>
+</div>
+<p>The second thing we want to check is installed is <code class="docutils literal notranslate"><span class="pre">pip</span></code>. <code class="docutils literal notranslate"><span class="pre">pip</span></code> is “the Python Packaging Authority (PyPA) recommended tool for installing Python packages” - however alternatives to <code class="docutils literal notranslate"><span class="pre">pip</span></code> do exist. You can check if <code class="docutils literal notranslate"><span class="pre">pip</span></code> is installed by running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip --version
+</pre></div>
+</div>
+<p>If you are running Python2 and Python3 you may need to use <code class="docutils literal notranslate"><span class="pre">pip3</span></code> rather than <code class="docutils literal notranslate"><span class="pre">pip</span></code>, for example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip3 --version
+<span class="gp">%</span> pip3 install requests
+</pre></div>
+</div>
+<p>If you installed Python from source or with an installer from <a class="reference external" href="https://python.org">https://python.org</a>, or via Homebrew, <code class="docutils literal notranslate"><span class="pre">pip</span></code> should be installed by default. If you are on Linux and used your package manager (<code class="docutils literal notranslate"><span class="pre">apt</span></code>), you may need to install pip separately.</p>
+</div>
+<div class="section" id="pip-and-virtualenv">
+<h2><code class="docutils literal notranslate"><span class="pre">pip</span></code> and <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code><a class="headerlink" href="#pip-and-virtualenv" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> is a tool used to create isolated Python environments, it does this by creating a directory that contains all the executables, including the correct Python version needed to use the package - this can be helpful in situations where you have conflicting package requirements, or are developing tools that use a different Python version – for example when your system version of Python is 2.7.1 but you want to write Python 3.7.1 tools.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> can be used standalone, instead of <code class="docutils literal notranslate"><span class="pre">Pipenv</span></code> however, we suggest using <code class="docutils literal notranslate"><span class="pre">Pipenv</span></code>.</p>
+</div>
+<p>To install <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> via <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip install virtualenv
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h3>Basic Usage<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h4>Linux and Mac OS X<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>Create a virtual environment for a project:</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="nb">cd</span> project_folder
+<span class="gp">%</span> virtualenv venv
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">virtualenv</span> <span class="pre">venv</span></code> will create a directory in your current directory which will contain the Python executable file and copy of the <code class="docutils literal notranslate"><span class="pre">pip</span></code> library which you will use to install other packages. <code class="docutils literal notranslate"><span class="pre">venv</span></code> is a customisable value that can be anything – the name of your project, the street you grew up on, or your mothers maiden name.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">venv</span></code> is just a naming convention and is typically included in default <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> files.</p>
+</div>
+<p>You can also specify a particular Python interpreter (like Python 3.7!)</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="nb">cd</span> project_folder
+<span class="gp">#</span> You might need to find the path to the Python version you are using - on Linux/OSX this
+<span class="gp">#</span> can be <span class="k">done</span> by running which
+<span class="gp">%</span> which python3
+<span class="go">/Library/Frameworks/Python.framework/Versions/3.7/bin/python3</span>
+<span class="gp">%</span> virtualenv -p /Library/Frameworks/Python.framework/Versions/3.7/bin/python3 venv
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Before starting work on your project you will want to activate the virtual environment:</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="nb">cd</span> project_folder
+<span class="gp">%</span> <span class="nb">source</span> venv/bin/activate
+<span class="gp">#</span> If you <span class="k">do</span> not run a custom terminal prompt it will change to look something like:
+<span class="gp">%</span> <span class="o">(</span>venv<span class="o">)</span> ayiig:your_project errbufferoverfl
+</pre></div>
+</div>
+<p>From now on any package that you install using <code class="docutils literal notranslate"><span class="pre">pip</span></code> will be placed in the <code class="docutils literal notranslate"><span class="pre">venv</span></code> directory, isolated from the global Python installation.</p>
+<ol class="arabic simple" start="3">
+<li>If you are done working in the virtual environment, you can deactivate it:</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> deactivate
+</pre></div>
+</div>
+<p>This will return you to the global Python interpreter and its installed packages.</p>
+</div>
+<div class="section" id="id4">
+<h4>Windows<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>% cd project_folder
+% virtualenv venv
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">virtualenv</span> <span class="pre">venv</span></code> will create a directory in your current directory which will contain the Python executable file and copy of the <code class="docutils literal notranslate"><span class="pre">pip</span></code> library which you will use to install other packages. <code class="docutils literal notranslate"><span class="pre">venv</span></code> is a customisable value that can be anything – the name of your project, the street you grew up on, or your mothers maiden name.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">venv</span></code> is just a naming convention and is typically included in default <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> files.</p>
+</div>
+<p>You can also specify a particular Python interpreter (like Python 3.7!)</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">&gt;</span> cd project_folder
+<span class="p">&gt;</span> virtualenv -p C:\Program Files\Python 3.7 venv
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Before starting work on your project you will want to activate the virtual environment:</li>
+</ol>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">&gt;</span> cd project_folder
+<span class="p">&gt;</span> \venv\Scripts\activate
+</pre></div>
+</div>
+<p>From now on any package that you install using <code class="docutils literal notranslate"><span class="pre">pip</span></code> will be placed in the <code class="docutils literal notranslate"><span class="pre">venv</span></code> directory, isolated from the global Python installation.</p>
+<ol class="arabic simple" start="3">
+<li>If you are done working in the virtual environment, you can deactivate it:</li>
+</ol>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">&gt;</span> deactivate
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h3>Deleting Virtual Environments<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>Deleting a virtual environment is as simple as deleting its folder. For Linux and OSX users you can do this via the terminal:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> rm -rf venv
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>In order to keep your environment consistent and to allow other people to use your package we “freeze” the current state of the environment packages and record it in a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file. To do this, you can run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip freeze &gt; requirements.txt
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> command will create a file (or overwrites an existing file) called <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> and move the output from <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">freeze</span></code> into the newly created file.</p>
+</div>
+<p>This creates a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file which contains a simple list of all the packages in the current environment and their respective versions. You can also view all the current environment without the requirements format as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip list
+<span class="go">Package                  Version</span>
+<span class="go">------------------------ ----------</span>
+<span class="go">alabaster                0.7.12</span>
+<span class="go">Babel                    2.6.0</span>
+<span class="go">certifi                  2018.11.29</span>
+<span class="go">chardet                  3.0.4</span>
+<span class="go">docutils                 0.14</span>
+<span class="go">idna                     2.8</span>
+<span class="go">imagesize                1.1.0</span>
+<span class="go">Jinja2                   2.10</span>
+<span class="go">MarkupSafe               1.1.0</span>
+<span class="go">packaging                18.0</span>
+<span class="go">pbr                      5.1.1</span>
+<span class="go">pip                      18.1</span>
+<span class="go">Pygments                 2.3.0</span>
+<span class="go">pyparsing                2.3.0</span>
+<span class="go">pytz                     2018.7</span>
+<span class="go">requests                 2.21.0</span>
+<span class="go">setuptools               39.1.0</span>
+<span class="go">six                      1.12.0</span>
+<span class="go">snowballstemmer          1.2.1</span>
+<span class="go">Sphinx                   1.8.2</span>
+<span class="go">sphinx-rtd-theme         0.4.2</span>
+<span class="go">sphinxcontrib-websupport 1.1.0</span>
+<span class="go">stevedore                1.30.0</span>
+<span class="go">urllib3                  1.24.1</span>
+<span class="go">virtualenv               16.2.0</span>
+<span class="go">virtualenv-clone         0.4.0</span>
+<span class="go">virtualenvwrapper        4.8.2</span>
+</pre></div>
+</div>
+<p>If you publish your code on GitHub or other service it will be easier for other people (or you, if you need to re-create the environment) to install the same packages using the same versions:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip install -r requirements.txt
+</pre></div>
+</div>
+<p>This will help ensure consistency across installations and developers.</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h2><code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>&gt; We need to go deeper…
+- Not actually a quote from Inception (2010)</p>
+<p><code class="docutils literal notranslate"><span class="pre">Virtualenvwrapper</span></code> as the name suggests is a handy little wrapper application for <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> that provides a set of (easier to remember) commands that make working with virtual environments easier. It also places all your virtual environments in one place meaning, !. You are less likely to commit them to source control by accident and 2. Makes them easier to manage in the long term.</p>
+<div class="section" id="id8">
+<h3>Installation<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>To install <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> you will want to be in the global environment, so make sure you deactivate any virtual environments you are currently working in and run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pip install virtualenvwrapper
+</pre></div>
+</div>
+<p>Once the package has been installed you will need to configure <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> once by adding the following three lines to your shell start up file (<code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> for most Linux Bourne-Again SHell (BASH) users, and <code class="docutils literal notranslate"><span class="pre">.bash_profile</span></code> for Mac OS X users) to set where the virtual environment directories should live, the location of your development projects, and location of the <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper.sh</span></code> script that was installed with the package.</p>
+<p>We have included comments along the way describing what each entry is doing, for those who are unfamiliar with BASH configuration.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># filename: .bashrc / .profile / .bash_profile etc.</span>
+
+<span class="c1"># This would be a hidden directory (denoted by the period (.) at the start on the file name</span>
+<span class="c1"># located in your &quot;home&quot; directory typically /Users/your_username/.virtualenv on Mac OS X or</span>
+<span class="c1"># /home/your_username/.virtualenv on Ubuntu</span>
+<span class="nb">export</span> <span class="nv">WORKON_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/.virtualenvs
+
+<span class="c1"># This is a projects directory located in your &quot;home&quot; directory typically</span>
+<span class="c1"># /Users/your_username/src on Mac OS X or /home/your_username/src on Ubuntu</span>
+<span class="c1"># This can be a directory of any name, I typically use src, which is short for</span>
+<span class="c1"># source (like source code)</span>
+<span class="nb">export</span> <span class="nv">PROJECT_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/src
+
+<span class="c1"># This is the path that points to the location of the virtualenvwrapper initialisation script.</span>
+<span class="c1"># It is important not to miss this option or each time you open a new terminal window you will</span>
+<span class="c1"># need to run this command manually which is tedious and will not bring you joy.</span>
+<span class="nb">export</span> <span class="nv">VIRTUALENVWRAPPER_SCRIPT</span><span class="o">=</span>/usr/local/bin/virtualenvwrapper.sh
+</pre></div>
+</div>
+<p>After you have made these modifications you should either close all your terminal windows, or an easier option is to reload the startup file by running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="nb">source</span> ~/.bashrc
+<span class="gp">#</span> or <span class="k">if</span> you are using Mac OS X
+<span class="gp">%</span> <span class="nb">source</span> ~/.bash_profile
+</pre></div>
+</div>
+<p>You can also configure <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> but we won’t go into detail about that here, instead if you are interested you can checkout the official documentation for the project at <a class="reference external" href="https://virtualenvwrapper.readthedocs.io">https://virtualenvwrapper.readthedocs.io</a>. What we will mention before moving onto the key commands, is you can add a line into the same file that you modified in the previous step to set the default version of Python <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> will use when creating new environments for you.</p>
+<p>Once you know where Python is installed we can open up the file we were modifying earlier (your shell start up file (<code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> for most Linux Bourne-Again SHell (BASH) users, and <code class="docutils literal notranslate"><span class="pre">.bash_profile</span></code> for Mac OS X users)) and adding the following line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># filename: .bashrc / .profile / .bash_profile etc.</span>
+<span class="nb">export</span> <span class="nv">WORKON_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/.virtualenvs
+<span class="nb">export</span> <span class="nv">PROJECT_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/src
+<span class="nb">export</span> <span class="nv">VIRTUALENVWRAPPER_SCRIPT</span><span class="o">=</span>/usr/local/bin/virtualenvwrapper.sh
+
+<span class="c1"># The following line tells virtualenvwrapper that the version of python3 we</span>
+<span class="c1"># want to use is the system version of Python 3 which in this case, will be</span>
+<span class="c1"># Python 3.7</span>
+<span class="nb">export</span> <span class="nv">VIRTUALENVWRAPPER_PYTHON</span><span class="o">=</span>/usr/local/bin/python3
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">If at a later time you install a different version of Python 3 <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> may complain it is unable to find the correct interpreter, this can generally be fixed by running <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">virtualenvwrapper</span></code>. However, depending on the <cite>actual</cite> problem, your kilomerterage may vary with this fix.</p>
+</div>
+</div>
+<div class="section" id="id9">
+<h3><code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> Key Commands<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>There are a handful of commands you should make yourself familiar with to get started with <code class="docutils literal notranslate"><span class="pre">virtualenvwrapper</span></code> these are outlined below:</p>
+<p>To create a new virtual environment, we use <code class="docutils literal notranslate"><span class="pre">mkvirtualenv</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> mkvirtualenv angolan
+<span class="go">Using base prefix &#39;/usr/local/Cellar/python/3.7.1/Frameworks/Python.framework/Versions/3.7&#39;</span>
+<span class="go">New python executable in /Users/errbufferoverfl/.virtualenvs/angolan/bin/python3.7</span>
+<span class="go">Also creating executable in /Users/errbufferoverfl/.virtualenvs/angolan/bin/python</span>
+<span class="go">Installing setuptools, pip, wheel...done.</span>
+<span class="go">virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/predeactivate</span>
+<span class="go">virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/postdeactivate</span>
+<span class="go">virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/preactivate</span>
+<span class="go">virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/postactivate</span>
+<span class="go">virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/get_env_details</span>
+</pre></div>
+</div>
+<p>Once created you will be moved into this working environment, you may notice the <code class="docutils literal notranslate"><span class="pre">angolan</span></code> at the start of your terminal prompt.</p>
+<p>Once, you have finished working in this environment, you can run <code class="docutils literal notranslate"><span class="pre">deactivate</span></code> to be moved back to your global environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="o">(</span>angolan<span class="o">)</span> deactivate
+</pre></div>
+</div>
+<p>When you come back to your computer, or want to work on a different project (or you can’t remember which the name of the virtual environment you should be working on) you can use either <code class="docutils literal notranslate"><span class="pre">workon</span></code> or <code class="docutils literal notranslate"><span class="pre">lsvirtualenv</span></code> to list all configured virtual environments:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> workon
+<span class="go">angolan</span>
+<span class="go">artemisia-jSICGO99</span>
+<span class="go">artemisia</span>
+<span class="go">aws</span>
+<span class="go">boudicca</span>
+<span class="go">clubhaus-JIHAVKvX</span>
+<span class="go">ergasia-XYyrAsCj</span>
+<span class="go">ergasia</span>
+<span class="go">errbufferoverfl.me</span>
+<span class="go">gitfindings</span>
+<span class="go">heracles</span>
+<span class="go">htmlfiveup</span>
+<span class="go">itsawitchadventure</span>
+<span class="go">itsawitchingadventure</span>
+<span class="go">itsawitchinggoodtime</span>
+<span class="go">kotcw</span>
+<span class="go">lovemelbournetrees-82Nd9r8H</span>
+<span class="go">lovemelbournetrees</span>
+<span class="go">malicella</span>
+<span class="go">malicella35</span>
+<span class="go">malicella370</span>
+<span class="go">nakano</span>
+<span class="go">python27</span>
+<span class="go">pythoncharmingforbeginners</span>
+<span class="go">scout</span>
+<span class="go">toool.com.au</span>
+<span class="go">trieu</span>
+<span class="go">utopia</span>
+<span class="go">xsshunter</span>
+<span class="go">zenobia</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> lsvirtualenv -b
+<span class="go">angolan</span>
+<span class="go">artemisia-jSICGO99</span>
+<span class="go">artemisia</span>
+<span class="go">aws</span>
+<span class="go">boudicca</span>
+<span class="go">clubhaus-JIHAVKvX</span>
+<span class="go">ergasia-XYyrAsCj</span>
+<span class="go">ergasia</span>
+<span class="go">errbufferoverfl.me</span>
+<span class="go">gitfindings</span>
+<span class="go">heracles</span>
+<span class="go">htmlfiveup</span>
+<span class="go">itsawitchadventure</span>
+<span class="go">itsawitchingadventure</span>
+<span class="go">itsawitchinggoodtime</span>
+<span class="go">kotcw</span>
+<span class="go">lovemelbournetrees-82Nd9r8H</span>
+<span class="go">lovemelbournetrees</span>
+<span class="go">malicella</span>
+<span class="go">malicella35</span>
+<span class="go">malicella370</span>
+<span class="go">nakano</span>
+<span class="go">python27</span>
+<span class="go">pythoncharmingforbeginners</span>
+<span class="go">scout</span>
+<span class="go">toool.com.au</span>
+<span class="go">trieu</span>
+<span class="go">utopia</span>
+<span class="go">xsshunter</span>
+<span class="go">zenobia</span>
+</pre></div>
+</div>
+<p>Once you have found the environment you want to use, simply run <code class="docutils literal notranslate"><span class="pre">workon</span></code> again with the name of the environment, once activated you should notice the name of the environment in your terminal prompt.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> workon angolan
+
+<span class="go">(angolan) ayiig:your_project errbufferoverfl</span>
+</pre></div>
+</div>
+<p>Finally, if you ever want to delete your virtual environments this can be done by using <code class="docutils literal notranslate"><span class="pre">rmvirtualenv</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> rmvirtualenv angolan
+<span class="go">Removing angolan...</span>
+</pre></div>
+</div>
+<p>Remember you will want to be in the global environment before removing an environment, if you are still within the virtual environment you want to delete you will get the following error:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> <span class="o">(</span>angolan<span class="o">)</span> rmvirtualenv angolan
+<span class="go">Removing angolan...</span>
+<span class="go">ERROR: You cannot remove the active environment (&#39;angolan&#39;).</span>
+<span class="go">Either switch to another environment, or run &#39;deactivate&#39;.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>Pipenv<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<p>If you have ever used <code class="docutils literal notranslate"><span class="pre">npm</span></code> for Node.js or <code class="docutils literal notranslate"><span class="pre">bundler</span></code> for Ruby, that is what <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> is for Python. While <code class="docutils literal notranslate"><span class="pre">pip</span></code> can handle installation of Python packages, <code class="docutils literal notranslate"><span class="pre">Pipenv</span></code> gives you better control over dependency management in testing and development as well as ensuring less problems with version conflicts.</p>
+<p>You can try it out on “Root ‘n’ Roll” at <a class="reference external" href="https://rootnroll.com/d/pipenv">https://rootnroll.com/d/pipenv</a></p>
+<div class="section" id="id11">
+<h3>Installation on OS X and Linux<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>Mac OS X users can install <code class="docutils literal notranslate"><span class="pre">Pipenv</span></code> using Homebrew:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> brew install pipenv
+</pre></div>
+</div>
+<p>Linux users can install <code class="docutils literal notranslate"><span class="pre">Pipenv</span></code> using Linuxbrew:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> brew install pipenv
+</pre></div>
+</div>
+<p>For more installation options checkout their official documentation at <a class="reference external" href="https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv">https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv</a></p>
+</div>
+<div class="section" id="id12">
+<h3>Installing packages<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>Pipenv will manage your dependencies on a per-project basis, so to install packages, change into your project’s directory and run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pipenv install requests
+</pre></div>
+</div>
+<p>Pipenv will take care of the hard work, installing the Requests library and create a <code class="docutils literal notranslate"><span class="pre">Pipfile</span></code> for you in the project’s directory. This <code class="docutils literal notranslate"><span class="pre">Pipfile</span></code> is used to track which dependencies your project needs. It will also create the ever important <code class="docutils literal notranslate"><span class="pre">Pipfile.lock</span></code>, which is used to produce reproducible builds, which is just a fancy way of saying the compilation will always build the same binary. For more information about reproducible builds and why they are important see Wikipedia <a class="reference external" href="https://en.wikipedia.org/wiki/Reproducible_builds">https://en.wikipedia.org/wiki/Reproducible_builds</a>.</p>
+</div>
+<div class="section" id="id13">
+<h3><code class="docutils literal notranslate"><span class="pre">pipenv</span></code> Key Commands<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>There are a handful of commands you should make yourself familiar with to get started with <code class="docutils literal notranslate"><span class="pre">pipenv</span></code>:</p>
+<p>We’ve covered how to install packages using <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> but how do we uninstall them? In a similar way:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pipenv uninstall requests
+</pre></div>
+</div>
+<p>If you have downloaded another project or have previously been using a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file you can install the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> in your environment as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pipenv install -r requirements.txt
+</pre></div>
+</div>
+<p>Unlike vanilla <code class="docutils literal notranslate"><span class="pre">pip</span></code> you can also check for security vulnerabilities in your dependencies:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> pipenv check
+<span class="go">Virtualenv location: /Users/errbufferoverfl/.virtualenvs/blog.errbufferoverfl.me-UnS6on39</span>
+<span class="go">Checking PEP 508 requirements…</span>
+<span class="go">Passed!</span>
+<span class="go">Checking installed package safety…</span>
+<span class="go">All good!</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="getting_started_with_pycharm.html" class="btn btn-neutral float-right" title="Getting Started with PyCharm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral" title="Installing Python 3.7" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, errbufferoverfl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

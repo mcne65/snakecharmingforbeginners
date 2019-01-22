@@ -1,0 +1,116 @@
+.. toctree::
+    :maxdepth: 2
+    :caption: Contents:
+
+    welcome_to_the_jungle
+    conventions_used_in_this_guide
+    installing_python_three_point_seven
+    python_development_environment
+    getting_started_with_pycharm
+    build_your_command_center
+    handling_word_lists
+    exploit
+    gathering_system_level_information
+    contacting_the_unix_daemons_of_old
+    credits
+    solutions
+
+=========================================================
+Snake Charming for Beginners
+=========================================================
+
+"Snake Charming for Beginners" is a free two day Python training course put together for 0xCC an information security
+training conference by women for women. It serves as a tutorial and guide to the Python language for a beginner audience
+with a focus on using Python for penetration testing or bug hunting.
+
+While not mandatory, if you have never done any programming, we suggest you attend the free-thirty minute primer on Python.
+
+---------------------------------------------------------
+Training Description
+---------------------------------------------------------
+
+Snake-charming is an age-old practice of hypnotizing snakes by playing and waving a murli - in the modern day this practice looks much different, equipped with an Integrated Development Environment (IDE), a clackity keyboard and a trusty guide we'll be taking you through how you can effectively charm Python 3.6.
+
+On the first day of our trek through the dense jungles of Pythonia we will be looking at how to build a simple sub-domain enumeration tool and how to get started building simple exploits - for those who have trekked these paths before - extra challenges will await you.
+
+Day two we will move further into the dark jungles of Pythonia delving into forbidden user-land territory and how you can use Python to gather useful system-level information, and contact the UNIX daemons of old.
+
+While writing this training description, errbufferoverfl wrote two Python fan fictions, the next cyber-themed Hollywood blockbuster and Shakespearian a play about the training.
+
+---------------------------------------------------------
+What we won't be covering
+---------------------------------------------------------
+
+- ``git`` and how to use it, there are many tutorials and walk-throughs available for ``git`` online and I want to focus as much time as possible on actually building things. My favorite resources are:
+
+   - https://try.github.io - how to use GitHub, this translates relatively well for most ``git`` based services (BitBucket, goget, GitLab)
+
+   - http://gitready.com - beginner to advanced walk-throughs on ``git`` things -- handy if you already know ``git`` but need to brush up in particular areas
+
+   - https://www.codecademy.com/courses/learn-git/lessons/git-workflow/exercises/hello-git - walk-throughs of different ``git`` commands (this is the tool I used when I started learning ``git``)
+   - https://learngitbranching.js.org - interactive walk-throughs sorted by task rather than difficulty level -- handy if you already know ``git`` but need to brush up in particular areas
+
+- How to setup and install Python - there are two sections provided in this guide with general information on Python 3.x.x installation on Windows, Mac OS X and ``apt``-based Linux as well general information about setting up your Python development environment for the purpose of this training all of this has been done for you
+
+---------------------------------------------------------
+License
+---------------------------------------------------------
+This book is licensed under a Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0).
+
+You are free to:
+
+* You are free to Share i.e. to copy, distribute and transmit this book
+* You are free to Remix i.e. to make changes to this book (especially translations)
+
+Under the following terms:
+
+* You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+* You may not use the material for commercial purposes.
+* If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+* You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+For more information see Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0), located at https://creativecommons.org/licenses/by-nc-sa/4.0.
+
+---------------------------------------------------------
+Read Now
+---------------------------------------------------------
+You can read it online at https://snakecharmingforbeginners.com/
+
+---------------------------------------------------------
+Download
+---------------------------------------------------------
+Visit https://github.com/errbufferoverfl/snakecharmingforbeginners for the following types of downloads:
+
+* PDF (for desktop readting, etc.)
+* PDF (for desktop reading, etc.)
+* EPUB (for iPhone/iPad, ebook readers, etc.)
+* Mobi (for Kindle)
+
+Visit https://github.com/errbufferoverfl/snakecharmingforbeginners for the raw content (for suggesting corrections, changes, translating, etc.)
+
+---------------------------------------------------------
+Dedication
+---------------------------------------------------------
+To @chkconfig, @zemmip0bia and @nanomebia for always being there, encouraging me to do dumb projects and reading over the first drafts (P.S. I wrote this before any of you agreed to it).
+
+To all my favorite rats for allowing me the time to put this together and asking me all the hard questions.
+
+---------------------------------------------------------
+Preface
+---------------------------------------------------------
+Python is quickly becoming one of the most popular programming languages with over 1 million [1]_ repositories on GitHub containing primarily Python. The 2018 Stack Overflow developer profile revealed Python is used by 37.9% of professional developers and 38.8% of all respondents [2]_.
+
+It didn't even place in the Top 25 most dreaded languages (% of developers who are developing with the language or technology but have not expressed interest in continuing to do so), however, it topped the list of most wanted languages [3]_ (% of developers who are not developing with the language or technology but have expressed interest in developing with it).
+
+So whether this is the first time you are using Python, or you have been using it a bit and want to know more, congrats on picking a fantastic language!
+
+.. [1] https://github.com/search?l=&q=language%3APython&type=Repositories
+.. [2] https://insights.stackoverflow.com/survey/2018#most-popular-technologies
+.. [3] https://insights.stackoverflow.com/survey/2018#most-loved-dreaded-and-wanted
+
+---------------------------------------------------------
+Credits
+---------------------------------------------------------
+All work work within the Public Domain or licensed can be found attributed within the :ref:`Credits` page. If you find any work incorrectly referenced or licensed please contact snakecharmingforbegineers@errbufferoverfl.me.
+
+

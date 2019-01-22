@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Handling Word-Lists &mdash; Snake Charming for Beginners 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Snake Charming for Beginners
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="welcome_to_the_jungle.html">Welcome to the Jungle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions_used_in_this_guide.html">Conventions Used in this Document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing_python_three_point_seven.html">Installing Python 3.7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_development_environment.html">Python Development Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started_with_pycharm.html">Getting Started with PyCharm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_your_command_center.html">Build Your Command Center</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploit.html">Exploit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gathering_system_level_information.html">Gathering System Level Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contacting_the_unix_daemons_of_old.html">Contacting the UNIX Daemons of Old</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solutions.html">Solutions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Snake Charming for Beginners</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Handling Word-Lists</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/handling_word_list.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="handling-word-lists">
+<h1>Handling Word-Lists<a class="headerlink" href="#handling-word-lists" title="Permalink to this headline">¶</a></h1>
+<p>When it comes to brute-forcing, word-lists make the world go ‘round. Some people spends days, months, weeks and even years refining their word-lists, from most common, to frequently used. These lists are often build by the community for the community, or are a hodge-podge of maybes either way crafting an efficient word-list is a loveless labour.</p>
+<p>For our application we are going to have two types of list, an in-built one and the ability to handle one provided by the user.</p>
+<p>Now keep in mind because we haven’t done any optimisation in the way of threading for this application make sure you keep your word-lists small.</p>
+<p>We have included 100 common subdomains in the file below, however, in the future you may want a bigger more complete word list for brute-forcing subdomains, for this we recommend the following resources:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">www</span>
+<span class="n">mail</span>
+<span class="n">ftp</span>
+<span class="n">localhost</span>
+<span class="n">webmail</span>
+<span class="n">smtp</span>
+<span class="n">pop</span>
+<span class="n">ns1</span>
+<span class="n">webdisk</span>
+<span class="n">ns2</span>
+<span class="n">cpanel</span>
+<span class="n">whm</span>
+<span class="n">autodiscover</span>
+<span class="n">autoconfig</span>
+<span class="n">m</span>
+<span class="n">imap</span>
+<span class="n">test</span>
+<span class="n">ns</span>
+<span class="n">blog</span>
+<span class="n">pop3</span>
+<span class="n">dev</span>
+<span class="n">www2</span>
+<span class="n">admin</span>
+<span class="n">forum</span>
+<span class="n">news</span>
+<span class="n">vpn</span>
+<span class="n">ns3</span>
+<span class="n">mail2</span>
+<span class="n">new</span>
+<span class="n">mysql</span>
+<span class="n">old</span>
+<span class="n">lists</span>
+<span class="n">support</span>
+<span class="n">mobile</span>
+<span class="n">mx</span>
+<span class="n">static</span>
+<span class="n">docs</span>
+<span class="n">beta</span>
+<span class="n">shop</span>
+<span class="n">sql</span>
+<span class="n">secure</span>
+<span class="n">demo</span>
+<span class="n">cp</span>
+<span class="n">calendar</span>
+<span class="n">wiki</span>
+<span class="n">web</span>
+<span class="n">media</span>
+<span class="n">email</span>
+<span class="n">images</span>
+<span class="n">img</span>
+<span class="n">www1</span>
+<span class="n">intranet</span>
+<span class="n">portal</span>
+<span class="n">video</span>
+<span class="n">sip</span>
+<span class="n">dns2</span>
+<span class="n">api</span>
+<span class="n">cdn</span>
+<span class="n">stats</span>
+<span class="n">dns1</span>
+<span class="n">ns4</span>
+<span class="n">www3</span>
+<span class="n">dns</span>
+<span class="n">search</span>
+<span class="n">staging</span>
+<span class="n">server</span>
+<span class="n">mx1</span>
+<span class="n">chat</span>
+<span class="n">wap</span>
+<span class="n">my</span>
+<span class="n">svn</span>
+<span class="n">mail1</span>
+<span class="n">sites</span>
+<span class="n">proxy</span>
+<span class="n">ads</span>
+<span class="n">host</span>
+<span class="n">crm</span>
+<span class="n">cms</span>
+<span class="n">backup</span>
+<span class="n">mx2</span>
+<span class="n">lyncdiscover</span>
+<span class="n">info</span>
+<span class="n">apps</span>
+<span class="n">download</span>
+<span class="n">remote</span>
+<span class="n">db</span>
+<span class="n">forums</span>
+<span class="n">store</span>
+<span class="n">relay</span>
+<span class="n">files</span>
+<span class="n">newsletter</span>
+<span class="n">app</span>
+<span class="n">live</span>
+<span class="n">owa</span>
+<span class="n">en</span>
+<span class="n">start</span>
+<span class="n">sms</span>
+<span class="n">office</span>
+<span class="n">exchange</span>
+<span class="n">ipv4</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">dnscan</span></code> (<a class="reference external" href="https://github.com/rbsec/dnscan">https://github.com/rbsec/dnscan</a>) a Python word list-based sub-domain scanner has a number of lists included including top 100, 500, 1000, 10, 000 as well as a few others</li>
+<li><code class="docutils literal notranslate"><span class="pre">all.txt</span></code> (<a class="reference external" href="https://gist.github.com/jhaddix/86a06c5dc309d08580a018c66354a056">https://gist.github.com/jhaddix/86a06c5dc309d08580a018c66354a056</a>) is a GitHub gist that claims to have all word lists from every DNS enumeration tools. It has over 67, 627 lines - <strong>May contain crude and offensive entries</strong></li>
+<li><code class="docutils literal notranslate"><span class="pre">SecLists</span></code> (<a class="reference external" href="https://github.com/danielmiessler/SecLists">https://github.com/danielmiessler/SecLists</a>) is a collection of multiple types of lists used during security assessments including a list of common subdomains which can be found under <code class="docutils literal notranslate"><span class="pre">Discovery/DNS</span></code>.</li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, errbufferoverfl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

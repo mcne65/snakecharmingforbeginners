@@ -1,0 +1,19 @@
+=========================================================
+Welcome to the Jungle
+=========================================================
+
+.. image:: _static/imgs/welcome_to_the_jungle.jpg
+      :alt: White brick wall in black spray paint is written "Welcome to the Jungle"
+      :align: center
+
+.. epigraph::
+
+   "Please take all your trash with you when you exit."
+
+You enter the little cafe in a daze, the temperature had already hit 30 degrees celsius and it is only 10 am -- you look around for your tour guide, delayed flights, strange hotels, not to mention your very heavy rucksack. You scan the room, a slight look of worry comes over your face as you check your watch, "Surely, I couldn't be late?!"
+
+"Welcome! Welcome! You look exhausted, please take a seat!" shouts a friendly server, shaking you out of your heat-induced daze. They show you to a table and get you a glass of water and ice, the outside dripping in cool cool condensation. "You wouldn't happen to be here with those adventurers would you?"
+
+"You... you mean they're `here`?! They haven't left yet?"
+
+**ERRBUFFEROVERFL:** enter stage left.

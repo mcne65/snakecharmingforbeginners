@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Build Your Command Center &mdash; Snake Charming for Beginners 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Handling Word Lists" href="handling_word_lists.html" />
+    <link rel="prev" title="Getting Started with PyCharm" href="getting_started_with_pycharm.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Snake Charming for Beginners
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="welcome_to_the_jungle.html">Welcome to the Jungle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions_used_in_this_guide.html">Conventions Used in this Document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing_python_three_point_seven.html">Installing Python 3.7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_development_environment.html">Python Development Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started_with_pycharm.html">Getting Started with PyCharm</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Build Your Command Center</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handling_word_lists.html">Handling Word Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploit.html">Exploit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gathering_system_level_information.html">Gathering System Level Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contacting_the_unix_daemons_of_old.html">Contacting the UNIX Daemons of Old</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solutions.html">Solutions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Snake Charming for Beginners</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Build Your Command Center</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/build_your_command_center.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="build-your-command-center">
+<h1>Build Your Command Center<a class="headerlink" href="#build-your-command-center" title="Permalink to this headline">¶</a></h1>
+<p>The first step in building a tool (if you ask me) is to create a command center, or a way for your user to interact with your tools – you may have experience with many command line applications where you pile a bunch of different directives and options onto a application hit enter and bam you have your answers!</p>
+<p>For those who may not have used command line applications before I’ve included an example using the free and open-source tool <code class="docutils literal notranslate"><span class="pre">nmap</span></code> (<a class="reference external" href="https://nmap.org/">https://nmap.org/</a>) which can be used for security scanning, port scanning, and network exploration.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> nmap -p- <span class="m">192</span>.168.0.1
+</pre></div>
+</div>
+<p>In our example above we are telling <code class="docutils literal notranslate"><span class="pre">nmap</span></code> to scan all ports <code class="docutils literal notranslate"><span class="pre">-p-</span></code> on the host <code class="docutils literal notranslate"><span class="pre">192.168.0.1</span></code>. This is a relatively straight-forward example, and in some cases command line arguments can get complicated pretty quickly. But we aren’t worrying about that just yet.</p>
+<div class="topic">
+<p class="topic-title first">Concepts Covered</p>
+<ul class="simple">
+<li>Creating new files</li>
+<li>Creating methods</li>
+<li>Basic argument parsing</li>
+<li>Returning and storing data</li>
+<li>Name guard basics</li>
+<li>UNIX error codes</li>
+<li>Keyword/named parameters</li>
+</ul>
+</div>
+<div class="topic">
+<p class="topic-title first">Ingredients</p>
+<ul class="simple">
+<li>One python file called <code class="docutils literal notranslate"><span class="pre">main.py</span></code> or <code class="docutils literal notranslate"><span class="pre">yourprojectname.py</span></code></li>
+<li>One dash of <code class="docutils literal notranslate"><span class="pre">argparse</span></code>, a Python “built-in” meaning you don’t need to install anything</li>
+<li>One cup of sweet ASCII font from <a class="reference external" href="http://patorjk.com/software/taag">http://patorjk.com/software/taag</a></li>
+</ul>
+</div>
+<div class="topic">
+<p class="topic-title first">Method</p>
+<ol class="arabic simple">
+<li>Create a new Python file, this can be done by right clicking on your project directory (for me that is <strong>bernauer</strong>) and highlighting <strong>New</strong> and selecting <strong>Python File</strong>.</li>
+</ol>
+<img alt="_images/subdomain_enumeration_new_file.png" src="_images/subdomain_enumeration_new_file.png" />
+<ol class="arabic simple" start="2">
+<li>We are creating the file that users (or just you) will be using to use the application – I suggest naming this file either the same thing as your project, or <code class="docutils literal notranslate"><span class="pre">main</span></code>.</li>
+</ol>
+<img alt="_images/subdomain_enumeration_name_file.png" src="_images/subdomain_enumeration_name_file.png" />
+<ol class="arabic simple" start="3">
+<li>We are going to create a small options menu that users can use to specify how the application should run. For now it should only have a few things (we will add more as we go). You will want to include:</li>
+</ol>
+<ul class="simple">
+<li>an option to provide a domain name</li>
+<li>an option to provide a word list</li>
+</ul>
+<ol class="arabic simple" start="4">
+<li>To get started we will want to create a function to build and handle our argument parser, a very simple example which does nothing:</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="k">def</span> <span class="nf">build_argument_parser</span><span class="p">():</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>The first step in creating our parser is creating an <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> object:</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="k">def</span> <span class="nf">build_argument_parser</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="c1"># add_arguments here</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>Before we run this code we want to put another ✨ magical ✨ function at the very bottom of our file, this is the a <code class="docutils literal notranslate"><span class="pre">__name__</span></code> guard. Which we will go into detail about in the <strong>Notes</strong> section.</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="k">def</span> <span class="nf">build_argument_parser</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="c1"># add_arguments here</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+ <span class="n">build_argument_parser</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Run your application, if everything went the way we expected you probably got something like the following in the console at the bottom of the application:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/Users/rebecca/.virtualenvs/bernauer/bin/python /Users/rebecca/tmp/bernauer/bernauer.py</span>
+
+<span class="go">Process finished with exit code 0</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">On Portable Operating System Interface (POSIX) systems (like Linux and Mac OS X) the standard exit code is 0 for success and any number from 1 to 255 for anything else.</p>
+</div>
+<ol class="arabic simple" start="6">
+<li>Now we have a skeleton function where we can build out parser. Filling an <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> with information about your application is done by using the <code class="docutils literal notranslate"><span class="pre">add_argument()</span></code> function. This information is stored and can be accessed when <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code> is called. The basic syntax to add a command line option is:</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-a&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>More advanced options exist, the syntax for using these is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-a&quot;</span><span class="p">,</span> <span class="s2">&quot;--advanced&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">In Python when you see a function with parameters like <code class="docutils literal notranslate"><span class="pre">action=&quot;something&quot;</span></code> it means these are optional and do not need to be included, these are often referred to as keyword or named arguments.</p>
+</div>
+<ol class="arabic simple" start="7">
+<li><code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> parses arguments through the <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code> function. This determines what options have and have not been selected and convert each argument to the appropriate type. In most cases this means a <code class="docutils literal notranslate"><span class="pre">Namespace</span></code> object will be built and returned to you (the programmer). To have the arguments parsed and returned, we want to modify the last line in our function so instead of just calling <code class="docutils literal notranslate"><span class="pre">parser.parse_args()</span></code> we <code class="docutils literal notranslate"><span class="pre">return</span></code> the results of this function.</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">argeparse.Namespace</span></code> is a simple class that is used by default by the <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code> function to create an object that can hold attributes and return it.</p>
+</div>
+<ol class="arabic simple" start="8">
+<li>The last thing we need to do is create a variable for the <code class="docutils literal notranslate"><span class="pre">parser.parse_args()</span></code> information to be stored in. Like when we created the <code class="docutils literal notranslate"><span class="pre">argparse.ArgumentParser()</span></code> we will want to tell where the call to the <code class="docutils literal notranslate"><span class="pre">build_argument_parser()</span></code> function to store the <code class="docutils literal notranslate"><span class="pre">return</span></code> value.</li>
+</ol>
+</div>
+<div class="topic">
+<p class="topic-title first">Optional</p>
+<ol class="arabic simple" start="9">
+<li>If you’re the decorating and/or customisation type you can also add a sweet description to your argument parser so it comes out something like the example below:</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: bernauer.py [-h] -d DOMAIN [-w PATH_TO_WORDLIST]</span>
+
+<span class="go">_</span>
+<span class="go">| |_ ___ ___ ___ ___ _ _ ___ ___</span>
+<span class="go">| . | -_|  _|   | .&#39;| | | -_|  _|</span>
+<span class="go">|___|___|_| |_|_|__,|___|___|_|</span>
+
+<span class="go">Version: 0.0.0</span>
+
+<span class="go">optional arguments:</span>
+<span class="go">-h, --help            show this help message and exit</span>
+<span class="go">-d DOMAIN, --domain DOMAIN</span>
+<span class="go">                     the domain which you wish to bruteforce subdomains e.g. google.com</span>
+<span class="go">-w PATH_TO_WORDLIST, --wordlist PATH_TO_WORDLIST</span>
+<span class="go">                     the word list you wish to use to find subdomains, if no word list is specified the in-build one will be used.</span>
+</pre></div>
+</div>
+<p>To get started doing this you will want to add the named argument <code class="docutils literal notranslate"><span class="pre">description=&quot;your</span> <span class="pre">text</span> <span class="pre">here&quot;</span></code> to your call to <code class="docutils literal notranslate"><span class="pre">argparse.ArgumentParser()</span></code>.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">argparse.RawTextHelpFormatter</span></code> is a special <code class="docutils literal notranslate"><span class="pre">formatter_class</span></code> used with <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> to give you more control over how text descriptions are displayed. Normally <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> objects will line-wrap the description.</p>
+</div>
+</div>
+<div class="topic">
+<p class="topic-title first">Further Reading</p>
+<ul class="simple">
+<li>For more information on <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#argparse.ArgumentParser">https://docs.python.org/3.7/library/argparse.html#argparse.ArgumentParser</a></li>
+<li>For more information on <code class="docutils literal notranslate"><span class="pre">actions</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#action">https://docs.python.org/3.7/library/argparse.html#action</a></li>
+<li>For more information on <code class="docutils literal notranslate"><span class="pre">dest</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#dest">https://docs.python.org/3.7/library/argparse.html#dest</a></li>
+<li>For more information on <code class="docutils literal notranslate"><span class="pre">default</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#default">https://docs.python.org/3.7/library/argparse.html#default</a></li>
+<li>For more information on <code class="docutils literal notranslate"><span class="pre">help</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#help">https://docs.python.org/3.7/library/argparse.html#help</a></li>
+<li>For more information on <code class="docutils literal notranslate"><span class="pre">required</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#required">https://docs.python.org/3.7/library/argparse.html#required</a></li>
+<li>For more information on <code class="docutils literal notranslate"><span class="pre">RawTextHelpFormatter</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#formatter-class">https://docs.python.org/3.7/library/argparse.html#formatter-class</a></li>
+<li>For more information UNIX error codes see <a class="reference external" href="https://shapeshed.com/unix-exit-codes/">https://shapeshed.com/unix-exit-codes/</a></li>
+<li>For a comprehensive list of UNIX error codes see: <a class="reference external" href="http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html">http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html</a></li>
+</ul>
+</div>
+<div class="topic">
+<p class="topic-title first">Notes</p>
+<p>When the Python interpreter reads a source file it configures a number of special variables, most of which we don’t need to worry about. However in this case we care about the <code class="docutils literal notranslate"><span class="pre">__name__</span></code> variable.</p>
+<p>When your “module” is the main program, that is you are running your code like:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> python3 program.py
+<span class="gp">%</span> ./program.py
+</pre></div>
+</div>
+<p>The interpreter will add the hard-coded string <code class="docutils literal notranslate"><span class="pre">&quot;__main__&quot;</span></code> to the <code class="docutils literal notranslate"><span class="pre">__name__</span></code> variable.</p>
+<p>When your “module” is imported by another “module” or application the interpreter will look at the filename of your module, <code class="docutils literal notranslate"><span class="pre">program.py</span></code>, strip off the <code class="docutils literal notranslate"><span class="pre">.py</span></code>, and assign that string to your module’s <code class="docutils literal notranslate"><span class="pre">__name__</span></code> variable.</p>
+<p>When your code is eventually getting executed it will see that <code class="docutils literal notranslate"><span class="pre">__name__</span></code> is set to <code class="docutils literal notranslate"><span class="pre">&quot;__main__&quot;</span></code> it will call any function within that <code class="docutils literal notranslate"><span class="pre">if</span></code>-statement, in our case <code class="docutils literal notranslate"><span class="pre">build_argument_parser()</span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="handling_word_lists.html" class="btn btn-neutral float-right" title="Handling Word Lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="getting_started_with_pycharm.html" class="btn btn-neutral" title="Getting Started with PyCharm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, errbufferoverfl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

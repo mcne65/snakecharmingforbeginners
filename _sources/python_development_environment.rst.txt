@@ -1,0 +1,887 @@
+=========================================================
+Python Development Environment
+=========================================================
+
+.. note:: You will not be required to install any of these tools on your host operating system (the one installed on your laptop) as you will be provided with a Ubuntu 18.04 LTS "Bionic Beaver" Virtual Machine provided as an OVA with PyCharm Community Edition. This section has been included for completeness.
+
+This section will walk you through installing and using ``pipenv``, ``virtualenv`` and ``virtualenvwrapper`` as well as how you can use these tools to better manage your Python development environment.
+
+Keep in mind Python is used for a great many different reasons, so how you specifically use these tools is up to you.
+
+---------------------------------------------------------
+Python & ``pip``
+---------------------------------------------------------
+
+Before going any further, if you haven't already, you will want to ensure you have Python installed. You can check this by running:
+
+.. sourcecode:: console
+
+   % python --version
+
+The second thing we want to check is installed is ``pip``. ``pip`` is "the Python Packaging Authority (PyPA) recommended tool for installing Python packages" - however alternatives to ``pip`` do exist. You can check if ``pip`` is installed by running:
+
+.. sourcecode:: console
+
+   % pip --version
+
+If you are running Python2 and Python3 you may need to use ``pip3`` rather than ``pip``, for example:
+
+.. sourcecode:: console
+
+   % pip3 --version
+   % pip3 install requests
+
+If you installed Python from source or with an installer from https://python.org, or via Homebrew, ``pip`` should be installed by default. If you are on Linux and used your package manager (``apt``), you may need to install pip separately.
+
+---------------------------------------------------------
+``virtualenv``
+---------------------------------------------------------
+
+``virtualenv`` is a tool used to create isolated Python environments, it does this by creating a directory that contains all the executables, including the correct Python version needed to use the package - this can be helpful in situations where you have conflicting package requirements, or are developing tools that use a different Python version -- for example when your system version of Python is 2.7.1 but you want to write Python 3.7.1 tools.
+
+.. hint:: ``virtualenv`` can be used standalone, instead of ``pipenv`` however, we suggest using ``pipenv``.
+
+To install ``virtualenv`` via ``pip``:
+
+.. sourcecode:: console
+
+   % pip install virtualenv
+
+Basic Usage
+---------------------------------------------------------
+
+Linux and Mac OS X
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Create a virtual environment for a project:
+
+.. sourcecode:: console
+
+   % cd project_folder
+   % virtualenv venv
+
+``virtualenv venv`` will create a directory in your current directory which will contain the Python executable file and copy of the ``pip`` library which you will use to install other packages. ``venv`` is a customisable value that can be anything -- the name of your project, the street you grew up on, or your mothers maiden name.
+
+.. tip:: ``venv`` is just a naming convention and is typically included in default ``.gitignore`` files by default (when automatically generated).
+
+You can also specify a particular Python interpreter (like Python 3.7!)
+
+.. sourcecode:: console
+
+   % cd project_folder
+   # You might need to find the path to the Python version you are using - on Linux/OSX this
+   # can be done by running which
+   % which python3
+   /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
+   % virtualenv -p /Library/Frameworks/Python.framework/Versions/3.7/bin/python3 venv
+
+2. Before starting work on your project you will want to activate the virtual environment:
+
+.. sourcecode:: console
+
+   % cd project_folder
+   % source venv/bin/activate
+   # If you do not run a custom terminal prompt it will change to look something like:
+   % (venv) ayiig:your_project errbufferoverfl
+
+From now on any package that you install using ``pip`` will be placed in the ``venv`` directory, isolated from the global Python installation.
+
+3. If you are done working in the virtual environment, you can deactivate it:
+
+.. sourcecode:: console
+
+   % deactivate
+
+This will return you to the global Python interpreter and its installed packages.
+
+Windows
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. sourcecode:: bat
+
+   % cd project_folder
+   % virtualenv venv
+
+``virtualenv venv`` will create a directory in your current directory which will contain the Python executable file and copy of the ``pip`` library which you will use to install other packages. ``venv`` is a customisable value that can be anything -- the name of your project, the street you grew up on, or your mothers maiden name.
+
+.. hint:: ``venv`` is just a naming convention and is typically included in default ``.gitignore`` files.
+
+You can also specify a particular Python interpreter (like Python 3.7!)
+
+.. sourcecode:: bat
+
+   > cd project_folder
+   > virtualenv -p C:\Program Files\Python 3.7 venv
+
+2. Before starting work on your project you will want to activate the virtual environment:
+
+.. sourcecode:: bat
+
+   > cd project_folder
+   > \venv\Scripts\activate
+
+From now on any package that you install using ``pip`` will be placed in the ``venv`` directory, isolated from the global Python installation.
+
+3. If you are done working in the virtual environment, you can deactivate it:
+
+.. sourcecode:: bat
+
+   > deactivate
+
+Deleting Virtual Environments
+---------------------------------------------------------
+
+Deleting a virtual environment is as simple as deleting its folder. For Linux and OSX users you can do this via the terminal:
+
+.. sourcecode:: console
+
+   % rm -rf venv
+
+``requirements.txt``
+---------------------------------------------------------
+
+In order to keep your environment consistent and to allow other people to use your package we "freeze" the current state of the environment packages and record it in a ``requirements.txt`` file. To do this, you can run:
+
+.. sourcecode:: console
+
+   % pip freeze > requirements.txt
+
+.. hint:: The ``>`` command will create a file (or overwrites an existing file) called ``requirements.txt`` and move the output from ``pip freeze`` into the newly created file.
+
+This creates a ``requirements.txt`` file which contains a simple list of all the packages in the current environment and their respective versions. You can also view all the current environment without the requirements format as follows:
+
+.. sourcecode:: console
+
+   % pip list
+   Package                  Version
+   ------------------------ ----------
+   alabaster                0.7.12
+   Babel                    2.6.0
+   certifi                  2018.11.29
+   chardet                  3.0.4
+   docutils                 0.14
+   idna                     2.8
+   imagesize                1.1.0
+   Jinja2                   2.10
+   MarkupSafe               1.1.0
+   packaging                18.0
+   pbr                      5.1.1
+   pip                      18.1
+   Pygments                 2.3.0
+   pyparsing                2.3.0
+   pytz                     2018.7
+   requests                 2.21.0
+   setuptools               39.1.0
+   six                      1.12.0
+   snowballstemmer          1.2.1
+   Sphinx                   1.8.2
+   sphinx-rtd-theme         0.4.2
+   sphinxcontrib-websupport 1.1.0
+   stevedore                1.30.0
+   urllib3                  1.24.1
+   virtualenv               16.2.0
+   virtualenv-clone         0.4.0
+   virtualenvwrapper        4.8.2
+
+If you publish your code on GitHub or other service it will be easier for other people (or you, if you need to re-create the environment) to install the same packages using the same versions:
+
+.. sourcecode:: console
+
+   % pip install -r requirements.txt
+
+This will help ensure consistency across installations and developers.
+
+---------------------------------------------------------
+``virtualenvwrapper``
+---------------------------------------------------------
+
+> We need to go deeper...
+- Not actually a quote from Inception (2010)
+
+``Virtualenvwrapper`` as the name suggests is a handy little wrapper application for ``virtualenv`` that provides a set of (easier to remember) commands that make working with virtual environments easier. It also places all your virtual environments in one place meaning, !. You are less likely to commit them to source control by accident and 2. Makes them easier to manage in the long term.
+
+Installation
+---------------------------------------------------------
+
+To install ``virtualenvwrapper`` you will want to be in the global environment, so make sure you deactivate any virtual environments you are currently working in and run:
+
+.. sourcecode:: console
+
+   % pip install virtualenvwrapper
+
+Once the package has been installed you will need to configure ``virtualenvwrapper`` once by adding the following three lines to your shell start up file (``.bashrc`` for most Linux Bourne-Again SHell (BASH) users, and ``.bash_profile`` for Mac OS X users) to set where the virtual environment directories should live, the location of your development projects, and location of the ``virtualenvwrapper.sh`` script that was installed with the package.
+
+We have included comments along the way describing what each entry is doing, for those who are unfamiliar with BASH configuration.
+
+.. sourcecode:: bash
+
+   # filename: .bashrc / .profile / .bash_profile etc.
+
+   # This would be a hidden directory (denoted by the period (.) at the start on the file name
+   # located in your "home" directory typically /Users/your_username/.virtualenv on Mac OS X or
+   # /home/your_username/.virtualenv on Ubuntu
+   export WORKON_HOME=$HOME/.virtualenvs
+
+   # This is a projects directory located in your "home" directory typically
+   # /Users/your_username/src on Mac OS X or /home/your_username/src on Ubuntu
+   # This can be a directory of any name, I typically use src, which is short for
+   # source (like source code)
+   export PROJECT_HOME=$HOME/src
+
+   # This is the path that points to the location of the virtualenvwrapper initialisation script.
+   # It is important not to miss this option or each time you open a new terminal window you will
+   # need to run this command manually which is tedious and will not bring you joy.
+   export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+
+After you have made these modifications you should either close all your terminal windows, or an easier option is to reload the startup file by running:
+
+.. sourcecode:: console
+
+   % source ~/.bashrc
+   # or if you are using Mac OS X
+   % source ~/.bash_profile
+
+You can also configure ``virtualenvwrapper`` but we won't go into detail about that here, instead if you are interested you can checkout the official documentation for the project at https://virtualenvwrapper.readthedocs.io. What we will mention before moving onto the key commands, is you can add a line into the same file that you modified in the previous step to set the default version of Python ``virtualenvwrapper`` will use when creating new environments for you.
+
+Once you know where Python is installed we can open up the file we were modifying earlier (your shell start up file (``.bashrc`` for most Linux Bourne-Again SHell (BASH) users, and ``.bash_profile`` for Mac OS X users)) and adding the following line:
+
+.. sourcecode:: bash
+
+   # filename: .bashrc / .profile / .bash_profile etc.
+   export WORKON_HOME=$HOME/.virtualenvs
+   export PROJECT_HOME=$HOME/src
+   export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+
+   # The following line tells virtualenvwrapper that the version of python3 we
+   # want to use is the system version of Python 3 which in this case, will be
+   # Python 3.7
+   export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+
+.. hint:: If at a later time you install a different version of Python 3 ``virtualenvwrapper`` may complain it is unable to find the correct interpreter, this can generally be fixed by running ``pip3 install virtualenvwrapper``. However, depending on the `actual` problem, your kilomerterage may vary with this fix.
+
+``virtualenvwrapper`` Key Commands
+---------------------------------------------------------
+
+There are a handful of commands you should make yourself familiar with to get started with ``virtualenvwrapper`` these are outlined below:
+
+To create a new virtual environment, we use ``mkvirtualenv``:
+
+.. sourcecode:: console
+
+   % mkvirtualenv angolan
+   Using base prefix '/usr/local/Cellar/python/3.7.1/Frameworks/Python.framework/Versions/3.7'
+   New python executable in /Users/errbufferoverfl/.virtualenvs/angolan/bin/python3.7
+   Also creating executable in /Users/errbufferoverfl/.virtualenvs/angolan/bin/python
+   Installing setuptools, pip, wheel...done.
+   virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/predeactivate
+   virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/postdeactivate
+   virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/preactivate
+   virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/postactivate
+   virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/get_env_details
+
+Once created you will be moved into this working environment, you may notice the ``angolan`` at the start of your terminal prompt.
+
+Once, you have finished working in this environment, you can run ``deactivate`` to be moved back to your global environment:
+
+.. sourcecode:: console
+
+   % (angolan) deactivate
+
+When you come back to your computer, or want to work on a different project (or you can't remember which the name of the virtual environment you should be working on) you can use either ``workon`` or ``lsvirtualenv`` to list all configured virtual environments:
+
+.. sourcecode:: console
+
+   % workon
+   angolan
+   artemisia-jSICGO99
+   artemisia
+   aws
+   boudicca
+   clubhaus-JIHAVKvX
+   ergasia-XYyrAsCj
+   ergasia
+   errbufferoverfl.me
+   gitfindings
+   heracles
+   htmlfiveup
+   itsawitchadventure
+   itsawitchingadventure
+   itsawitchinggoodtime
+   kotcw
+   lovemelbournetrees-82Nd9r8H
+   lovemelbournetrees
+   malicella
+   malicella35
+   malicella370
+   nakano
+   python27
+   pythoncharmingforbeginners
+   scout
+   toool.com.au
+   trieu
+   utopia
+   xsshunter
+   zenobia
+
+.. sourcecode:: console
+
+   % lsvirtualenv -b
+   angolan
+   artemisia-jSICGO99
+   artemisia
+   aws
+   boudicca
+   clubhaus-JIHAVKvX
+   ergasia-XYyrAsCj
+   ergasia
+   errbufferoverfl.me
+   gitfindings
+   heracles
+   htmlfiveup
+   itsawitchadventure
+   itsawitchingadventure
+   itsawitchinggoodtime
+   kotcw
+   lovemelbournetrees-82Nd9r8H
+   lovemelbournetrees
+   malicella
+   malicella35
+   malicella370
+   nakano
+   python27
+   pythoncharmingforbeginners
+   scout
+   toool.com.au
+   trieu
+   utopia
+   xsshunter
+   zenobia
+
+Once you have found the environment you want to use, simply run ``workon`` again with the name of the environment, once activated you should notice the name of the environment in your terminal prompt.
+
+.. sourcecode:: console
+
+   % workon angolan
+
+   (angolan) ayiig:your_project errbufferoverfl
+
+Finally, if you ever want to delete your virtual environments this can be done by using ``rmvirtualenv``:
+
+.. sourcecode:: console
+
+   % rmvirtualenv angolan
+   Removing angolan...
+
+Remember you will want to be in the global environment before removing an environment, if you are still within the virtual environment you want to delete you will get the following error:
+
+.. sourcecode:: console
+
+   % (angolan) rmvirtualenv angolan
+   Removing angolan...
+   ERROR: You cannot remove the active environment ('angolan').
+   Either switch to another environment, or run 'deactivate'.
+
+---------------------------------------------------------
+Pipenv
+---------------------------------------------------------
+
+If you have ever used ``npm`` for Node.js or ``bundler`` for Ruby, that is what ``pipenv`` is for Python. While ``pip`` can handle installation of Python packages, ``Pipenv`` gives you better control over dependency management in testing and development as well as ensuring less problems with version conflicts.
+
+You can try it out on "Root 'n' Roll" at https://rootnroll.com/d/pipenv
+
+Installation on OS X and Linux
+---------------------------------------------------------
+
+Mac OS X users can install ``Pipenv`` using Homebrew:
+
+.. sourcecode:: console
+
+   % brew install pipenv
+
+Linux users can install ``Pipenv`` using Linuxbrew:
+
+
+.. sourcecode:: console
+
+   % brew install pipenv
+
+For more installation options checkout their official documentation at https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv
+
+Installing packages
+---------------------------------------------------------
+
+Pipenv will manage your dependencies on a per-project basis, so to install packages, change into your project's directory and run:
+
+.. sourcecode:: console
+
+   % pipenv install requests
+
+Pipenv will take care of the hard work, installing the Requests library and create a ``Pipfile`` for you in the project's directory. This ``Pipfile`` is used to track which dependencies your project needs. It will also create the ever important ``Pipfile.lock``, which is used to produce reproducible builds, which is just a fancy way of saying the compilation will always build the same binary. For more information about reproducible builds and why they are important see Wikipedia https://en.wikipedia.org/wiki/Reproducible_builds.
+
+``pipenv`` Key Commands
+---------------------------------------------------------
+
+There are a handful of commands you should make yourself familiar with to get started with ``pipenv``:
+
+We've covered how to install packages using ``pipenv`` but how do we uninstall them? In a similar way:
+
+.. sourcecode:: console
+
+   % pipenv uninstall requests
+
+If you have downloaded another project or have previously been using a ``requirements.txt`` file you can install the ``requirements.txt`` in your environment as follows:
+
+.. sourcecode:: console
+
+   % pipenv install -r requirements.txt
+
+Unlike vanilla ``pip`` you can also check for security vulnerabilities in your dependencies:
+
+.. sourcecode:: console
+
+   % pipenv check
+   Virtualenv location: /Users/errbufferoverfl/.virtualenvs/blog.errbufferoverfl.me-UnS6on39
+   Checking PEP 508 requirements…
+   Passed!
+   Checking installed package safety…
+   All good!
+
+Keep in mind Python is used for a great many different reasons, so how you specifically use these tools is up to you.
+
+---------------------------------------------------------
+Python & ``pip``
+---------------------------------------------------------
+
+Before going any further, if you haven't already, you will want to ensure you have Python installed. You can check this by running:
+
+.. sourcecode:: console
+
+   % python --version
+
+The second thing we want to check is installed is ``pip``. ``pip`` is "the Python Packaging Authority (PyPA) recommended tool for installing Python packages" - however alternatives to ``pip`` do exist. You can check if ``pip`` is installed by running:
+
+.. sourcecode:: console
+
+   % pip --version
+
+If you are running Python2 and Python3 you may need to use ``pip3`` rather than ``pip``, for example:
+
+.. sourcecode:: console
+
+   % pip3 --version
+   % pip3 install requests
+
+If you installed Python from source or with an installer from https://python.org, or via Homebrew, ``pip`` should be installed by default. If you are on Linux and used your package manager (``apt``), you may need to install pip separately.
+
+---------------------------------------------------------
+``pip`` and ``virtualenv``
+---------------------------------------------------------
+
+``virtualenv`` is a tool used to create isolated Python environments, it does this by creating a directory that contains all the executables, including the correct Python version needed to use the package - this can be helpful in situations where you have conflicting package requirements, or are developing tools that use a different Python version -- for example when your system version of Python is 2.7.1 but you want to write Python 3.7.1 tools.
+
+.. hint:: ``virtualenv`` can be used standalone, instead of ``Pipenv`` however, we suggest using ``Pipenv``.
+
+To install ``virtualenv`` via ``pip``:
+
+.. sourcecode:: console
+
+   % pip install virtualenv
+
+Basic Usage
+---------------------------------------------------------
+
+Linux and Mac OS X
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Create a virtual environment for a project:
+
+.. sourcecode:: console
+
+   % cd project_folder
+   % virtualenv venv
+
+``virtualenv venv`` will create a directory in your current directory which will contain the Python executable file and copy of the ``pip`` library which you will use to install other packages. ``venv`` is a customisable value that can be anything -- the name of your project, the street you grew up on, or your mothers maiden name.
+
+.. hint:: ``venv`` is just a naming convention and is typically included in default ``.gitignore`` files.
+
+You can also specify a particular Python interpreter (like Python 3.7!)
+
+.. sourcecode:: console
+
+   % cd project_folder
+   # You might need to find the path to the Python version you are using - on Linux/OSX this
+   # can be done by running which
+   % which python3
+   /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
+   % virtualenv -p /Library/Frameworks/Python.framework/Versions/3.7/bin/python3 venv
+
+2. Before starting work on your project you will want to activate the virtual environment:
+
+.. sourcecode:: console
+
+   % cd project_folder
+   % source venv/bin/activate
+   # If you do not run a custom terminal prompt it will change to look something like:
+   % (venv) ayiig:your_project errbufferoverfl
+
+From now on any package that you install using ``pip`` will be placed in the ``venv`` directory, isolated from the global Python installation.
+
+3. If you are done working in the virtual environment, you can deactivate it:
+
+.. sourcecode:: console
+
+   % deactivate
+
+This will return you to the global Python interpreter and its installed packages.
+
+Windows
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. sourcecode:: bat
+
+   % cd project_folder
+   % virtualenv venv
+
+``virtualenv venv`` will create a directory in your current directory which will contain the Python executable file and copy of the ``pip`` library which you will use to install other packages. ``venv`` is a customisable value that can be anything -- the name of your project, the street you grew up on, or your mothers maiden name.
+
+.. hint:: ``venv`` is just a naming convention and is typically included in default ``.gitignore`` files.
+
+You can also specify a particular Python interpreter (like Python 3.7!)
+
+.. sourcecode:: bat
+
+   > cd project_folder
+   > virtualenv -p C:\Program Files\Python 3.7 venv
+
+2. Before starting work on your project you will want to activate the virtual environment:
+
+.. sourcecode:: bat
+
+   > cd project_folder
+   > \venv\Scripts\activate
+
+From now on any package that you install using ``pip`` will be placed in the ``venv`` directory, isolated from the global Python installation.
+
+3. If you are done working in the virtual environment, you can deactivate it:
+
+.. sourcecode:: bat
+
+   > deactivate
+
+Deleting Virtual Environments
+---------------------------------------------------------
+
+Deleting a virtual environment is as simple as deleting its folder. For Linux and OSX users you can do this via the terminal:
+
+.. sourcecode:: console
+
+   % rm -rf venv
+
+``requirements.txt``
+---------------------------------------------------------
+
+In order to keep your environment consistent and to allow other people to use your package we "freeze" the current state of the environment packages and record it in a ``requirements.txt`` file. To do this, you can run:
+
+.. sourcecode:: console
+
+   % pip freeze > requirements.txt
+
+.. hint:: The ``>`` command will create a file (or overwrites an existing file) called ``requirements.txt`` and move the output from ``pip freeze`` into the newly created file.
+
+This creates a ``requirements.txt`` file which contains a simple list of all the packages in the current environment and their respective versions. You can also view all the current environment without the requirements format as follows:
+
+.. sourcecode:: console
+
+   % pip list
+   Package                  Version
+   ------------------------ ----------
+   alabaster                0.7.12
+   Babel                    2.6.0
+   certifi                  2018.11.29
+   chardet                  3.0.4
+   docutils                 0.14
+   idna                     2.8
+   imagesize                1.1.0
+   Jinja2                   2.10
+   MarkupSafe               1.1.0
+   packaging                18.0
+   pbr                      5.1.1
+   pip                      18.1
+   Pygments                 2.3.0
+   pyparsing                2.3.0
+   pytz                     2018.7
+   requests                 2.21.0
+   setuptools               39.1.0
+   six                      1.12.0
+   snowballstemmer          1.2.1
+   Sphinx                   1.8.2
+   sphinx-rtd-theme         0.4.2
+   sphinxcontrib-websupport 1.1.0
+   stevedore                1.30.0
+   urllib3                  1.24.1
+   virtualenv               16.2.0
+   virtualenv-clone         0.4.0
+   virtualenvwrapper        4.8.2
+
+If you publish your code on GitHub or other service it will be easier for other people (or you, if you need to re-create the environment) to install the same packages using the same versions:
+
+.. sourcecode:: console
+
+   % pip install -r requirements.txt
+
+This will help ensure consistency across installations and developers.
+
+---------------------------------------------------------
+``virtualenvwrapper``
+---------------------------------------------------------
+
+> We need to go deeper...
+- Not actually a quote from Inception (2010)
+
+``Virtualenvwrapper`` as the name suggests is a handy little wrapper application for ``virtualenv`` that provides a set of (easier to remember) commands that make working with virtual environments easier. It also places all your virtual environments in one place meaning, !. You are less likely to commit them to source control by accident and 2. Makes them easier to manage in the long term.
+
+Installation
+---------------------------------------------------------
+
+To install ``virtualenvwrapper`` you will want to be in the global environment, so make sure you deactivate any virtual environments you are currently working in and run:
+
+.. sourcecode:: console
+
+   % pip install virtualenvwrapper
+
+Once the package has been installed you will need to configure ``virtualenvwrapper`` once by adding the following three lines to your shell start up file (``.bashrc`` for most Linux Bourne-Again SHell (BASH) users, and ``.bash_profile`` for Mac OS X users) to set where the virtual environment directories should live, the location of your development projects, and location of the ``virtualenvwrapper.sh`` script that was installed with the package.
+
+We have included comments along the way describing what each entry is doing, for those who are unfamiliar with BASH configuration.
+
+.. sourcecode:: bash
+
+   # filename: .bashrc / .profile / .bash_profile etc.
+
+   # This would be a hidden directory (denoted by the period (.) at the start on the file name
+   # located in your "home" directory typically /Users/your_username/.virtualenv on Mac OS X or
+   # /home/your_username/.virtualenv on Ubuntu
+   export WORKON_HOME=$HOME/.virtualenvs
+
+   # This is a projects directory located in your "home" directory typically
+   # /Users/your_username/src on Mac OS X or /home/your_username/src on Ubuntu
+   # This can be a directory of any name, I typically use src, which is short for
+   # source (like source code)
+   export PROJECT_HOME=$HOME/src
+
+   # This is the path that points to the location of the virtualenvwrapper initialisation script.
+   # It is important not to miss this option or each time you open a new terminal window you will
+   # need to run this command manually which is tedious and will not bring you joy.
+   export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+
+After you have made these modifications you should either close all your terminal windows, or an easier option is to reload the startup file by running:
+
+.. sourcecode:: console
+
+   % source ~/.bashrc
+   # or if you are using Mac OS X
+   % source ~/.bash_profile
+
+You can also configure ``virtualenvwrapper`` but we won't go into detail about that here, instead if you are interested you can checkout the official documentation for the project at https://virtualenvwrapper.readthedocs.io. What we will mention before moving onto the key commands, is you can add a line into the same file that you modified in the previous step to set the default version of Python ``virtualenvwrapper`` will use when creating new environments for you.
+
+Once you know where Python is installed we can open up the file we were modifying earlier (your shell start up file (``.bashrc`` for most Linux Bourne-Again SHell (BASH) users, and ``.bash_profile`` for Mac OS X users)) and adding the following line:
+
+.. sourcecode:: bash
+
+   # filename: .bashrc / .profile / .bash_profile etc.
+   export WORKON_HOME=$HOME/.virtualenvs
+   export PROJECT_HOME=$HOME/src
+   export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+
+   # The following line tells virtualenvwrapper that the version of python3 we
+   # want to use is the system version of Python 3 which in this case, will be
+   # Python 3.7
+   export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+
+.. hint:: If at a later time you install a different version of Python 3 ``virtualenvwrapper`` may complain it is unable to find the correct interpreter, this can generally be fixed by running ``pip3 install virtualenvwrapper``. However, depending on the `actual` problem, your kilomerterage may vary with this fix.
+
+``virtualenvwrapper`` Key Commands
+---------------------------------------------------------
+
+There are a handful of commands you should make yourself familiar with to get started with ``virtualenvwrapper`` these are outlined below:
+
+To create a new virtual environment, we use ``mkvirtualenv``:
+
+.. sourcecode:: console
+
+   % mkvirtualenv angolan
+   Using base prefix '/usr/local/Cellar/python/3.7.1/Frameworks/Python.framework/Versions/3.7'
+   New python executable in /Users/errbufferoverfl/.virtualenvs/angolan/bin/python3.7
+   Also creating executable in /Users/errbufferoverfl/.virtualenvs/angolan/bin/python
+   Installing setuptools, pip, wheel...done.
+   virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/predeactivate
+   virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/postdeactivate
+   virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/preactivate
+   virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/postactivate
+   virtualenvwrapper.user_scripts creating /Users/errbufferoverfl/.virtualenvs/angolan/bin/get_env_details
+
+Once created you will be moved into this working environment, you may notice the ``angolan`` at the start of your terminal prompt.
+
+Once, you have finished working in this environment, you can run ``deactivate`` to be moved back to your global environment:
+
+.. sourcecode:: console
+
+   % (angolan) deactivate
+
+When you come back to your computer, or want to work on a different project (or you can't remember which the name of the virtual environment you should be working on) you can use either ``workon`` or ``lsvirtualenv`` to list all configured virtual environments:
+
+.. sourcecode:: console
+
+   % workon
+   angolan
+   artemisia-jSICGO99
+   artemisia
+   aws
+   boudicca
+   clubhaus-JIHAVKvX
+   ergasia-XYyrAsCj
+   ergasia
+   errbufferoverfl.me
+   gitfindings
+   heracles
+   htmlfiveup
+   itsawitchadventure
+   itsawitchingadventure
+   itsawitchinggoodtime
+   kotcw
+   lovemelbournetrees-82Nd9r8H
+   lovemelbournetrees
+   malicella
+   malicella35
+   malicella370
+   nakano
+   python27
+   pythoncharmingforbeginners
+   scout
+   toool.com.au
+   trieu
+   utopia
+   xsshunter
+   zenobia
+
+.. sourcecode:: console
+
+   % lsvirtualenv -b
+   angolan
+   artemisia-jSICGO99
+   artemisia
+   aws
+   boudicca
+   clubhaus-JIHAVKvX
+   ergasia-XYyrAsCj
+   ergasia
+   errbufferoverfl.me
+   gitfindings
+   heracles
+   htmlfiveup
+   itsawitchadventure
+   itsawitchingadventure
+   itsawitchinggoodtime
+   kotcw
+   lovemelbournetrees-82Nd9r8H
+   lovemelbournetrees
+   malicella
+   malicella35
+   malicella370
+   nakano
+   python27
+   pythoncharmingforbeginners
+   scout
+   toool.com.au
+   trieu
+   utopia
+   xsshunter
+   zenobia
+
+Once you have found the environment you want to use, simply run ``workon`` again with the name of the environment, once activated you should notice the name of the environment in your terminal prompt.
+
+.. sourcecode:: console
+
+   % workon angolan
+
+   (angolan) ayiig:your_project errbufferoverfl
+
+Finally, if you ever want to delete your virtual environments this can be done by using ``rmvirtualenv``:
+
+.. sourcecode:: console
+
+   % rmvirtualenv angolan
+   Removing angolan...
+
+Remember you will want to be in the global environment before removing an environment, if you are still within the virtual environment you want to delete you will get the following error:
+
+.. sourcecode:: console
+
+   % (angolan) rmvirtualenv angolan
+   Removing angolan...
+   ERROR: You cannot remove the active environment ('angolan').
+   Either switch to another environment, or run 'deactivate'.
+
+---------------------------------------------------------
+Pipenv
+---------------------------------------------------------
+
+If you have ever used ``npm`` for Node.js or ``bundler`` for Ruby, that is what ``pipenv`` is for Python. While ``pip`` can handle installation of Python packages, ``Pipenv`` gives you better control over dependency management in testing and development as well as ensuring less problems with version conflicts.
+
+You can try it out on "Root 'n' Roll" at https://rootnroll.com/d/pipenv
+
+Installation on OS X and Linux
+---------------------------------------------------------
+
+Mac OS X users can install ``Pipenv`` using Homebrew:
+
+.. sourcecode:: console
+
+   % brew install pipenv
+
+Linux users can install ``Pipenv`` using Linuxbrew:
+
+
+.. sourcecode:: console
+
+   % brew install pipenv
+
+For more installation options checkout their official documentation at https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv
+
+Installing packages
+---------------------------------------------------------
+
+Pipenv will manage your dependencies on a per-project basis, so to install packages, change into your project's directory and run:
+
+.. sourcecode:: console
+
+   % pipenv install requests
+
+Pipenv will take care of the hard work, installing the Requests library and create a ``Pipfile`` for you in the project's directory. This ``Pipfile`` is used to track which dependencies your project needs. It will also create the ever important ``Pipfile.lock``, which is used to produce reproducible builds, which is just a fancy way of saying the compilation will always build the same binary. For more information about reproducible builds and why they are important see Wikipedia https://en.wikipedia.org/wiki/Reproducible_builds.
+
+``pipenv`` Key Commands
+---------------------------------------------------------
+
+There are a handful of commands you should make yourself familiar with to get started with ``pipenv``:
+
+We've covered how to install packages using ``pipenv`` but how do we uninstall them? In a similar way:
+
+.. sourcecode:: console
+
+   % pipenv uninstall requests
+
+If you have downloaded another project or have previously been using a ``requirements.txt`` file you can install the ``requirements.txt`` in your environment as follows:
+
+.. sourcecode:: console
+
+   % pipenv install -r requirements.txt
+
+Unlike vanilla ``pip`` you can also check for security vulnerabilities in your dependencies:
+
+.. sourcecode:: console
+
+   % pipenv check
+   Virtualenv location: /Users/errbufferoverfl/.virtualenvs/blog.errbufferoverfl.me-UnS6on39
+   Checking PEP 508 requirements…
+   Passed!
+   Checking installed package safety…
+   All good!

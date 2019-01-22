@@ -1,0 +1,176 @@
+=========================================================
+Build Your Command Center
+=========================================================
+
+The first step in building a tool (if you ask me) is to create a command center, or a way for your user to interact with your tools -- you may have experience with many command line applications where you pile a bunch of different directives and options onto a application hit enter and bam you have your answers!
+
+For those who may not have used command line applications before I've included an example using the free and open-source tool ``nmap`` (https://nmap.org/) which can be used for security scanning, port scanning, and network exploration.
+
+.. sourcecode:: console
+
+   % nmap -p- 192.168.0.1
+
+In our example above we are telling ``nmap`` to scan all ports ``-p-`` on the host ``192.168.0.1``. This is a relatively straight-forward example, and in some cases command line arguments can get complicated pretty quickly. But we aren't worrying about that just yet.
+
+.. topic:: Concepts Covered
+
+    - Creating new files
+
+    - Creating methods
+
+    - Basic argument parsing
+
+    - Returning and storing data
+
+    - Name guard basics
+
+    - UNIX error codes
+
+    - Keyword/named parameters
+
+.. topic:: Ingredients
+
+   - One python file called ``main.py`` or ``yourprojectname.py``
+
+   - One dash of ``argparse``, a Python "built-in" meaning you don't need to install anything
+
+   - One cup of sweet ASCII font from http://patorjk.com/software/taag
+
+.. topic:: Method
+
+    1. Create a new Python file, this can be done by right clicking on your project directory (for me that is **bernauer**) and highlighting **New** and selecting **Python File**.
+
+    .. image:: _static/imgs/subdomain_enumeration_new_file.png
+
+    2. We are creating the file that users (or just you) will be using to use the application -- I suggest naming this file either the same thing as your project, or ``main``.
+
+    .. image:: _static/imgs/subdomain_enumeration_name_file.png
+
+    3. We are going to create a small options menu that users can use to specify how the application should run. For now it should only have a few things (we will add more as we go). You will want to include:
+
+    - an option to provide a domain name
+
+    - an option to provide a word list
+
+    4. To get started we will want to create a function to build and handle our argument parser, a very simple example which does nothing:
+
+    .. sourcecode:: python
+
+        import argparse
+
+        def build_argument_parser():
+            return
+
+    4. The first step in creating our parser is creating an ``ArgumentParser`` object:
+
+    .. sourcecode:: python
+
+        import argparse
+
+        def build_argument_parser():
+            parser = argparse.ArgumentParser()
+            # add_arguments here
+            parser.parse_args()
+
+    5. Before we run this code we want to put another ✨ magical ✨ function at the very bottom of our file, this is the a ``__name__`` guard. Which we will go into detail about in the **Notes** section.
+
+    .. sourcecode:: python
+
+        import argparse
+
+        def build_argument_parser():
+            parser = argparse.ArgumentParser()
+            # add_arguments here
+            parser.parse_args()
+
+        if __name__ == '__main__':
+         build_argument_parser()
+
+    Run your application, if everything went the way we expected you probably got something like the following in the console at the bottom of the application:
+
+    .. sourcecode:: console
+
+        /Users/rebecca/.virtualenvs/bernauer/bin/python /Users/rebecca/tmp/bernauer/bernauer.py
+
+        Process finished with exit code 0
+
+    .. hint:: On Portable Operating System Interface (POSIX) systems (like Linux and Mac OS X) the standard exit code is 0 for success and any number from 1 to 255 for anything else.
+
+    6. Now we have a skeleton function where we can build out parser. Filling an ``ArgumentParser`` with information about your application is done by using the ``add_argument()`` function. This information is stored and can be accessed when ``parse_args()`` is called. The basic syntax to add a command line option is:
+
+    .. sourcecode:: python
+
+        parser.add_argument("-a")
+
+    More advanced options exist, the syntax for using these is:
+
+    .. sourcecode:: python
+
+        parser.add_argument("-a", "--advanced", action="", dest="", default="", help="", required=True)
+
+    .. hint:: In Python when you see a function with parameters like ``action="something"`` it means these are optional and do not need to be included, these are often referred to as keyword or named arguments.
+
+    7. ``ArgumentParser`` parses arguments through the ``parse_args()`` function. This determines what options have and have not been selected and convert each argument to the appropriate type. In most cases this means a ``Namespace`` object will be built and returned to you (the programmer). To have the arguments parsed and returned, we want to modify the last line in our function so instead of just calling ``parser.parse_args()`` we ``return`` the results of this function.
+
+    .. sourcecode:: python
+
+        return parser.parse_args()
+
+    .. note:: ``argeparse.Namespace`` is a simple class that is used by default by the ``parse_args()`` function to create an object that can hold attributes and return it.
+
+    8. The last thing we need to do is create a variable for the ``parser.parse_args()`` information to be stored in. Like when we created the ``argparse.ArgumentParser()`` we will want to tell where the call to the ``build_argument_parser()`` function to store the ``return`` value.
+
+.. topic:: Optional
+
+    9. If you're the decorating and/or customisation type you can also add a sweet description to your argument parser so it comes out something like the example below:
+
+    .. sourcecode:: console
+
+        usage: bernauer.py [-h] -d DOMAIN [-w PATH_TO_WORDLIST]
+
+        _
+        | |_ ___ ___ ___ ___ _ _ ___ ___
+        | . | -_|  _|   | .'| | | -_|  _|
+        |___|___|_| |_|_|__,|___|___|_|
+
+        Version: 0.0.0
+
+        optional arguments:
+        -h, --help            show this help message and exit
+        -d DOMAIN, --domain DOMAIN
+                             the domain which you wish to bruteforce subdomains e.g. google.com
+        -w PATH_TO_WORDLIST, --wordlist PATH_TO_WORDLIST
+                             the word list you wish to use to find subdomains, if no word list is specified the in-build one will be used.
+
+    To get started doing this you will want to add the named argument ``description="your text here"`` to your call to ``argparse.ArgumentParser()``.
+
+    .. hint:: ``argparse.RawTextHelpFormatter`` is a special ``formatter_class`` used with ``ArgumentParser`` to give you more control over how text descriptions are displayed. Normally ``ArgumentParser`` objects will line-wrap the description.
+
+.. topic:: Further Reading
+
+    * For more information on ``ArgumentParser`` see: https://docs.python.org/3.7/library/argparse.html#argparse.ArgumentParser
+    * For more information on ``actions`` see: https://docs.python.org/3.7/library/argparse.html#action
+    * For more information on ``dest`` see: https://docs.python.org/3.7/library/argparse.html#dest
+    * For more information on ``default`` see: https://docs.python.org/3.7/library/argparse.html#default
+    * For more information on ``help`` see: https://docs.python.org/3.7/library/argparse.html#help
+    * For more information on ``required`` see: https://docs.python.org/3.7/library/argparse.html#required
+    * For more information on ``RawTextHelpFormatter`` see: https://docs.python.org/3.7/library/argparse.html#formatter-class
+    * For more information UNIX error codes see https://shapeshed.com/unix-exit-codes/
+    * For a comprehensive list of UNIX error codes see: http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html
+
+.. topic:: Notes
+
+    When the Python interpreter reads a source file it configures a number of special variables, most of which we don't need to worry about. However in this case we care about the ``__name__`` variable.
+
+    When your "module" is the main program, that is you are running your code like:
+
+    .. sourcecode:: console
+
+        % python3 program.py
+        % ./program.py
+
+    The interpreter will add the hard-coded string ``"__main__"`` to the ``__name__`` variable.
+
+    When your "module" is imported by another "module" or application the interpreter will look at the filename of your module, ``program.py``, strip off the ``.py``, and assign that string to your module's ``__name__`` variable.
+
+    When your code is eventually getting executed it will see that ``__name__`` is set to ``"__main__"`` it will call any function within that ``if``-statement, in our case ``build_argument_parser()``.

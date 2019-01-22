@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started with PyCharm &mdash; Snake Charming for Beginners 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Build Your Command Center" href="build_your_command_center.html" />
+    <link rel="prev" title="Python Development Environment" href="python_development_environment.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Snake Charming for Beginners
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="welcome_to_the_jungle.html">Welcome to the Jungle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions_used_in_this_guide.html">Conventions Used in this Document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing Python 3.7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_development_environment.html">Python Development Environment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started with PyCharm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_your_command_center.html">Build Your Command Center</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploit.html">Exploit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gathering_system_level_information.html">Gathering System Level Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contacting_the_unix_daemons_of_old.html">Contacting the UNIX Daemons of Old</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Snake Charming for Beginners</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Getting Started with PyCharm</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/getting_started_with_pycharm.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started-with-pycharm">
+<h1>Getting Started with PyCharm<a class="headerlink" href="#getting-started-with-pycharm" title="Permalink to this headline">¶</a></h1>
+<p>The Virtual Machine (VM) you have been provided with includes Python 3.7 pre-installed and <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> and PyCharm Community Edition (<a class="reference external" href="https://www.jetbrains.com/pycharm/download/">https://www.jetbrains.com/pycharm/download/</a>).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">My version of this project is called <code class="docutils literal notranslate"><span class="pre">bernauer</span></code> so anywhere you see this reference, you can replace it with the name of your project.</p>
+</div>
+<p>Before we start coding you will want to setup your Python project which can be done as follows:</p>
+<img alt="_images/subdomain_enumeration_new_project.png" src="_images/subdomain_enumeration_new_project.png" />
+<div class="topic">
+<p class="topic-title first">Step One: Pick the Project Location</p>
+<p>The default location is generally something like <code class="docutils literal notranslate"><span class="pre">/Users/username/PyCharm</span></code> however, I generally make two directories a <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> one for projects that are in progress and a <code class="docutils literal notranslate"><span class="pre">/sauce</span></code> one for where all my completed projects, that I use regularly end up.</p>
+</div>
+<div class="topic">
+<p class="topic-title first">Step Two: Select the Environment Basis</p>
+<p>In newer versions of PyCharm you are able to select weather your environment is created using <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> or <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> for the basis of our walk-throughs we will be using <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> so you become familiar with it. If you accidentally select <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> instead it’s no big deal and you can still use <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> later.</p>
+</div>
+<div class="topic">
+<p class="topic-title first">Step Three: Select the Base Interpreter</p>
+<p>The base interpreter represents the version of Python you will be using. If you’re unsure about the location of Python on Mac OS X or Linux you can generally use <code class="docutils literal notranslate"><span class="pre">which</span></code> to find the location:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> which python
+<span class="go">/usr/bin/python</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> which python3
+<span class="go">/Library/Frameworks/Python.framework/Versions/3.7/bin/python3</span>
+</pre></div>
+</div>
+<p>A system independent solution for Python 2 is running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> python -c <span class="s2">&quot;import sys; print sys.executable&quot;</span>
+<span class="go">/usr/bin/python</span>
+</pre></div>
+</div>
+<p>For Python 3 you will need to use a slightly modified version:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> python -c <span class="s2">&quot;import sys; print(sys.executable)&quot;</span>
+<span class="go">/usr/bin/python</span>
+</pre></div>
+</div>
+<p>For Windows with PowerShell experience you can run the following to find out where Python is installed:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">&gt;</span> <span class="n">cd</span> <span class="p">\</span>
+<span class="p">&gt;</span> <span class="n">ls</span> <span class="p">*</span><span class="n">ython</span><span class="p">*</span> <span class="n">-Recurse</span> <span class="n">-Directory</span>
+</pre></div>
+</div>
+</div>
+<p>python -c “import sys; print sys.executable”</p>
+<div class="topic">
+<p class="topic-title first">Step Four: Create!</p>
+<p>Once you have configured everything you can create your new project!</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="build_your_command_center.html" class="btn btn-neutral float-right" title="Build Your Command Center" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="python_development_environment.html" class="btn btn-neutral" title="Python Development Environment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, errbufferoverfl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

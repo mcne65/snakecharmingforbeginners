@@ -1,0 +1,34 @@
+=========================================================
+Solutions
+=========================================================
+
+Welcome weary traveller! So you've been having some trouble working out how to complete an activity? That's absolutely fine, we are all still learning. Below you will find code snippets for each section where we haven't provided the solution. However, know this, this journey isn't about what you get right or wrong, what you can or can't work out, it's about the Python's you charm along the way.
+
+Consume solutions responsibly, if you have any questions about why things are done a particular way feel free to shout out!
+
+---------------------------------------------------------
+Build Your Command Center
+---------------------------------------------------------
+
+.. sourcecode:: python
+
+    __version__ = 0.0.0
+    import argparse
+
+
+    def build_argument_parser():
+        parser = argparse.ArgumentParser(description=f"""
+     _
+    | |_ ___ ___ ___ ___ _ _ ___ ___
+    | . | -_|  _|   | .'| | | -_|  _|
+    |___|___|_| |_|_|__,|___|___|_|
+
+    Version: {__version__}
+    """, formatter_class=argparse.RawTextHelpFormatter)
+        parser.add_argument("-d", "--domain", dest="domain", help="the domain which you wish to bruteforce subdomains e.g. google.com", required=True)
+        parser.add_argument("-w", "--wordlist", dest="path_to_wordlist", help="the word list you wish to use to find subdomains, if no word list is specified the in-build one will be used.", required=False)
+        return parser.parse_args()
+
+
+    if __name__ == '__main__':
+        args = build_argument_parser()

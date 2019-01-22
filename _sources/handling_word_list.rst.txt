@@ -1,0 +1,21 @@
+=========================================================
+Handling Word-Lists
+=========================================================
+
+When it comes to brute-forcing, word-lists make the world go 'round. Some people spends days, months, weeks and even years refining their word-lists, from most common, to frequently used. These lists are often build by the community for the community, or are a hodge-podge of maybes either way crafting an efficient word-list is a loveless labour.
+
+For our application we are going to have two types of list, an in-built one and the ability to handle one provided by the user.
+
+Now keep in mind because we haven't done any optimisation in the way of threading for this application make sure you keep your word-lists small.
+
+We have included 100 common subdomains in the file below, however, in the future you may want a bigger more complete word list for brute-forcing subdomains, for this we recommend the following resources:
+
+.. include:: one_hundered_subdomains.txt
+   :literal:
+
+* ``dnscan`` (https://github.com/rbsec/dnscan) a Python word list-based sub-domain scanner has a number of lists included including top 100, 500, 1000, 10, 000 as well as a few others
+
+* ``all.txt`` (https://gist.github.com/jhaddix/86a06c5dc309d08580a018c66354a056) is a GitHub gist that claims to have all word lists from every DNS enumeration tools. It has over 67, 627 lines - **May contain crude and offensive entries**
+
+* ``SecLists`` (https://github.com/danielmiessler/SecLists) is a collection of multiple types of lists used during security assessments including a list of common subdomains which can be found under ``Discovery/DNS``.
+
