@@ -32,3 +32,10 @@ Build Your Command Center
 
     if __name__ == '__main__':
         args = build_argument_parser()
+
+---------------------------------------------------------
+Handling Word Lists
+---------------------------------------------------------
+
+.. sourcecode:: python
+

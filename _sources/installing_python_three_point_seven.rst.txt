@@ -134,7 +134,7 @@ Does not come with Python 3.7 by default, but is available for download (and ins
 
       $ sudo apt-get install build-essential checkinstall
       $ sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev \
-      libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
+      libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev
 
 .. topic:: Step Three: Build Python
 
@@ -144,12 +144,11 @@ Does not come with Python 3.7 by default, but is available for download (and ins
       :linenos:
       :emphasize-lines: 3,4,5
 
-      % tar xzf Python-3.7.0.tgz --directory /usr/local/bin
-      % cd /usr/local/bin/Python-3.7.0
-      % ./configure --enable-optimizations --with-ensurepip=install
-      % make -j 8
+      $ sudo tar xzf Python-3.7.1.tgz --directory /usr/local/bin
+      $ sudo cd /usr/local/bin/Python-3.7.1
+      $ sudo ./configure --enable-optimizations --with-ensurepip=install
+      $ sudo make -j 8
       $ sudo make altinstall
-      $ chmod +x python3.7
       % cd ..
       % cd ~
 
@@ -158,7 +157,7 @@ Does not come with Python 3.7 by default, but is available for download (and ins
 
    .. sourcecode:: bash
 
-      % ./configure --enable-optimizations --with-ensurepip=install
+      % sudo ./configure --enable-optimizations --with-ensurepip=install
 
    The configure script is responsible for getting the software ready to build on your system. It makes sure dependencies are met and ensures the software is installed just the way you want. It's sort of like adding walnuts into the banana bread batter just before you put it in the oven.
 
@@ -170,7 +169,7 @@ Does not come with Python 3.7 by default, but is available for download (and ins
 
    .. sourcecode:: bash
 
-      % make -j 8
+      $ sudo make -j 8
 
    We then build the Python programs using ``make``. The ``-j`` flag tells ``make`` to split the build into parallel steps to help speed up the time it takes to compile - however, keep in mind that even with parallel builds this can still take a few minutes.
 

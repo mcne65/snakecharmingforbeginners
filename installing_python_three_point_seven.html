@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/rtd_theme_override.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Python Development Environment" href="python_development_environment.html" />
@@ -108,6 +109,7 @@
 <li class="toctree-l1"><a class="reference internal" href="python_development_environment.html">Python Development Environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started_with_pycharm.html">Getting Started with PyCharm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_your_command_center.html">Build Your Command Center</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handling_word_lists.html">Handling Word Lists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="exploit.html">Exploit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gathering_system_level_information.html">Gathering System Level Information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contacting_the_unix_daemons_of_old.html">Contacting the UNIX Daemons of Old</a></li>
@@ -283,7 +285,7 @@ $ sudo apt-get upgrade
 <p>Once this step successfully completes, we will need to make sure we have all the tools and libraries we need to build Python.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install build-essential checkinstall
 $ sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev <span class="se">\</span>
-libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
+libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev
 </pre></div>
 </div>
 </div>
@@ -296,21 +298,19 @@ libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
 4
 5
 6
-7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span>% tar xzf Python-3.7.0.tgz --directory /usr/local/bin
-% <span class="nb">cd</span> /usr/local/bin/Python-3.7.0
-<span class="hll">% ./configure --enable-optimizations --with-ensurepip<span class="o">=</span>install
-</span><span class="hll">% make -j <span class="m">8</span>
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ sudo tar xzf Python-3.7.1.tgz --directory /usr/local/bin
+$ sudo <span class="nb">cd</span> /usr/local/bin/Python-3.7.1
+<span class="hll">$ sudo ./configure --enable-optimizations --with-ensurepip<span class="o">=</span>install
+</span><span class="hll">$ sudo make -j <span class="m">8</span>
 </span><span class="hll">$ sudo make altinstall
-</span>$ chmod +x python3.7
-% <span class="nb">cd</span> ..
+</span>% <span class="nb">cd</span> ..
 % <span class="nb">cd</span> ~
 </pre></div>
 </td></tr></table></div>
 </div>
 <div class="topic">
 <p class="topic-title first">Line 3</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>% ./configure --enable-optimizations --with-ensurepip<span class="o">=</span>install
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>% sudo ./configure --enable-optimizations --with-ensurepip<span class="o">=</span>install
 </pre></div>
 </div>
 <p>The configure script is responsible for getting the software ready to build on your system. It makes sure dependencies are met and ensures the software is installed just the way you want. It’s sort of like adding walnuts into the banana bread batter just before you put it in the oven.</p>
@@ -322,7 +322,7 @@ libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
 </div>
 <div class="topic">
 <p class="topic-title first">Line 4</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>% make -j <span class="m">8</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo make -j <span class="m">8</span>
 </pre></div>
 </div>
 <p>We then build the Python programs using <code class="docutils literal notranslate"><span class="pre">make</span></code>. The <code class="docutils literal notranslate"><span class="pre">-j</span></code> flag tells <code class="docutils literal notranslate"><span class="pre">make</span></code> to split the build into parallel steps to help speed up the time it takes to compile - however, keep in mind that even with parallel builds this can still take a few minutes.</p>

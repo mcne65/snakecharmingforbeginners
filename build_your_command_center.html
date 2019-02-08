@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/rtd_theme_override.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Handling Word Lists" href="handling_word_lists.html" />
@@ -257,7 +258,7 @@
 </div>
 <div class="admonition hint">
 <p class="first admonition-title">Hint</p>
-<p class="last">In Python when you see a function with parameters like <code class="docutils literal notranslate"><span class="pre">action=&quot;something&quot;</span></code> it means these are optional and do not need to be included, these are often referred to as keyword or named arguments.</p>
+<p class="last">In Python when you see a function with parameters like <code class="docutils literal notranslate"><span class="pre">action=&quot;something&quot;</span></code> it means these are optional and do not need to be included, these are often referred to as keyword or named parameters.</p>
 </div>
 <ol class="arabic simple" start="7">
 <li><code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> parses arguments through the <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code> function. This determines what options have and have not been selected and convert each argument to the appropriate type. In most cases this means a <code class="docutils literal notranslate"><span class="pre">Namespace</span></code> object will be built and returned to you (the programmer). To have the arguments parsed and returned, we want to modify the last line in our function so instead of just calling <code class="docutils literal notranslate"><span class="pre">parser.parse_args()</span></code> we <code class="docutils literal notranslate"><span class="pre">return</span></code> the results of this function.</li>
@@ -295,7 +296,7 @@
 <span class="go">                     the word list you wish to use to find subdomains, if no word list is specified the in-build one will be used.</span>
 </pre></div>
 </div>
-<p>To get started doing this you will want to add the named argument <code class="docutils literal notranslate"><span class="pre">description=&quot;your</span> <span class="pre">text</span> <span class="pre">here&quot;</span></code> to your call to <code class="docutils literal notranslate"><span class="pre">argparse.ArgumentParser()</span></code>.</p>
+<p>To get started doing this you will want to add the named parameter <code class="docutils literal notranslate"><span class="pre">description=&quot;your</span> <span class="pre">text</span> <span class="pre">here&quot;</span></code> to your call to <code class="docutils literal notranslate"><span class="pre">argparse.ArgumentParser()</span></code>.</p>
 <div class="admonition hint">
 <p class="first admonition-title">Hint</p>
 <p class="last"><code class="docutils literal notranslate"><span class="pre">argparse.RawTextHelpFormatter</span></code> is a special <code class="docutils literal notranslate"><span class="pre">formatter_class</span></code> used with <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> to give you more control over how text descriptions are displayed. Normally <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> objects will line-wrap the description.</p>
@@ -311,7 +312,7 @@
 <li>For more information on <code class="docutils literal notranslate"><span class="pre">help</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#help">https://docs.python.org/3.7/library/argparse.html#help</a></li>
 <li>For more information on <code class="docutils literal notranslate"><span class="pre">required</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#required">https://docs.python.org/3.7/library/argparse.html#required</a></li>
 <li>For more information on <code class="docutils literal notranslate"><span class="pre">RawTextHelpFormatter</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#formatter-class">https://docs.python.org/3.7/library/argparse.html#formatter-class</a></li>
-<li>For more information UNIX error codes see <a class="reference external" href="https://shapeshed.com/unix-exit-codes/">https://shapeshed.com/unix-exit-codes/</a></li>
+<li>For more information UNIX error codes see <a class="reference external" href="https://shapeshed.com/unix-exit-codes">https://shapeshed.com/unix-exit-codes</a></li>
 <li>For a comprehensive list of UNIX error codes see: <a class="reference external" href="http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html">http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html</a></li>
 </ul>
 </div>

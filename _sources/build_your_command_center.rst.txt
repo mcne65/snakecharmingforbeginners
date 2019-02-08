@@ -108,7 +108,7 @@ In our example above we are telling ``nmap`` to scan all ports ``-p-`` on the ho
 
         parser.add_argument("-a", "--advanced", action="", dest="", default="", help="", required=True)
 
-    .. hint:: In Python when you see a function with parameters like ``action="something"`` it means these are optional and do not need to be included, these are often referred to as keyword or named arguments.
+    .. hint:: In Python when you see a function with parameters like ``action="something"`` it means these are optional and do not need to be included, these are often referred to as keyword or named parameters.
 
     7. ``ArgumentParser`` parses arguments through the ``parse_args()`` function. This determines what options have and have not been selected and convert each argument to the appropriate type. In most cases this means a ``Namespace`` object will be built and returned to you (the programmer). To have the arguments parsed and returned, we want to modify the last line in our function so instead of just calling ``parser.parse_args()`` we ``return`` the results of this function.
 
@@ -142,21 +142,29 @@ In our example above we are telling ``nmap`` to scan all ports ``-p-`` on the ho
         -w PATH_TO_WORDLIST, --wordlist PATH_TO_WORDLIST
                              the word list you wish to use to find subdomains, if no word list is specified the in-build one will be used.
 
-    To get started doing this you will want to add the named argument ``description="your text here"`` to your call to ``argparse.ArgumentParser()``.
+    To get started doing this you will want to add the named parameter ``description="your text here"`` to your call to ``argparse.ArgumentParser()``.
 
     .. hint:: ``argparse.RawTextHelpFormatter`` is a special ``formatter_class`` used with ``ArgumentParser`` to give you more control over how text descriptions are displayed. Normally ``ArgumentParser`` objects will line-wrap the description.
 
 .. topic:: Further Reading
 
-    * For more information on ``ArgumentParser`` see: https://docs.python.org/3.7/library/argparse.html#argparse.ArgumentParser
-    * For more information on ``actions`` see: https://docs.python.org/3.7/library/argparse.html#action
-    * For more information on ``dest`` see: https://docs.python.org/3.7/library/argparse.html#dest
-    * For more information on ``default`` see: https://docs.python.org/3.7/library/argparse.html#default
-    * For more information on ``help`` see: https://docs.python.org/3.7/library/argparse.html#help
-    * For more information on ``required`` see: https://docs.python.org/3.7/library/argparse.html#required
-    * For more information on ``RawTextHelpFormatter`` see: https://docs.python.org/3.7/library/argparse.html#formatter-class
-    * For more information UNIX error codes see https://shapeshed.com/unix-exit-codes/
-    * For a comprehensive list of UNIX error codes see: http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html
+    - For more information on ``ArgumentParser`` see: https://docs.python.org/3.7/library/argparse.html#argparse.ArgumentParser
+
+    - For more information on ``actions`` see: https://docs.python.org/3.7/library/argparse.html#action
+
+    - For more information on ``dest`` see: https://docs.python.org/3.7/library/argparse.html#dest
+
+    - For more information on ``default`` see: https://docs.python.org/3.7/library/argparse.html#default
+
+    - For more information on ``help`` see: https://docs.python.org/3.7/library/argparse.html#help
+
+    - For more information on ``required`` see: https://docs.python.org/3.7/library/argparse.html#required
+
+    - For more information on ``RawTextHelpFormatter`` see: https://docs.python.org/3.7/library/argparse.html#formatter-class
+
+    - For more information UNIX error codes see https://shapeshed.com/unix-exit-codes
+
+    - For a comprehensive list of UNIX error codes see: http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html
 
 .. topic:: Notes
 

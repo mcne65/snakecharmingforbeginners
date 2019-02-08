@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/rtd_theme_override.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Exploit" href="exploit.html" />
@@ -87,7 +88,8 @@
 <li class="toctree-l1"><a class="reference internal" href="getting_started_with_pycharm.html">Getting Started with PyCharm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_your_command_center.html">Build Your Command Center</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Handling Word Lists</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#in-built-word-list">In-Built Word List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-recipe-for-handling-word-lists">A Recipe for Handling Word Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#an-incantation-for-application-truths-i-e-logging">An Incantation for Application Truths (i.e. Logging)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="exploit.html">Exploit</a></li>
@@ -161,10 +163,10 @@
             
   <div class="section" id="handling-word-lists">
 <h1>Handling Word Lists<a class="headerlink" href="#handling-word-lists" title="Permalink to this headline">¶</a></h1>
-<p>When it comes to brute-forcing, word lists make the world go ‘round. Some people spends days, months, weeks and even years refining their word lists, from most common, to frequently used. These lists are often build by the community for the community, or are a hodge-podge of maybes either way crafting an efficient word-list is a loveless labour.</p>
+<p>When it comes to brute-forcing, word lists make the world go ‘round. Some people spends days, weeks, months and even years refining their word lists, from most common, to categorising by company. These lists are often build by the community for the community, or are a hodge-podge of maybes. Either way crafting an efficient word-list is a loveless labour.</p>
 <p>For our application we are going to have two types of list, an in-built one and the ability to handle one provided by the user.</p>
 <p>Now keep in mind because we haven’t done any optimisation in the way of threading for this application make sure you keep your word lists small.</p>
-<p>We have included 100 common subdomains in the file below, however, in the future you may want a bigger more complete word list for brute-forcing subdomains, for this we recommend the following resources:</p>
+<p>We have included 100 common subdomains in the file below, however, in the future you may want a bigger more complete word list for brute-forcing subdomains, for this we have recommended a few resources to get you started:</p>
 <div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
   2
   3
@@ -374,14 +376,19 @@
 <li><code class="docutils literal notranslate"><span class="pre">SecLists</span></code> (<a class="reference external" href="https://github.com/danielmiessler/SecLists">https://github.com/danielmiessler/SecLists</a>) is a collection of multiple types of lists used during security assessments including a list of common subdomains which can be found under <code class="docutils literal notranslate"><span class="pre">Discovery/DNS</span></code>.</li>
 </ul>
 </div>
-<div class="section" id="in-built-word-list">
-<h2>In-Built Word List<a class="headerlink" href="#in-built-word-list" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="a-recipe-for-handling-word-lists">
+<h2>A Recipe for Handling Word Lists<a class="headerlink" href="#a-recipe-for-handling-word-lists" title="Permalink to this headline">¶</a></h2>
+<p>In the previous section we created a command line interpreter that we can use to specify the domain we wish to target and the word list in this section we will build on this and learn how to handle and process text files.</p>
 <div class="topic">
 <p class="topic-title first">Concepts Covered</p>
 <ul class="simple">
 <li>Exception handling</li>
 <li>File handling</li>
 <li>String manipulation</li>
+<li>Type Hints</li>
+<li><code class="docutils literal notranslate"><span class="pre">NameSpace</span></code> object</li>
+<li>Logging</li>
+<li><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></li>
 </ul>
 </div>
 <div class="topic">
@@ -389,7 +396,319 @@
 <ul class="simple">
 <li>One new function in the file you used in the previous section called <code class="docutils literal notranslate"><span class="pre">main</span></code></li>
 <li>One liberal handful of exception handling</li>
+<li>Two text files, one populated with the word list included above, another with approximately 50 subdomains, one sub-domain per line</li>
 </ul>
+</div>
+<div class="topic">
+<p class="topic-title first">Method</p>
+<ol class="arabic simple">
+<li>Create your <code class="docutils literal notranslate"><span class="pre">main</span></code> function. Between the brackets put the following <code class="docutils literal notranslate"><span class="pre">runtime_options:</span> <span class="pre">argparse.Namespace</span></code>, in Python this is called a positional parameter. Unlike named parameters which we covered in the previous section, the order we provide these parameters is important. The value after the colon (<code class="docutils literal notranslate"><span class="pre">:</span></code>) <code class="docutils literal notranslate"><span class="pre">argparse.Namespace</span></code> is a “Type Hint”.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Type Hints are useful because Python is a “dynamic language” which can make inferring the type of an object being used difficult.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Duck Typing is a computer programming concept where an object can be used in any context up until it is used in a way that is not supported. To test whether a language supports duck typing, we apply what is aptly named the duck test - “If it walks like a duck and it quacks like a duck, then it must be a duck”. Duck typing is different to normal typing where an Objects ability is determined by it’s type rather than the presence of certain methods and properties.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li>The first thing we want to do is check if the user has provided a path to a custom word list, or if we will be using the in-built list. To access values in a <code class="docutils literal notranslate"><span class="pre">Namespace</span></code> we can use the following syntax <code class="docutils literal notranslate"><span class="pre">runtime_options.name_of_value</span></code>.</li>
+</ol>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Many programming languages have the concept of <code class="docutils literal notranslate"><span class="pre">none</span></code> – in C, JavaScript and Java this is <code class="docutils literal notranslate"><span class="pre">null</span></code> in Ruby this value is represented by <code class="docutils literal notranslate"><span class="pre">nil</span></code>. In Python this is the <code class="docutils literal notranslate"><span class="pre">NoneType</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code> when programming. It represents the lack of assigned value.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>While learning Python you may come across the concepts of “Truthy” and “Falsy”. Truthy/Falsy are values of convenience for situations where you need to test whether a statement is binary in nature (True or False) instead of writing more complex statements.</p>
+<p>For example to check if a list (array in other languages) is empty you may use the following traditional syntax:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;List is not empty&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In Python you can use the more compact syntax:</p>
+<div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">my_list</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;List is not empty&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>With this information you should be able to check if the path to the word list is specified or is <code class="docutils literal notranslate"><span class="pre">None</span></code>, if it is <code class="docutils literal notranslate"><span class="pre">None</span></code> remember to set something to use the in-built word list.</p>
+<ol class="arabic simple" start="3">
+<li>Now that we know where the path to our word list is we can <cite>try</cite> to open it. The function we use to do this is <code class="docutils literal notranslate"><span class="pre">open()</span></code> which will return a file object. <code class="docutils literal notranslate"><span class="pre">open()</span></code> can be used in one of two ways, with, or without a mode, by default the mode to access files is read-only:</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want to read and write, write, or append to a file you can use <code class="docutils literal notranslate"><span class="pre">r+</span></code>, <code class="docutils literal notranslate"><span class="pre">w</span></code> or <code class="docutils literal notranslate"><span class="pre">w+</span></code> respectively.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When using the write mode (<code class="docutils literal notranslate"><span class="pre">w</span></code>) it is important to remember if a file exists with the same name, the existing file will be erased and overwritten with the newer version.</p>
+</div>
+<p>When handling it is considered good practise to use the <code class="docutils literal notranslate"><span class="pre">with</span></code> keyword when dealing with file objects. This is because using the <code class="docutils literal notranslate"><span class="pre">with</span></code> keyword will ensure the file is closed properly even if an exception is raised.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>If you are not using the <code class="docutils literal notranslate"><span class="pre">with</span></code> keyword, you should ensure you call the <code class="docutils literal notranslate"><span class="pre">close()</span></code> function to close the file and free up system resources used by the application. If you do not Python’s garbage collector will eventually destroy the object and close the open file for you, but the file may stay open for a while.</p>
+<p class="last">Additionally, different Python implementations will do this clean-up at different times meaning your application could continue to use resources for an extended period of time.</p>
+</div>
+<p>To access the files contents we can use a variety of functions <code class="docutils literal notranslate"><span class="pre">read(size)</span></code> will read a quantity of data and returns the value as a string. The <code class="docutils literal notranslate"><span class="pre">size</span></code> parameter is completely optional, and if not supplied the whole file will be read and returned.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Python doesn’t care if you use <code class="docutils literal notranslate"><span class="pre">read()</span></code> and the file is two, three or four times the size of your computers memory – so before reading in large files ensure your (and your user’s) computer can handle it.</p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">readline()</span></code> reads a single line from a file, newline characters (<code class="docutils literal notranslate"><span class="pre">\n</span></code>) are left at the end of the string and only omitted for the last line of the file, if the file doesn’t end in a new line. The benefit of this is the returned value is unambiguous - if <code class="docutils literal notranslate"><span class="pre">readline()</span></code> returns an empty string, you have reached the end of the file. If a <code class="docutils literal notranslate"><span class="pre">\n</span></code> is returned, a string containing only an empty line it is probably a line break.</p>
+<p>If you want to read each line of the file you can use <code class="docutils literal notranslate"><span class="pre">list(file)</span></code> or <code class="docutils literal notranslate"><span class="pre">readlines()</span></code>. Your job in this step is to take the word list obtained in the previous step and load it into your application at the end of the function print the word list.</p>
+<ol class="arabic simple" start="4">
+<li>During the previous step you probably faced a number of inconvenient problems, missing files, wacky formats which is a great segue into the next part exception handling. Now if you have ever used software you will know that things don’t always go the way we intend so sometimes we need to be extraordinary and handle those conditions.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In Python we follow the motto “ask for forgiveness, not permission” when handling data, variables, anything. Meaning that before we check if the file is <cite>valid</cite> we try opening it. If it doesn’t because of an exception, we ask for forgiveness (by handling said exception).</p>
+</div>
+<p>In Python we use <code class="docutils literal notranslate"><span class="pre">try..</span> <span class="pre">except..</span></code> to handle exceptions. In the <code class="docutils literal notranslate"><span class="pre">try</span></code> block we write what we are trying to do, open a file, access a value in a dictionary etc. If that fails we catch the problem in the <code class="docutils literal notranslate"><span class="pre">except</span></code> block. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">my_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">new_file</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">new_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">FileNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the example above we attempt to open a file and read the lines into a list, if the file cannot be found we can catch that exception and terminate the program before we encounter more issues, however exception handling doesn’t always need to lead to termination, it can also log a warning or set a variable.</p>
+<p>It’s important to remember that we must specify which exceptions we are going to catch, and to order them from the most specific to the least, something that admittedly when you’re getting started can be difficult to workout. For example when handling a file in Python 3+ we handle <code class="docutils literal notranslate"><span class="pre">FileNotFound</span></code> then <code class="docutils literal notranslate"><span class="pre">IOError</span></code> then <code class="docutils literal notranslate"><span class="pre">Exception</span></code> however, generally speaking it is better to extend the base <code class="docutils literal notranslate"><span class="pre">Exception</span></code> class instead as it is too broad.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>Python exception handling doesn’t just end with <code class="docutils literal notranslate"><span class="pre">try...</span> <span class="pre">except...</span></code> this is just the tip of the iceberg. The <code class="docutils literal notranslate"><span class="pre">else</span></code> clause also exists and allows you to run code if and only if the <code class="docutils literal notranslate"><span class="pre">try</span></code> clause does not raise any exceptions, for example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">my_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">new_file</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">new_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">FileNotFoundError</span><span class="p">:</span>
+    <span class="n">load_backup_config</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">parse_user_config</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You also have the <code class="docutils literal notranslate"><span class="pre">finally</span></code> clause, it can be used to define clean_up actions that must be executed under all circumstances, whether an exception has occurred or not:</p>
+<div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">my_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">new_file</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">new_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">FileNotFoundError</span><span class="p">:</span>
+    <span class="n">load_backup_config</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">parse_user_config</span><span class="p">()</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">clean_up_artifacts</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Thanks for using our software! Goodbye&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<ol class="arabic simple" start="5">
+<li>You may have noticed when you were printing the word list you have some inconvenient trailing characters like <code class="docutils literal notranslate"><span class="pre">\n</span></code>. These are normally not seen when you are reading a file in a text based application, but these little beasties will become a common occurrence when doing text processing.</li>
+</ol>
+<p>To remove these before our <code class="docutils literal notranslate"><span class="pre">print()</span></code> statement we can quickly strip them out using the aptly named <code class="docutils literal notranslate"><span class="pre">strip()</span></code> function. This function returns a <strong>copy</strong> of the string where all the characters provided have been stripped from the <strong>beginning</strong> and <strong>end</strong> of the original string. The default behaviour is to strip white space characters (like a space).</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;88888888this is string example....wow!!!8888888&quot;</span><span class="p">;</span>
+<span class="k">print</span> <span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;8);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Result:</strong></p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">this is string example....wow!!!</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Now you will have noticed I have bolded some keywords in that previous paragraph, because these are important things to remember. Let’s address them now.</p>
+<ul class="simple">
+<li>The <code class="docutils literal notranslate"><span class="pre">strip()</span></code> function returns a copy of the original string you need to assign the new value to a variable. This can be a new variable, or you can over-ride the old one. Just remember simply using this function will not modify the original string.</li>
+<li>When you are stripping characters from a string, sometimes you want to strip characters on the left, sometimes only those on the right and sometimes there is an easy solutions to these problems! (This is one of those times).</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">lstrip()</span></code> is an alternative to <code class="docutils literal notranslate"><span class="pre">strip()</span></code> that returns a copy of the string where all characters have been stripped from the beginning of the string, for example:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;88888888this is string example....wow!!!8888888&quot;</span><span class="p">;</span>
+<span class="k">print</span> <span class="nb">str</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;8&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Result:</strong></p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">this is string example....wow!!!8888888</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">rstrip()</span></code> is an alternative to <code class="docutils literal notranslate"><span class="pre">strip()</span></code> that returns a copy of the string where all characters have been stripped from the end of the string, for example:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;88888888this is string example....wow!!!8888888&quot;</span><span class="p">;</span>
+<span class="k">print</span> <span class="nb">str</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;8&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Result:</strong></p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">88888888this is string example....wow!!!</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Using a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop you will be able to modify the values in the list and replace them, for more advanced users, using a list comprehension to achieve the same goal.</p>
+<p>A list comprehension can be created using this general guide <code class="docutils literal notranslate"><span class="pre">new_list</span> <span class="pre">=</span> <span class="pre">[expression(i)</span> <span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">old_list</span> <span class="pre">if</span> <span class="pre">filter(i)]</span></code>.</p>
+<p>By now you should have an application that takes a file, whether that be user supplied, or built-in and print it out. The final step in this section is to add some logging.</p>
+</div>
+</div>
+<div class="section" id="an-incantation-for-application-truths-i-e-logging">
+<h2>An Incantation for Application Truths (i.e. Logging)<a class="headerlink" href="#an-incantation-for-application-truths-i-e-logging" title="Permalink to this headline">¶</a></h2>
+<p>Logging allows us to track events that happen during runtime, we add these calls to our code to determine, when events happened and what may have caused problems during runtime. These events are classified into importance, or severity to the developer or the user. These can vary depending on the built-in configuration however are generally customisable. For today we will just be working with the default severities provided by Python.</p>
+<p>But Buffy does this mean we need to log every activity? Heck. to. the. no. The Python documentation provides a handy table to determine if, and when you should do logging (reproduced below). I personally tend to blur this line a little bit by configuring my logger to display logging to the console as well as saving it to a file, this way the end-user can determine how much information they care about (but that’s a story for another time).</p>
+<p><strong>When to use Logging</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Task you are performing</th>
+<th class="head">The best tool for the task</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Display console output
+for ordinary usage of a
+command line script or
+program</td>
+<td><code class="docutils literal notranslate"><span class="pre">print()</span></code></td>
+</tr>
+<tr class="row-odd"><td>Report events that occur
+during normal operation
+of a program (e.g. for
+status monitoring or fault
+investigation)</td>
+<td><code class="docutils literal notranslate"><span class="pre">logging.info()</span></code> (or
+<code class="docutils literal notranslate"><span class="pre">logging.debug()</span></code> for
+very detailed output for
+diagnostic purposes)</td>
+</tr>
+<tr class="row-even"><td>Issue a warning regarding
+a particular runtime event</td>
+<td><code class="docutils literal notranslate"><span class="pre">warnings.warn()</span></code> in
+library code if the issue
+is avoidable and the client
+application should be
+modified to eliminate the
+warning</td>
+</tr>
+<tr class="row-odd"><td>Report an error regarding
+a particular runtime event</td>
+<td>Raise an exception</td>
+</tr>
+<tr class="row-even"><td>Report suppression of an
+error without raising an
+exception (e.g. error
+handler in a long-running
+server process)</td>
+<td><code class="docutils literal notranslate"><span class="pre">logging.error()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">logging.exception()</span></code> or
+<code class="docutils literal notranslate"><span class="pre">logging.critical()</span></code> as
+appropriate for the specific
+error and application domain
+warning</td>
+</tr>
+</tbody>
+</table>
+<p>Python provides five default levels of severity, these are standard levels and their applicability are described below:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Level</th>
+<th class="head">When it’s used</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">DEBUG</span></code></td>
+<td>Detailed information,
+typically of interest only
+when diagnosing problems.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">INFO</span></code></td>
+<td>Confirmation that things
+are working as expected.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">WARNING</span></code></td>
+<td>An indication that
+something unexpected
+happened, or indicative
+of some problem in the near
+future (e.g. ‘disk space
+low’). The software is still
+working as expected.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">ERROR</span></code></td>
+<td>Due to a more serious
+problem, the software has
+not been able to perform
+some function.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code></td>
+<td>A serious error, indicating
+that the program itself may
+be unable to continue
+running.</td>
+</tr>
+</tbody>
+</table>
+<p>The default logger is configured to record events classified as a <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> or higher, meaning <code class="docutils literal notranslate"><span class="pre">ERROR</span></code> and <code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code> will also be recorded. Events can be recorded in a number of different ways. In more advanced systems these may be piped to <code class="docutils literal notranslate"><span class="pre">syslog</span></code> so the device can send events to a centralised server, however, more often than not, local logging to the console or to a text file is sufficient.</p>
+<p><strong>A Simple Logger Example</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="c1"># will print a message to the console</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Look out for the Cobra!&#39;</span><span class="p">)</span>
+
+<span class="c1"># will not print anything</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;The sky is blue.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will produce the following output:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">WARNING:root:Look out for the Cobra!</span>
+</pre></div>
+</div>
+<p>As mentioned previously, because we have not configured the logger, it will by default only log <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> events and higher meaning the <code class="docutils literal notranslate"><span class="pre">INFO</span></code> event is suppressed.</p>
+<p><strong>Logging to a File</strong></p>
+<p>It’s very common to want to hold onto events that occur during the runtime of an application which is what we will cover next, logging to a file. There are lots of different options available when configuring loggers and we won’t go through them today, because that alone could be it’s own training, but you can find more details available in the Further Reading section down below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="c1"># Configure the logger to store events in a file named &quot;example.log&quot;, logging events DEBUG and higher</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;example.log&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;This is a debug message that contains important debugging information and will be saved to example.log&#39;</span><span class="p">)</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;This is an informational message that contains information and will be saved to example.log&#39;</span><span class="p">)</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;This is a warning. You should be careful now.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using the two examples above, you should be able to now configure a logger for your application and have messages saved to a file.</p>
+<div class="topic">
+<p class="topic-title first">Optional</p>
+<ul class="simple">
+<li>Using the Python in-build Comma Separated Values (CSV) library add the option to use a CSV file instead of a Plain Text file. See if you can make your application detect if it is Plain Text or a CSV.</li>
+<li>Archive your log files in a directory called <code class="docutils literal notranslate"><span class="pre">logs</span></code> saving each new log file with the time, date, month and year - this should be in ISO 8601 Notation (yyyy-mm-dd hh:mm:ss).</li>
+</ul>
+</div>
+<div class="topic">
+<p class="topic-title first">Further Reading</p>
+<ul class="simple">
+<li>For more information on Type Hints in Python see: <a class="reference external" href="https://www.python.org/dev/peps/pep-0484/">https://www.python.org/dev/peps/pep-0484/</a></li>
+<li>For more information on The Theory of Type Hints in Python see: <a class="reference external" href="https://www.python.org/dev/peps/pep-0483/">https://www.python.org/dev/peps/pep-0483/</a></li>
+<li>For more information about dynamic languages and “duck typing” see: <a class="reference external" href="https://en.wikipedia.org/wiki/Duck_typing">https://en.wikipedia.org/wiki/Duck_typing</a></li>
+<li>For more information on Errors and Exceptions in Python 3.7 see: <a class="reference external" href="https://docs.python.org/3/tutorial/errors.html">https://docs.python.org/3/tutorial/errors.html</a></li>
+<li>For more information on Logging see: <a class="reference external" href="https://docs.python.org/3/library/logging.html">https://docs.python.org/3/library/logging.html</a></li>
+<li>For more basic tutorials on Logging see: <a class="reference external" href="https://docs.python.org/3/howto/logging.html#logging-basic-tutorial">https://docs.python.org/3/howto/logging.html#logging-basic-tutorial</a></li>
+<li>For more advanced tutorials on logging see: <a class="reference external" href="https://docs.python.org/3/howto/logging-cookbook.html">https://docs.python.org/3/howto/logging-cookbook.html</a></li>
+</ul>
+</div>
+<div class="topic">
+<p class="topic-title first">Notes</p>
+<p>//todo</p>
 </div>
 </div>
 </div>
