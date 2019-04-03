@@ -8,22 +8,31 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Build Your Command Center &mdash; Snake Charming for Beginners 0.0.1 documentation</title>
+  <title>Build Your Command Centre &mdash; Snake Charming for Beginners 0.0.1 documentation</title>
   
 
   
   
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
   
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/rtd_theme_override.css" type="text/css" />
@@ -31,27 +40,25 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Handling Word Lists" href="handling_word_lists.html" />
     <link rel="prev" title="Getting Started with PyCharm" href="getting_started_with_pycharm.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
             <a href="index.html" class="icon icon-home"> Snake Charming for Beginners
           
 
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -82,17 +89,30 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="welcome_to_the_jungle.html">Welcome to the Jungle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="conventions_used_in_this_guide.html">Conventions Used in this Document</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing_python_three_point_seven.html">Installing Python 3.7</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python_development_environment.html">Python Development Environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started_with_pycharm.html">Getting Started with PyCharm</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Build Your Command Center</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Build Your Command Centre</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#a-recipe-for-calling-upon-the-user">A Recipe for Calling Upon the User</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ingredients">Ingredients</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#method">Method</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#argparse"><code class="docutils literal notranslate"><span class="pre">argparse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#notes">Notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#further-reading">Further Reading</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="handling_word_lists.html">Handling Word Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="exploit.html">Exploit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gathering_system_level_information.html">Gathering System Level Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="brute_forcing_subdomains.html">Brute Forcing Subdomains</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploiting_cve_2014_0160.html">Exploiting CVE-2014-0160</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gathering_system_level_information.html">Gathering System Level Information Cheat Sheet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contacting_the_unix_daemons_of_old.html">Contacting the UNIX Daemons of Old</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="solutions.html">Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solutions_for_domain_bruteforcer.html">Subdomain Bruteforcing Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solutions_for_cve_2014_0160.html">Exploitiong CVE-2014-0160 Solutions</a></li>
 </ul>
 
             
@@ -138,7 +158,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Build Your Command Center</li>
+      <li>Build Your Command Centre</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -157,63 +177,61 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="build-your-command-center">
-<h1>Build Your Command Center<a class="headerlink" href="#build-your-command-center" title="Permalink to this headline">¶</a></h1>
-<p>The first step in building a tool (if you ask me) is to create a command center, or a way for your user to interact with your tools – you may have experience with many command line applications where you pile a bunch of different directives and options onto a application hit enter and bam you have your answers!</p>
-<p>For those who may not have used command line applications before I’ve included an example using the free and open-source tool <code class="docutils literal notranslate"><span class="pre">nmap</span></code> (<a class="reference external" href="https://nmap.org/">https://nmap.org/</a>) which can be used for security scanning, port scanning, and network exploration.</p>
+  <div class="section" id="build-your-command-centre">
+<h1>Build Your Command Centre<a class="headerlink" href="#build-your-command-centre" title="Permalink to this headline">¶</a></h1>
+<p>The first step in building a tool (if you ask me) is to create a command centre, or a way for your user to interact with your tools – you may have experience with many command line applications where you pile a bunch of different directives and options onto an application, hit enter and bam you have your answers!</p>
+<p>For those who may not have used command line applications before I’ve included an example using the free and open-source tool <a class="reference external" href="https://nmap.org/">nmap</a> which can be used for security scanning, port scanning, and network exploration.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> nmap -p- <span class="m">192</span>.168.0.1
 </pre></div>
 </div>
-<p>In our example above we are telling <code class="docutils literal notranslate"><span class="pre">nmap</span></code> to scan all ports <code class="docutils literal notranslate"><span class="pre">-p-</span></code> on the host <code class="docutils literal notranslate"><span class="pre">192.168.0.1</span></code>. This is a relatively straight-forward example, and in some cases command line arguments can get complicated pretty quickly. But we aren’t worrying about that just yet.</p>
+<p>In our example above we are telling <code class="docutils literal notranslate"><span class="pre">nmap</span></code> to scan all ports <code class="docutils literal notranslate"><span class="pre">-p-</span></code> on the host <code class="docutils literal notranslate"><span class="pre">192.168.0.1</span></code>. This is a relatively straight-forward example, but in some cases command line arguments can get complicated pretty quickly. But we aren’t worrying about that just yet.</p>
+<div class="section" id="a-recipe-for-calling-upon-the-user">
+<h2>A Recipe for Calling Upon the User<a class="headerlink" href="#a-recipe-for-calling-upon-the-user" title="Permalink to this headline">¶</a></h2>
 <div class="topic">
 <p class="topic-title first">Concepts Covered</p>
 <ul class="simple">
-<li>Creating new files</li>
-<li>Creating methods</li>
-<li>Basic argument parsing</li>
-<li>Returning and storing data</li>
-<li>Name guard basics</li>
-<li>UNIX error codes</li>
-<li>Keyword/named parameters</li>
+<li><p>Creating new files</p></li>
+<li><p>Creating methods</p></li>
+<li><p>Basic argument parsing</p></li>
+<li><p>Returning and storing data</p></li>
+<li><p>Name guard basics</p></li>
+<li><p>UNIX error codes</p></li>
+<li><p>Keyword/named parameters</p></li>
 </ul>
 </div>
-<div class="topic">
-<p class="topic-title first">Ingredients</p>
-<ul class="simple">
-<li>One python file called <code class="docutils literal notranslate"><span class="pre">main.py</span></code> or <code class="docutils literal notranslate"><span class="pre">yourprojectname.py</span></code></li>
-<li>One dash of <code class="docutils literal notranslate"><span class="pre">argparse</span></code>, a Python “built-in” meaning you don’t need to install anything</li>
-<li>One cup of sweet ASCII font from <a class="reference external" href="http://patorjk.com/software/taag">http://patorjk.com/software/taag</a></li>
+<div class="section" id="ingredients">
+<h3>Ingredients<a class="headerlink" href="#ingredients" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>One python file called <code class="docutils literal notranslate"><span class="pre">main.py</span></code> or <code class="docutils literal notranslate"><span class="pre">yourprojectname.py</span></code></p></li>
+<li><p>One dash of <code class="docutils literal notranslate"><span class="pre">argparse</span></code>, a Python “built-in” meaning you don’t need to install anything</p></li>
+<li><p><a class="reference external" href="http://patorjk.com/software/taag">One cup of sweet ASCII font</a></p></li>
 </ul>
+</div></blockquote>
 </div>
-<div class="topic">
-<p class="topic-title first">Method</p>
-<ol class="arabic simple">
-<li>Create a new Python file, this can be done by right clicking on your project directory (for me that is <strong>bernauer</strong>) and highlighting <strong>New</strong> and selecting <strong>Python File</strong>.</li>
-</ol>
+<div class="section" id="method">
+<h3>Method<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h3>
+<p>First we will want to create a new Python file, this can be done by right clicking on your project directory (in the example below this is the directory <strong>bernauer</strong>), highlighting <strong>New</strong> a submenu will appear, from here select <strong>Python File</strong>.</p>
 <img alt="_images/subdomain_enumeration_new_file.png" src="_images/subdomain_enumeration_new_file.png" />
-<ol class="arabic simple" start="2">
-<li>We are creating the file that users (or just you) will be using to use the application – I suggest naming this file either the same thing as your project, or <code class="docutils literal notranslate"><span class="pre">main</span></code>.</li>
-</ol>
+<p>In this step we are creating the file that users (or just you) will be using to use the application – I suggest naming this file either the same thing as your project, or <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
 <img alt="_images/subdomain_enumeration_name_file.png" src="_images/subdomain_enumeration_name_file.png" />
-<ol class="arabic simple" start="3">
-<li>We are going to create a small options menu that users can use to specify how the application should run. For now it should only have a few things (we will add more as we go). You will want to include:</li>
-</ol>
+<p>The first step is creating a command line argument parser that users can use to specify how the application should run. For now, it should only have a few things (we will add more as we go). You will want to include:</p>
 <ul class="simple">
-<li>an option to provide a domain name</li>
-<li>an option to provide a word list</li>
+<li><p>an option to provide a domain name</p></li>
+<li><p>an option to provide a word list</p></li>
 </ul>
-<ol class="arabic simple" start="4">
-<li>To get started we will want to create a function to build and handle our argument parser, a very simple example which does nothing:</li>
-</ol>
+<div class="section" id="argparse">
+<h4><code class="docutils literal notranslate"><span class="pre">argparse</span></code><a class="headerlink" href="#argparse" title="Permalink to this headline">¶</a></h4>
+<p>Python has a built in parser for command-line options called <code class="docutils literal notranslate"><span class="pre">argparse</span></code> in previous versions this was <code class="docutils literal notranslate"><span class="pre">optparse</span></code> however, this library has been deprecated since Python 2.7 and will not be developed any further.</p>
+<p>The benefit of using <code class="docutils literal notranslate"><span class="pre">argparse</span></code> over rolling your own command-line parser is <code class="docutils literal notranslate"><span class="pre">argparse</span></code> will figure out how to parse <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code> (user-input) allowing you to focus on building tools. <code class="docutils literal notranslate"><span class="pre">argparse</span></code> will also help automatically generate help and usage messages and issue errors when the user provides invalid arguments.</p>
+<p>To get started we will want to create a function to build and handle arguments passed by the user, a very simple example which does nothing:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
 
 <span class="k">def</span> <span class="nf">build_argument_parser</span><span class="p">():</span>
     <span class="k">return</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="4">
-<li>The first step in creating our parser is creating an <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> object:</li>
-</ol>
+<p>The first step in creating our parser is creating an <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> object:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
 
 <span class="k">def</span> <span class="nf">build_argument_parser</span><span class="p">():</span>
@@ -222,9 +240,7 @@
     <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="5">
-<li>Before we run this code we want to put another ✨ magical ✨ function at the very bottom of our file, this is the a <code class="docutils literal notranslate"><span class="pre">__name__</span></code> guard. Which we will go into detail about in the <strong>Notes</strong> section.</li>
-</ol>
+<p>Before we run this code we want to put another ✨ magical ✨ function at the very bottom of our file, this is the a <code class="docutils literal notranslate"><span class="pre">__name__</span></code> guard:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
 
 <span class="k">def</span> <span class="nf">build_argument_parser</span><span class="p">():</span>
@@ -242,43 +258,61 @@
 <span class="go">Process finished with exit code 0</span>
 </pre></div>
 </div>
-<div class="admonition hint">
-<p class="first admonition-title">Hint</p>
-<p class="last">On Portable Operating System Interface (POSIX) systems (like Linux and Mac OS X) the standard exit code is 0 for success and any number from 1 to 255 for anything else.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<ul class="simple">
+<li><p>What happens when you run your application with <code class="docutils literal notranslate"><span class="pre">-h</span></code> or <code class="docutils literal notranslate"><span class="pre">--help</span></code>?</p></li>
+<li><p>What happens when you run your application with random input?</p></li>
+</ul>
 </div>
-<ol class="arabic simple" start="6">
-<li>Now we have a skeleton function where we can build out parser. Filling an <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> with information about your application is done by using the <code class="docutils literal notranslate"><span class="pre">add_argument()</span></code> function. This information is stored and can be accessed when <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code> is called. The basic syntax to add a command line option is:</li>
-</ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-a&quot;</span><span class="p">)</span>
+<p>Here is what is happening:</p>
+<ul class="simple">
+<li><p>Running the script without any options results in “nothing” displayed in <code class="docutils literal notranslate"><span class="pre">stdout</span></code> because we are using the Python debugger, we get debugging information such as the Python and script path, as well as the exit code.</p></li>
+<li><p>Running the script with the <code class="docutils literal notranslate"><span class="pre">-h</span></code> or <code class="docutils literal notranslate"><span class="pre">--help</span></code> flag demonstrates how useful <code class="docutils literal notranslate"><span class="pre">argparse</span></code> can be. We have done very little to configure the parser, however it has generated a handler for you. Keep in mind this is the only option you get for free, the others you will need to specify help text for.</p></li>
+<li><p>Specifying any other output will result in an error, but we do get a useful usage message, also for free!</p></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>On Portable Operating System Interface (POSIX) systems (like Linux and Mac OS X) the standard exit code is 0 for success and any number from 1 to 255 for anything else.</p>
+</div>
+<p>Now we have a skeleton function where we can build out parser. In an <code class="docutils literal notranslate"><span class="pre">argparse</span></code> argument parser there are two <strong>basic</strong> types of arguments, which you will also encounter while programming in Python – these are Positional Arguments and Optional Arguments.</p>
+<p>Positional Arguments is as it says on the tin, a parameter, or collection of parameters that much be provided in a certain order. A simple example of this is provided below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">value1</span><span class="p">,</span> <span class="n">value2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">value1</span> <span class="o">/</span> <span class="n">value2</span>
 </pre></div>
 </div>
-<p>More advanced options exist, the syntax for using these is:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-a&quot;</span><span class="p">,</span> <span class="s2">&quot;--advanced&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<p>In the example above, the order the parameters are provided in is important because <code class="docutils literal notranslate"><span class="pre">1/2</span></code> will return very different results to <code class="docutils literal notranslate"><span class="pre">2/1</span></code>. In the same way, Positional Arguments in an argument parser can vary the results given and therefore need to be provided in the correct order.</p>
+<p>Optional Arguments, will be covered in more depth in a programming context later, because they do not map one-to-one to the way we use them in argument parsers. But I digress. Again, as the name suggests Optional Arguments are… optional. This could be options like the verbosity of output, allowing the user more control over the volume of information they receive from your application.</p>
+<p>Filling an <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> with information about your application is done by using the <code class="docutils literal notranslate"><span class="pre">add_argument()</span></code> function. This information is stored and can be accessed when <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code> is called. The basic syntax to add a command line option is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Positional Argument</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+
+<span class="c1"># Optional Argument</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-g&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="admonition hint">
-<p class="first admonition-title">Hint</p>
-<p class="last">In Python when you see a function with parameters like <code class="docutils literal notranslate"><span class="pre">action=&quot;something&quot;</span></code> it means these are optional and do not need to be included, these are often referred to as keyword or named parameters.</p>
+<p>Of course you can customise each of these arguments providing what the argument parser should do if a particular argument is given, where the value should be saved (if needed) the default value and a brief sentence about what the parameter is for, or how the argument works. The syntax for using these more advanced arguments is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Positional Argument</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="c1"># Optional Argument</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-a&quot;</span><span class="p">,</span> <span class="s2">&quot;--advanced&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
 </div>
-<ol class="arabic simple" start="7">
-<li><code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> parses arguments through the <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code> function. This determines what options have and have not been selected and convert each argument to the appropriate type. In most cases this means a <code class="docutils literal notranslate"><span class="pre">Namespace</span></code> object will be built and returned to you (the programmer). To have the arguments parsed and returned, we want to modify the last line in our function so instead of just calling <code class="docutils literal notranslate"><span class="pre">parser.parse_args()</span></code> we <code class="docutils literal notranslate"><span class="pre">return</span></code> the results of this function.</li>
-</ol>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>In Python when you see a function with parameters like <code class="docutils literal notranslate"><span class="pre">action=&quot;something&quot;</span></code> it means these are Optional and do not need to be included, these are often referred to as Keyword, Named, or Optional Arguments.</p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> parses arguments through the <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code> function. This determines what options have and have not been selected and convert each argument to the appropriate type. In most cases this means a <code class="docutils literal notranslate"><span class="pre">Namespace</span></code> object will be built and returned to you (the programmer). To have the arguments parsed and returned, we want to modify the last line in our function so instead of just calling <code class="docutils literal notranslate"><span class="pre">parser.parse_args()</span></code> we <code class="docutils literal notranslate"><span class="pre">return</span></code> the results of this function.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last"><code class="docutils literal notranslate"><span class="pre">argeparse.Namespace</span></code> is a simple class that is used by default by the <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code> function to create an object that can hold attributes and return it.</p>
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">argeparse.Namespace</span></code> is a simple class that is used by default by the <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code> function to create an object that can hold attributes and return it.</p>
 </div>
-<ol class="arabic simple" start="8">
-<li>The last thing we need to do is create a variable for the <code class="docutils literal notranslate"><span class="pre">parser.parse_args()</span></code> information to be stored in. Like when we created the <code class="docutils literal notranslate"><span class="pre">argparse.ArgumentParser()</span></code> we will want to tell where the call to the <code class="docutils literal notranslate"><span class="pre">build_argument_parser()</span></code> function to store the <code class="docutils literal notranslate"><span class="pre">return</span></code> value.</li>
-</ol>
-</div>
-<div class="topic">
-<p class="topic-title first">Optional</p>
-<ol class="arabic simple" start="9">
-<li>If you’re the decorating and/or customisation type you can also add a sweet description to your argument parser so it comes out something like the example below:</li>
-</ol>
+<p>The last thing we need to do is create a variable for the <code class="docutils literal notranslate"><span class="pre">parser.parse_args()</span></code> information to be stored in. Like when we created the <code class="docutils literal notranslate"><span class="pre">argparse.ArgumentParser()</span></code> we will want to tell the program where the call to the <code class="docutils literal notranslate"><span class="pre">build_argument_parser()</span></code> function should store the <code class="docutils literal notranslate"><span class="pre">return</span></code> value.</p>
+<p>If you’re the decorating and/or customisation type you can also add a sweet description to your argument parser so it comes out something like the example below:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: bernauer.py [-h] -d DOMAIN [-w PATH_TO_WORDLIST]</span>
 
 <span class="go">_</span>
@@ -298,27 +332,18 @@
 </div>
 <p>To get started doing this you will want to add the named parameter <code class="docutils literal notranslate"><span class="pre">description=&quot;your</span> <span class="pre">text</span> <span class="pre">here&quot;</span></code> to your call to <code class="docutils literal notranslate"><span class="pre">argparse.ArgumentParser()</span></code>.</p>
 <div class="admonition hint">
-<p class="first admonition-title">Hint</p>
-<p class="last"><code class="docutils literal notranslate"><span class="pre">argparse.RawTextHelpFormatter</span></code> is a special <code class="docutils literal notranslate"><span class="pre">formatter_class</span></code> used with <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> to give you more control over how text descriptions are displayed. Normally <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> objects will line-wrap the description.</p>
+<p class="admonition-title">Hint</p>
+<p><code class="docutils literal notranslate"><span class="pre">argparse.RawTextHelpFormatter</span></code> is a special <code class="docutils literal notranslate"><span class="pre">formatter_class</span></code> used with <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> to give you more control over how text descriptions are displayed. Normally <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> objects will line-wrap the description.</p>
 </div>
-</div>
-<div class="topic">
-<p class="topic-title first">Further Reading</p>
+<p>Using the information above, you should now be able to build an Argument Parser that allows a user to provide:</p>
 <ul class="simple">
-<li>For more information on <code class="docutils literal notranslate"><span class="pre">ArgumentParser</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#argparse.ArgumentParser">https://docs.python.org/3.7/library/argparse.html#argparse.ArgumentParser</a></li>
-<li>For more information on <code class="docutils literal notranslate"><span class="pre">actions</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#action">https://docs.python.org/3.7/library/argparse.html#action</a></li>
-<li>For more information on <code class="docutils literal notranslate"><span class="pre">dest</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#dest">https://docs.python.org/3.7/library/argparse.html#dest</a></li>
-<li>For more information on <code class="docutils literal notranslate"><span class="pre">default</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#default">https://docs.python.org/3.7/library/argparse.html#default</a></li>
-<li>For more information on <code class="docutils literal notranslate"><span class="pre">help</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#help">https://docs.python.org/3.7/library/argparse.html#help</a></li>
-<li>For more information on <code class="docutils literal notranslate"><span class="pre">required</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#required">https://docs.python.org/3.7/library/argparse.html#required</a></li>
-<li>For more information on <code class="docutils literal notranslate"><span class="pre">RawTextHelpFormatter</span></code> see: <a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#formatter-class">https://docs.python.org/3.7/library/argparse.html#formatter-class</a></li>
-<li>For more information UNIX error codes see <a class="reference external" href="https://shapeshed.com/unix-exit-codes">https://shapeshed.com/unix-exit-codes</a></li>
-<li>For a comprehensive list of UNIX error codes see: <a class="reference external" href="http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html">http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html</a></li>
+<li><p>a domain name</p></li>
+<li><p>a word list</p></li>
 </ul>
 </div>
-<div class="topic">
-<p class="topic-title first">Notes</p>
-<p>When the Python interpreter reads a source file it configures a number of special variables, most of which we don’t need to worry about. However in this case we care about the <code class="docutils literal notranslate"><span class="pre">__name__</span></code> variable.</p>
+<div class="section" id="notes">
+<h4>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h4>
+<p>When the Python interpreter reads a source file it configures a number of special variables, most of which we don’t need to worry about. However, in this case we care about the <code class="docutils literal notranslate"><span class="pre">__name__</span></code> variable.</p>
 <p>When your “module” is the main program, that is you are running your code like:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">%</span> python3 program.py
 <span class="gp">%</span> ./program.py
@@ -327,6 +352,24 @@
 <p>The interpreter will add the hard-coded string <code class="docutils literal notranslate"><span class="pre">&quot;__main__&quot;</span></code> to the <code class="docutils literal notranslate"><span class="pre">__name__</span></code> variable.</p>
 <p>When your “module” is imported by another “module” or application the interpreter will look at the filename of your module, <code class="docutils literal notranslate"><span class="pre">program.py</span></code>, strip off the <code class="docutils literal notranslate"><span class="pre">.py</span></code>, and assign that string to your module’s <code class="docutils literal notranslate"><span class="pre">__name__</span></code> variable.</p>
 <p>When your code is eventually getting executed it will see that <code class="docutils literal notranslate"><span class="pre">__name__</span></code> is set to <code class="docutils literal notranslate"><span class="pre">&quot;__main__&quot;</span></code> it will call any function within that <code class="docutils literal notranslate"><span class="pre">if</span></code>-statement, in our case <code class="docutils literal notranslate"><span class="pre">build_argument_parser()</span></code>.</p>
+</div>
+<div class="section" id="further-reading">
+<h4>Further Reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#argparse.ArgumentParser">ArgumentParser</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#action">ArgumentParser - action</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#dest">ArgumentParser - dest</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#default">ArgumentParser - default</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#help">ArgumentParser - help</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#required">ArgumentParser - required</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/argparse.html#formatter-class">ArgumentParser - formatter-class</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/howto/argparse.html">Argparse Tutorial</a>.</p></li>
+<li><p><a class="reference external" href="https://shapeshed.com/unix-exit-codes">UNIX error codes</a>.</p></li>
+<li><p><a class="reference external" href="http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html">Comprehensive UNIX error codes</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/__main__.html">__main__ — Top-level script environment</a>.</p></li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 
@@ -341,7 +384,7 @@
         <a href="handling_word_lists.html" class="btn btn-neutral float-right" title="Handling Word Lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="getting_started_with_pycharm.html" class="btn btn-neutral" title="Getting Started with PyCharm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="getting_started_with_pycharm.html" class="btn btn-neutral float-left" title="Getting Started with PyCharm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -367,25 +410,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

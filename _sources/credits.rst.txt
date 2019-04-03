@@ -12,3 +12,5 @@ Image Credits
 
 "welcome_to_the_jungle.jpg" (originally "41906586005_91b45d7889_z.jpg") by Daniel Lobo available at https://www.flickr.com/photos/daquellamanera/41906586005 under the Public Domain. Full terms at https://creativecommons.org/publicdomain/zero/1.0.
 
+favicon.ico (originally "snake" by Snake by Eucalyp from the Noun Project, available at https://thenounproject.com/search/?q=snake&i=1281934
+

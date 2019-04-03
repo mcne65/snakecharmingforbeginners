@@ -53,8 +53,6 @@ Before we start coding you will want to setup your Python project which can be d
       > cd \
       > ls *ython* -Recurse -Directory
 
-python -c "import sys; print sys.executable"
-
 .. topic:: Step Four: Create!
 
    Once you have configured everything you can create your new project!

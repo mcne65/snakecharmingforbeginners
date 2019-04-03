@@ -11,3 +11,11 @@
       overflow: visible !important;
    }
 }
+
+.admonition-question {
+   background: #ffe7e9 !important;
+}
+
+.admonition-question .admonition-title{
+   background: #f29ba1;
+}

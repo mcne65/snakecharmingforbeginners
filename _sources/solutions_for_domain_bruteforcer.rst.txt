@@ -1,0 +1,173 @@
+=========================================================
+Subdomain Bruteforcing Solutions
+=========================================================
+
+Welcome weary traveller! So you've been having some trouble working out how to complete an activity? That's absolutely fine, we are all still learning. Below you will find code snippets for each section where we haven't provided the solution. However, know this, this journey isn't about what you get right or wrong, what you can or can't work out, it's about the Python's you charm along the way.
+
+Consume solutions responsibly, if you have any questions about why things are done a particular way feel free to shout out!
+
+---------------------------------------------------------
+Build Your Command Center
+---------------------------------------------------------
+
+.. sourcecode:: python
+
+    __version__ = 0.0.0
+    import argparse
+
+
+    def build_argument_parser():
+        parser = argparse.ArgumentParser(description=f"""
+     _
+    | |_ ___ ___ ___ ___ _ _ ___ ___
+    | . | -_|  _|   | .'| | | -_|  _|
+    |___|___|_| |_|_|__,|___|___|_|
+
+    Version: {__version__}
+    """, formatter_class=argparse.RawTextHelpFormatter)
+        parser.add_argument(dest="domain", help="the domain which you wish to bruteforce subdomains e.g. google.com")
+        parser.add_argument("-w", "--wordlist", dest="path_to_wordlist", help="the word list you wish to use to find subdomains, if no word list is specified the in-build one will be used.", required=False)
+        return parser.parse_args()
+
+
+    if __name__ == '__main__':
+        args = build_argument_parser()
+
+---------------------------------------------------------
+Handling Word Lists
+---------------------------------------------------------
+
+.. sourcecode:: python
+
+    __version__ = "0.0.0"
+
+    import logging
+    import sys
+    import argparse
+
+    def build_argument_parser():
+        parser = argparse.ArgumentParser(description=f"""
+     _
+    | |_ ___ ___ ___ ___ _ _ ___ ___
+    | . | -_|  _|   | .'| | | -_|  _|
+    |___|___|_| |_|_|__,|___|___|_|
+
+    Version: {__version__}
+    """, formatter_class=argparse.RawTextHelpFormatter)
+        parser.add_argument(dest="domain", help="the domain which you wish to bruteforce subdomains e.g. google.com")
+        parser.add_argument("-w", "--wordlist", dest="path_to_wordlist", help="the word list you wish to use to find subdomains, if no word list is specified the in-build one will be used.", required=False)
+        return parser.parse_args()
+
+
+    def main(runtime_options: argparse.Namespace):
+        if runtime_options.path_to_wordlist is None:
+            path_to_word_list = "wordlist.txt"
+        else:
+            path_to_word_list = runtime_options.path_to_wordlist
+
+        #
+        # Try to open wordlist
+        #   This will handle both the internal and external word list
+        try:
+            logging.debug(f"Attempting to open {path_to_word_list}")
+            with open(path_to_word_list) as raw_word_list:
+                logging.debug(f"Successfully opened {path_to_word_list}")
+                word_list = raw_word_list.readlines()
+        except FileNotFoundError as four_oh_four:
+            logging.critical(four_oh_four.strerror)
+            sys.exit(2)
+        except IOError as eye_oh:
+            logging.critical(eye_oh)
+            sys.exit(2)
+
+        word_list = [word.strip("\n") for word in word_list]
+
+        print(word_list)
+
+
+    if __name__ == '__main__':
+        args = build_argument_parser()
+        main(args)
+
+---------------------------------------------------------
+Bruteforcing Subdomains
+---------------------------------------------------------
+
+.. sourcecode:: python
+
+    __version__ = "0.0.0"
+
+    import argparse
+    import logging
+    import sys
+    import requests
+
+    def build_argument_parser():
+        parser = argparse.ArgumentParser(description=f"""
+     _
+    | |_ ___ ___ ___ ___ _ _ ___ ___
+    | . | -_|  _|   | .'| | | -_|  _|
+    |___|___|_| |_|_|__,|___|___|_|
+
+    Version: {__version__}
+    """, formatter_class=argparse.RawTextHelpFormatter)
+        parser.add_argument(dest="domain",
+                            help="the domain which you wish to bruteforce subdomains e.g. google.com")
+        parser.add_argument("-t", "--timeout", dest="timeout", default=10,
+                            help="The number of seconds to wait until a connection timeout is declared. On slow networks "
+                                 "this may need to be higher (default: 10 seconds).")
+        parser.add_argument("-w", "--wordlist", dest="path_to_wordlist",
+                            help="the word list you wish to use to find subdomains, if no word list is specified the "
+                                 "in-build one will be used.")
+        parser.add_argument("-H", "--https", dest="https", action='store_true', help="makes connections via https "
+                                                                                     "instead of http")
+
+        return parser.parse_args()
+
+
+    def main(runtime_options: argparse.Namespace):
+        if runtime_options.path_to_wordlist is None:
+            path_to_word_list = "wordlist.txt"
+        else:
+            path_to_word_list = runtime_options.path_to_wordlist
+
+        #
+        # Try to open wordlist
+        #   This will handle both the internal and external word list
+        try:
+            logging.debug(f"Attempting to open {path_to_word_list}")
+            with open(path_to_word_list) as raw_word_list:
+                logging.debug(f"Successfully opened {path_to_word_list}")
+                word_list = raw_word_list.readlines()
+        except FileNotFoundError as four_oh_four:
+            logging.critical(four_oh_four.strerror)
+            sys.exit(2)
+        except IOError as eye_oh:
+            logging.critical(eye_oh)
+            sys.exit(2)
+
+        word_list = [word.strip("\n") for word in word_list]
+
+        if runtime_options.https:
+            schema = "https"
+        else:
+            schema = "http"
+
+        for word in word_list:
+            logging.info(f"Getting {schema}://{word}.{runtime_options.domain}...")
+            try:
+                response = requests.get(url=f"{schema}://{word}.{runtime_options.domain}", timeout=runtime_options.timeout)
+
+                if response.ok:
+                    logging.info(f"Subdomain {word}.{runtime_options.domain} exists.")
+            except requests.exceptions.ConnectTimeout:
+                logging.warning(f"Request to {schema}://{word}.{runtime_options.domain} timed out.")
+                continue
+            except requests.exceptions.ConnectionError:
+                logging.warning(f"Unable to establish a connection to {schema}://{word}.{runtime_options.domain}.")
+                continue
+
+
+    if __name__ == '__main__':
+        args = build_argument_parser()
+        main(args)

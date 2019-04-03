@@ -8,50 +8,57 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Gathering System Level Information &mdash; Snake Charming for Beginners 0.0.1 documentation</title>
+  <title>Gathering System Level Information Cheat Sheet &mdash; Snake Charming for Beginners 0.0.1 documentation</title>
   
 
   
   
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
   
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/rtd_theme_override.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Contacting the UNIX Daemons of Old" href="contacting_the_unix_daemons_of_old.html" />
-    <link rel="prev" title="Exploit" href="exploit.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+    <link rel="prev" title="Exploiting CVE-2014-0160" href="exploiting_cve_2014_0160.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
             <a href="index.html" class="icon icon-home"> Snake Charming for Beginners
           
 
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -82,17 +89,30 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="welcome_to_the_jungle.html">Welcome to the Jungle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="conventions_used_in_this_guide.html">Conventions Used in this Document</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing_python_three_point_seven.html">Installing Python 3.7</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python_development_environment.html">Python Development Environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started_with_pycharm.html">Getting Started with PyCharm</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build_your_command_center.html">Build Your Command Center</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_your_command_center.html">Build Your Command Centre</a></li>
 <li class="toctree-l1"><a class="reference internal" href="handling_word_lists.html">Handling Word Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="exploit.html">Exploit</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Gathering System Level Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="brute_forcing_subdomains.html">Brute Forcing Subdomains</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploiting_cve_2014_0160.html">Exploiting CVE-2014-0160</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Gathering System Level Information Cheat Sheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#operating-system-and-version">Operating System and Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#networking">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#operating-system-interfaces">Operating System Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pathname-manipulation">Pathname Manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Operating System Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#psutil"><code class="docutils literal notranslate"><span class="pre">psutil</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-recipe-for-finding-a-process-by-name">A Recipe for Finding a Process by Name</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#a-recipe-for-ip-geolocation">A Recipe for IP GeoLocation</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="contacting_the_unix_daemons_of_old.html">Contacting the UNIX Daemons of Old</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="solutions.html">Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solutions_for_domain_bruteforcer.html">Subdomain Bruteforcing Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solutions_for_cve_2014_0160.html">Exploitiong CVE-2014-0160 Solutions</a></li>
 </ul>
 
             
@@ -138,7 +158,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Gathering System Level Information</li>
+      <li>Gathering System Level Information Cheat Sheet</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -157,8 +177,323 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="gathering-system-level-information">
-<h1>Gathering System Level Information<a class="headerlink" href="#gathering-system-level-information" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="gathering-system-level-information-cheat-sheet">
+<h1>Gathering System Level Information Cheat Sheet<a class="headerlink" href="#gathering-system-level-information-cheat-sheet" title="Permalink to this headline">¶</a></h1>
+<p>For various reasons when writing applications you will want to gather system level information, it may to be to fingerprint, it may be to produce output that tells you which systems you application is having issues with. In this section we will cover a number of helpful Python functions you can use for gathering system level information.</p>
+<div class="section" id="operating-system-and-version">
+<h2>Operating System and Version<a class="headerlink" href="#operating-system-and-version" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">platform.machine()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">platform.node()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">platform.processor()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">platform.python_build()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">platform.python_compiler()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">platform.python_version()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">platform.system()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">platform.uname()</span></code></p>
+</div>
+<div class="section" id="networking">
+<h2>Networking<a class="headerlink" href="#networking" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">socket.gethostname()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">socket.getfqdn([name])</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">socket.gethostbyname(hostname)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">socket.gethostname()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">socket.gethostbyaddr(ip_address)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">socket.getnameinfo(sockaddr,</span> <span class="pre">flags)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">socket.getservbyname(servicename[,</span> <span class="pre">protocolname])</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">socket.getservbyport(port[,</span> <span class="pre">protocolname])</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">socket.inet_ntoa(packed_ip)</span></code></p>
+</div>
+<div class="section" id="operating-system-interfaces">
+<h2>Operating System Interfaces<a class="headerlink" href="#operating-system-interfaces" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">os.getegid()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">os.geteuid()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">os.getgid()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">os.getgrouplist()</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">os.getlogin()</span></code></p>
+</div>
+<div class="section" id="pathname-manipulation">
+<h2>Pathname Manipulation<a class="headerlink" href="#pathname-manipulation" title="Permalink to this headline">¶</a></h2>
+<p>The built-in <code class="docutils literal notranslate"><span class="pre">os.path</span></code> module has a number of useful function for manipulating, and finding pathname information.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Python does not do any automatic path expansions, so you will have to do this yourself.</p>
+</div>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.abspath(path)</span></code></dt><dd><p>Returns an absolute version of the pathname path.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">&#39;/Users/rebecca/tmp/pythoncharmingforbeginners&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;Images&#39;</span><span class="p">)</span>
+<span class="go">&#39;/Users/rebecca/tmp/pythoncharmingforbeginners/Images&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.exists(path)</span></code></dt><dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the path refers to an existing path or an open file.
+Returns <code class="docutils literal notranslate"><span class="pre">False</span></code> for broken symbolic links. On some platforms if you do
+not have permission to execute <code class="docutils literal notranslate"><span class="pre">oz.stat()</span></code> on the file, it will return
+<code class="docutils literal notranslate"><span class="pre">False</span></code> even if the path physically exists.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;/build/html&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;./build/html&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.expanduser(path)</span></code></dt><dd><p>When using relative paths, returns the initial <code class="docutils literal notranslate"><span class="pre">~</span></code> with the users home
+directory.</p>
+<p>On UNIX the initial <code class="docutils literal notranslate"><span class="pre">~</span></code> is replaced by the <code class="docutils literal notranslate"><span class="pre">HOME</span></code> environment variable
+if it is set, otherwise the current user’s home directory is looked up in
+the password directory though the <code class="docutils literal notranslate"><span class="pre">pwd</span></code> module.</p>
+<p>On Windows <code class="docutils literal notranslate"><span class="pre">HOME</span></code> and <code class="docutils literal notranslate"><span class="pre">USERPROFILE</span></code> will be used if set, otherwise a
+combination of <code class="docutils literal notranslate"><span class="pre">HOMEPATH</span></code> and <code class="docutils literal notranslate"><span class="pre">HOMEDRIVE</span></code> will be used.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
+<span class="go">&#39;/Users/rebecca&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/tmp/pythoncharmingforbeginners&#39;</span><span class="p">)</span>
+<span class="go">&#39;/Users/rebecca/tmp/pythoncharmingforbeginners&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.getatime(path)</span></code></dt><dd><p>Return the time of last access of path. The return value is a number
+representing the number of seconds since EPOCH (e.g. <code class="docutils literal notranslate"><span class="pre">1551832874</span></code>)</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>EPOCH is also known as POSIX time or UNIX Epoch time and is a
+system used for describing a point in time, it is the number of second
+that have elapsed since 00:00:00 Thursday, 1 January 1970 (UTC) minus
+leap seconds.</p>
+</div>
+<p>Raises an <code class="docutils literal notranslate"><span class="pre">OSError</span></code> if the file does not exist or is inaccessible.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getatime</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">1551834369.9661243</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getatime</span><span class="p">(</span><span class="s1">&#39;./build/html&#39;</span><span class="p">)</span>
+<span class="go">1551832462.8749728</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.getmtime(path)</span></code></dt><dd><p>Return the time of last modified of path. The return value is a number
+representing the number of seconds since EPOCH (e.g. <code class="docutils literal notranslate"><span class="pre">1551832874</span></code>)</p>
+<p>Raises an <code class="docutils literal notranslate"><span class="pre">OSError</span></code> if the file does not exist or is inaccessible.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getatime</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">1551834369.9661243</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getatime</span><span class="p">(</span><span class="s1">&#39;./build/html&#39;</span><span class="p">)</span>
+<span class="go">1551832462.8749728</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.getsize(path)</span></code></dt><dd><p>Returns the size of a path in bytes. Raises an <code class="docutils literal notranslate"><span class="pre">OSError</span></code> if the file
+does not exist or is inaccessible.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">320</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;./build/html&#39;</span><span class="p">)</span>
+<span class="go">800</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p><code class="docutils literal notranslate"><span class="pre">os.path.isabs(path)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">os.path.isfile(path)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">os.path.isdir(path)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">os.path.ismount(path)</span></code></p>
+</div>
+<div class="section" id="id1">
+<h2>Operating System Interfaces<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="psutil">
+<h2><code class="docutils literal notranslate"><span class="pre">psutil</span></code><a class="headerlink" href="#psutil" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">psutil</span></code> (process and system utilities) is a third-party cross-platform library for retrieving information on running processes and system utilization (CPU, memory, disks, network, sensors) in Python. It implements a number of UNIX based command line tools and works on Linux, Windows, Mac OS X, FreeBSD, OpenBSD, NetBSD, Sun Solaris and AIX.</p>
+<p>It can be installed using <code class="docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">install</span> <span class="pre">psutil</span></code> on Python 2.7+.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">psutil.pids()</span></code></dt><dd><p>Return a sorted list of current running PIDs. To iterate over all processes and avoid race conditions <code class="docutils literal notranslate"><span class="pre">process_iter()</span></code> should be preferred.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">psutil</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psutil</span><span class="o">.</span><span class="n">pids</span><span class="p">()</span>
+<span class="go">[0, 1, 40, 41, 44, 45, 46, 48, 51, 52, 54, 55, 58, 59, 65, 66, 67, 70, 71, 75, 76, 77, 78, 79, 80, 81, 82, 84, 86, 87, 89, 91, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 107, 109, 114, 115, 125, 148, 162, 164, 173, 175, 176, 177, 178, 179, 186, 192, 193, 197, 199, 200, 201, 202, 203, 204, 206, 207, 208, 209, 210, 211, 212, 213, 215, 216, 217, 218, 219, 224, 228, 229, 230, 231, 232, 233, 236, 238, 239, 240, 241, 242, 250, 251, 253, 254, 259, 263, 264, 265, 268, 271, 272, 274, 276, 277, 278, 279, 280, 281, 282, 284, 286, 287, 288, 289, 290, 291, 292, 293, 296, 297, 298, 303, 304, 305, 306, 307, 308, 311, 314, 315, 316, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 359, 361, 363, 364, 365, 366, 367, 370, 372, 373, 374, 375, 377, 378, 379, 380, 381, 382, 384, 385, 389, 392, 393, 394, 397, 398, 400, 401, 405, 406, 407, 409, 411, 412, 415, 416, 417, 421, 423, 425, 426, 427, 428, 429, 430, 431, 432, 434, 435, 448, 450, 451, 462, 463, 464, 465, 466, 469, 479, 480, 481, 483, 484, 485, 489, 495, 497, 555, 557, 562, 565, 567, 568, 641, 642, 653, 656, 662, 665, 666, 673, 674, 675, 676, 689, 690, 691, 694, 695, 697, 699, 700, 701, 705, 708, 709, 711, 712, 719, 727, 729, 730, 731, 732, 733, 735, 737, 738, 739, 740, 744, 745, 746, 747, 750, 751, 752, 755, 756, 757, 758, 762, 763, 835, 838, 839, 842, 844, 872, 918, 1074, 1080, 1081, 1082, 1083, 1113, 1126, 1128, 1135, 1146, 1149, 1150, 1161, 1163, 1164, 1165, 1237, 1281, 1283, 1284, 1286, 1289, 1290, 1293, 1350, 1351, 1396, 1416, 1439, 1461, 1467, 1471, 1472, 1473, 1474, 1475, 1477, 1481, 1506, 1511, 1512, 1514, 1584, 1593, 1662, 1664, 1666, 1667, 1671, 1673, 1690, 1710, 1775, 1928, 2112, 2117, 2118, 2119, 2125, 2126, 2127, 2128, 2163, 2164, 2165, 2166, 2167, 2168, 2171, 2176, 2183, 2184, 2185, 2188, 2190, 2218, 2219]</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">psutil.pid_exists(pid)</span></code></dt><dd><p>Check whether the given PID exists in the current process list.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">psutil</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psutil</span><span class="o">.</span><span class="n">pid_exists</span><span class="p">(</span><span class="mi">415</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psutil</span><span class="o">.</span><span class="n">pid_exists</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">psutil.Process(pid=None)</span></code></dt><dd><p>Represents an OS process with the given pid. If pid is omitted current process pid (<code class="docutils literal notranslate"><span class="pre">os.getpid</span></code>) is used.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span><span class="mi">740</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">psutil.Process(pid=None).name()</span></code></dt><dd><p>The process name. On Windows the return value is cached after first call. Not on POSIX because the process name may change.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span><span class="mi">740</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">process</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+<span class="go">&#39;Brave Browser Helper&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">psutil.Process().environ()</span></code></dt><dd><p>The environment variables of the process as a dict.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>May not reflect changes made after the process has started.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">psutil</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psutil</span><span class="o">.</span><span class="n">Process</span><span class="p">()</span><span class="o">.</span><span class="n">environ</span><span class="p">()</span>
+<span class="go">{&#39;PATH&#39;: &#39;/Users/rebecca/.virtualenvs/heartbleed-NDBE3uzQ/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/Users/rebecca/.rbenv/shims:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/opt/sqlite/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/TeX/texbin:/opt/X11/bin:/Applications/Wireshark.app/Contents/MacOS&#39;, &#39;WORKON_HOME&#39;: &#39;/Users/rebecca/.virtualenvs&#39;, &#39;VIRTUALENVWRAPPER_PYTHON&#39;: &#39;/usr/local/bin/python3&#39;, &#39;TERM&#39;: &#39;xterm-color&#39;, &#39;RBENV_SHELL&#39;: &#39;bash&#39;, &#39;PS1&#39;: &#39;(heartbleed) &#39;, &#39;VIRTUALENVWRAPPER_SCRIPT&#39;: &#39;/usr/local/bin/virtualenvwrapper.sh&#39;, &#39;PYDEVD_LOAD_VALUES_ASYNC&#39;: &#39;True&#39;, &#39;DISPLAY&#39;: &#39;/private/tmp/com.apple.launchd.8WMuE7EHzQ/org.macosforge.xquartz:0&#39;, &#39;VERSIONER_PYTHON_VERSION&#39;: &#39;2.7&#39;, &#39;VIRTUALENVWRAPPER_WORKON_CD&#39;: &#39;1&#39;, &#39;LOGNAME&#39;: &#39;rebecca&#39;, &#39;XPC_SERVICE_NAME&#39;: &#39;com.jetbrains.pycharm.21084&#39;, &#39;PYCHARM_HOSTED&#39;: &#39;1&#39;, &#39;PYTHONPATH&#39;: &#39;/Volumes/0X00/python/heartbleed:/Applications/PyCharm CE.app/Contents/helpers/third_party/thriftpy:/Applications/PyCharm CE.app/Contents/helpers/pydev&#39;, &#39;SHELL&#39;: &#39;/bin/bash&#39;, &#39;PYTHONIOENCODING&#39;: &#39;UTF-8&#39;, &#39;VERSIONER_PYTHON_PREFER_32_BIT&#39;: &#39;no&#39;, &#39;USER&#39;: &#39;rebecca&#39;, &#39;VIRTUALENVWRAPPER_HOOK_DIR&#39;: &#39;/Users/rebecca/.virtualenvs&#39;, &#39;VIRTUALENVWRAPPER_VIRTUALENV&#39;: &#39;/usr/local/bin/virtualenv&#39;, &#39;IPYTHONENABLE&#39;: &#39;True&#39;, &#39;TMPDIR&#39;: &#39;/var/folders/3m/bs8_9h9970x4sl1966hfksxc0000gn/T/&#39;, &#39;SSH_AUTH_SOCK&#39;: &#39;/private/tmp/com.apple.launchd.jb1TywbXEj/Listeners&#39;, &#39;VIRTUAL_ENV&#39;: &#39;/Users/rebecca/.virtualenvs/heartbleed-NDBE3uzQ&#39;, &#39;XPC_FLAGS&#39;: &#39;0x0&#39;, &#39;PYTHONUNBUFFERED&#39;: &#39;1&#39;, &#39;VIRTUALENVWRAPPER_PROJECT_FILENAME&#39;: &#39;.project&#39;, &#39;PROJECT_HOME&#39;: &#39;/Users/rebecca/sauce&#39;, &#39;__CF_USER_TEXT_ENCODING&#39;: &#39;0x1F5:0x0:0xF&#39;, &#39;Apple_PubSub_Socket_Render&#39;: &#39;/private/tmp/com.apple.launchd.cEaOcdXuXU/Render&#39;, &#39;LC_CTYPE&#39;: &#39;en_AU.UTF-8&#39;, &#39;HOME&#39;: &#39;/Users/rebecca&#39;}</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">psutil.Process().environ()</span></code></dt><dd><p>The process current working directory as an absolute path.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">psutil</span><span class="o">.</span><span class="n">Process</span><span class="p">()</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+<span class="go">&#39;/Volumes/0X00/python/heartbleed&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">psutil.cpu_count()</span></code></dt><dd><blockquote>
+<div><p>Returns the number of CPU’s a PC has available</p>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">psutil</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psutil</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">psutil.disk_partitions()</span></code></dt><dd><p>Return all mounted disk partitions as a list of named tuples including device, mount point and filesystem type. There is an optional <code class="docutils literal notranslate"><span class="pre">all</span></code> argument that when set to <code class="docutils literal notranslate"><span class="pre">False</span></code> will try to distinguish physical devices such as hard-drives, cd-roms, USB devices from memory partitions.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">psutil</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psutil</span><span class="o">.</span><span class="n">disk_partitions</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="go">[sdiskpart(device=&#39;/dev/disk1s1&#39;, mountpoint=&#39;/&#39;, fstype=&#39;apfs&#39;, opts=&#39;rw,local,rootfs,dovolfs,journaled,multilabel&#39;), sdiskpart(device=&#39;/dev/disk1s4&#39;, mountpoint=&#39;/private/var/vm&#39;, fstype=&#39;apfs&#39;, opts=&#39;rw,noexec,local,dovolfs,dontbrowse,journaled,multilabel,noatime&#39;), sdiskpart(device=&#39;/dev/disk2s1&#39;, mountpoint=&#39;/Volumes/0X00&#39;, fstype=&#39;exfat&#39;, opts=&#39;rw,nosuid,local,ignore-ownership&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psutil</span><span class="o">.</span><span class="n">disk_partitions</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="go">[sdiskpart(device=&#39;/dev/disk1s1&#39;, mountpoint=&#39;/&#39;, fstype=&#39;apfs&#39;, opts=&#39;rw,local,rootfs,dovolfs,journaled,multilabel&#39;), sdiskpart(device=&#39;/dev/disk1s4&#39;, mountpoint=&#39;/private/var/vm&#39;, fstype=&#39;apfs&#39;, opts=&#39;rw,noexec,local,dovolfs,dontbrowse,journaled,multilabel,noatime&#39;), sdiskpart(device=&#39;/dev/disk2s1&#39;, mountpoint=&#39;/Volumes/0X00&#39;, fstype=&#39;exfat&#39;, opts=&#39;rw,nosuid,local,ignore-ownership&#39;)]</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">psutil.Popen(*args,</span> <span class="pre">**kwargs)</span></code></dt><dd><p>A more convenient interface to built-in <code class="docutils literal notranslate"><span class="pre">subprocess.Popen</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">psutil</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">PIPE</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;/usr/bin/python&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="s2">&quot;print(&#39;hello&#39;)&quot;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+<span class="go">&#39;Python&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">username</span><span class="p">()</span>
+<span class="go">&#39;rebecca&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+<span class="go">(b&#39;hello\n&#39;, None)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">psutil.Popen</span></code> also work as context managers (<code class="docutils literal notranslate"><span class="pre">with</span></code> supported) meaning that on exit file descriptors are closed and the process is waited for meaning a cleaner shut down:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">psutil</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">psutil</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;ifconfig&quot;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span> <span class="k">as</span> <span class="n">proc</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">proc</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="section" id="a-recipe-for-finding-a-process-by-name">
+<h3>A Recipe for Finding a Process by Name<a class="headerlink" href="#a-recipe-for-finding-a-process-by-name" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">psutil</span>
+
+<span class="k">def</span> <span class="nf">find_procs_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">ls</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="n">psutil</span><span class="o">.</span><span class="n">process_iter</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">process</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">ls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">process</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ls</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="a-recipe-for-ip-geolocation">
+<h2>A Recipe for IP GeoLocation<a class="headerlink" href="#a-recipe-for-ip-geolocation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.0.0&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">urllib3</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+
+
+<span class="k">def</span> <span class="nf">build_argument_parser</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s2"> ███▄ ▄███▓▄▄▄    ▄▄▄█████▓▄▄▄          ██░ ██ ▄▄▄      ██▀███  ██▓</span>
+<span class="s2">▓██▒▀█▀ ██▒████▄  ▓  ██▒ ▓▒████▄       ▓██░ ██▒████▄   ▓██ ▒ ██▓██▒</span>
+<span class="s2">▓██    ▓██▒██  ▀█▄▒ ▓██░ ▒▒██  ▀█▄     ▒██▀▀██▒██  ▀█▄ ▓██ ░▄█ ▒██▒</span>
+<span class="s2">▒██    ▒██░██▄▄▄▄█░ ▓██▓ ░░██▄▄▄▄██    ░▓█ ░██░██▄▄▄▄██▒██▀▀█▄ ░██░</span>
+<span class="s2">▒██▒   ░██▒▓█   ▓██▒▒██▒ ░ ▓█   ▓██▒   ░▓█▒░██▓▓█   ▓██░██▓ ▒██░██░</span>
+<span class="s2">░ ▒░   ░  ░▒▒   ▓▒█░▒ ░░   ▒▒   ▓▒█░    ▒ ░░▒░▒▒▒   ▓▒█░ ▒▓ ░▒▓░▓  </span>
+<span class="s2">░  ░      ░ ▒   ▒▒ ░  ░     ▒   ▒▒ ░    ▒ ░▒░ ░ ▒   ▒▒ ░ ░▒ ░ ▒░▒ ░</span>
+<span class="s2">░      ░    ░   ▒   ░       ░   ▒       ░  ░░ ░ ░   ▒    ░░   ░ ▒ ░</span>
+<span class="s2">       ░        ░  ░            ░  ░    ░  ░  ░     ░  ░  ░     ░  </span>
+<span class="s2">                                                                   </span>
+<span class="s2">Version: </span><span class="si">{__version__}</span><span class="s2"></span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;ip_address&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;the IP address you wish to find the location of&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">arguments</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">):</span>
+    <span class="n">http</span> <span class="o">=</span> <span class="n">urllib3</span><span class="o">.</span><span class="n">PoolManager</span><span class="p">()</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;http://ip-api.com/&quot;</span>
+    <span class="n">f</span><span class="s2">&quot;json/</span><span class="si">{arguments.ip_address}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The host </span><span class="si">{arguments.ip_address}</span><span class="s2"> resides &quot;</span>
+          <span class="n">f</span><span class="s2">&quot;in </span><span class="si">{data[&#39;country&#39;]}</span><span class="s2"> (</span><span class="si">{data[&#39;lat&#39;]}</span><span class="s2">, </span><span class="si">{data[&#39;lon&#39;]}</span><span class="s2">).&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">build_argument_parser</span><span class="p">()</span>
+    <span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 
 
@@ -172,7 +507,7 @@
         <a href="contacting_the_unix_daemons_of_old.html" class="btn btn-neutral float-right" title="Contacting the UNIX Daemons of Old" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="exploit.html" class="btn btn-neutral" title="Exploit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="exploiting_cve_2014_0160.html" class="btn btn-neutral float-left" title="Exploiting CVE-2014-0160" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -198,25 +533,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

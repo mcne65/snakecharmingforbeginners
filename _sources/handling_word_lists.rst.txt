@@ -2,7 +2,7 @@
 Handling Word Lists
 =========================================================
 
-When it comes to brute-forcing, word lists make the world go 'round. Some people spends days, weeks, months and even years refining their word lists, from most common, to categorising by company. These lists are often build by the community for the community, or are a hodge-podge of maybes. Either way crafting an efficient word-list is a loveless labour.
+When it comes to brute-forcing, word lists make the world go 'round. Some people spend days, weeks, months and even years refining their word lists, from most common, to categorising by company. These lists are often built by the community for the community or are a hodge-podge of maybes. Either way crafting an efficient word-list is a loveless labour.
 
 For our application we are going to have two types of list, an in-built one and the ability to handle one provided by the user.
 
@@ -15,17 +15,19 @@ We have included 100 common subdomains in the file below, however, in the future
 
 .. topic:: Other Word Lists
 
-    - ``dnscan`` (https://github.com/rbsec/dnscan) a Python word list-based sub-domain scanner has a number of lists included including top 100, 500, 1000, 10, 000 as well as a few others
+    - `dnscan <https://github.com/rbsec/dnscan>`_ a Python word list-based sub-domain scanner has a number of lists included including top 100, 500, 1000, 10, 000 as well as a few others
 
-    - ``all.txt`` (https://gist.github.com/jhaddix/86a06c5dc309d08580a018c66354a056) is a GitHub gist that claims to have all word lists from every DNS enumeration tools. It has over 67, 627 lines - **May contain crude and offensive entries**
+    - `all.txt <https://gist.github.com/jhaddix/86a06c5dc309d08580a018c66354a056>`_ is a GitHub gist that claims to have all word lists from every DNS enumeration tools. It has over 67, 627 lines - **May contain crude and offensive entries**
 
-    - ``SecLists`` (https://github.com/danielmiessler/SecLists) is a collection of multiple types of lists used during security assessments including a list of common subdomains which can be found under ``Discovery/DNS``.
+    - `SecLists <https://github.com/danielmiessler/SecLists>`_ is a collection of multiple types of lists used during security assessments including a list of common subdomains which can be found under ``Discovery/DNS``.
+
+For the purposes of testing we will be testing ``snakecharmingforbeginners.com`` a web-server set up specifically for this training that is running a default Apache configuration, so there is nothing exciting there sorry!
 
 ---------------------------------------------------------
 A Recipe for Handling Word Lists
 ---------------------------------------------------------
 
-In the previous section we created a command line interpreter that we can use to specify the domain we wish to target and the word list in this section we will build on this and learn how to handle and process text files.
+In the previous section we created an Argument Parser that we can use to specify the domain we wish to target and the word list to use. In this section we will build on this and learn how to handle and process text files.
 
 .. topic:: Concepts Covered
 
@@ -43,175 +45,202 @@ In the previous section we created a command line interpreter that we can use to
 
     - ``NoneType``
 
-.. topic:: Ingredients
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Ingredients
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    - One new function in the file you used in the previous section called ``main``
+- One new function in the file you used in the previous section called ``main``
 
-    - One liberal handful of exception handling
+- One liberal handful of exception handling
 
-    - Two text files, one populated with the word list included above, another with approximately 50 subdomains, one sub-domain per line
+- Two text files, one populated with the word list included above, another with approximately 50 subdomains, one sub-domain per line
 
-.. topic:: Method
+- One dash of ``list`` handling
 
-    1. Create your ``main`` function. Between the brackets put the following ``runtime_options: argparse.Namespace``, in Python this is called a positional parameter. Unlike named parameters which we covered in the previous section, the order we provide these parameters is important. The value after the colon (``:``) ``argparse.Namespace`` is a "Type Hint".
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Method
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Create your ``main`` function. Between the brackets put the following ``runtime_options: argparse.Namespace``, in Python this is called a positional parameter. Unlike named parameters which we covered in the earlier section, the order we supply these parameters is important. The value after the colon (``:``) ``argparse.Namespace`` is a "Type Hint".
 
-    .. note:: Type Hints are useful because Python is a "dynamic language" which can make inferring the type of an object being used difficult.
+.. note:: Type Hints are useful because Python is a "dynamic language" which can make inferring the type of an object being used difficult.
 
-    .. note:: Duck Typing is a computer programming concept where an object can be used in any context up until it is used in a way that is not supported. To test whether a language supports duck typing, we apply what is aptly named the duck test - "If it walks like a duck and it quacks like a duck, then it must be a duck". Duck typing is different to normal typing where an Objects ability is determined by it's type rather than the presence of certain methods and properties.
+.. note:: Duck Typing is a computer programming concept where an object can be used in any context up until it is used in a way that is not supported. To test whether a language supports duck typing, we apply what is aptly named the duck test - "If it walks like a duck and it quacks like a duck, then it must be a duck". Duck typing is different to normal typing where an Objects ability is determined by its type rather than the presence of certain methods and properties.
 
-    2. The first thing we want to do is check if the user has provided a path to a custom word list, or if we will be using the in-built list. To access values in a ``Namespace`` we can use the following syntax ``runtime_options.name_of_value``.
+The first thing we want to do is check if the user has provided a path to a custom word list, or if we will be using the in-built list. To access values in a ``Namespace`` we can use the following syntax ``runtime_options.name_of_value``.
 
-    .. tip:: Many programming languages have the concept of ``none`` -- in C, JavaScript and Java this is ``null`` in Ruby this value is represented by ``nil``. In Python this is the ``NoneType`` or ``None`` when programming. It represents the lack of assigned value.
+.. tip:: Many programming languages have the concept of ``none`` -- in C, JavaScript and Java this is ``null`` in Ruby this value is represented by ``nil``. In Python this is the ``NoneType`` or ``None`` when programming. It is the lack of assigned value.
 
-    .. note:: While learning Python you may come across the concepts of "Truthy" and "Falsy". Truthy/Falsy are values of convenience for situations where you need to test whether a statement is binary in nature (True or False) instead of writing more complex statements.
+.. note:: While learning Python you may come across the concepts of "Truthy" and "Falsy". Truthy/Falsy are values of convenience for situations where you need to test whether a statement is binary in nature (True or False) instead of writing more complex statements.
 
-        For example to check if a list (array in other languages) is empty you may use the following traditional syntax:
-
-        .. sourcecode:: python
-
-            if len(my_list) != 0:
-                print("List is not empty")
-
-        In Python you can use the more compact syntax:
-
-        .. sourcecode:: python
-
-            if my_list:
-                print("List is not empty")
-
-    With this information you should be able to check if the path to the word list is specified or is ``None``, if it is ``None`` remember to set something to use the in-built word list.
-
-    3. Now that we know where the path to our word list is we can `try` to open it. The function we use to do this is ``open()`` which will return a file object. ``open()`` can be used in one of two ways, with, or without a mode, by default the mode to access files is read-only:
+For example to check if a list (array in other languages) is empty you may use the following traditional syntax:
 
     .. sourcecode:: python
 
-        my_file = open('filename')
+        if len(my_list) != 0:
+            print("List is not empty")
 
-    If you want to read and write, write, or append to a file you can use ``r+``, ``w`` or ``w+`` respectively.
-
-    .. warning:: When using the write mode (``w``) it is important to remember if a file exists with the same name, the existing file will be erased and overwritten with the newer version.
-
-    When handling it is considered good practise to use the ``with`` keyword when dealing with file objects. This is because using the ``with`` keyword will ensure the file is closed properly even if an exception is raised.
-
-    .. tip:: If you are not using the ``with`` keyword, you should ensure you call the ``close()`` function to close the file and free up system resources used by the application. If you do not Python’s garbage collector will eventually destroy the object and close the open file for you, but the file may stay open for a while.
-
-        Additionally, different Python implementations will do this clean-up at different times meaning your application could continue to use resources for an extended period of time.
-
-    To access the files contents we can use a variety of functions ``read(size)`` will read a quantity of data and returns the value as a string. The ``size`` parameter is completely optional, and if not supplied the whole file will be read and returned.
-
-    .. warning:: Python doesn't care if you use ``read()`` and the file is two, three or four times the size of your computers memory -- so before reading in large files ensure your (and your user's) computer can handle it.
-
-    ``readline()`` reads a single line from a file, newline characters (``\n``) are left at the end of the string and only omitted for the last line of the file, if the file doesn't end in a new line. The benefit of this is the returned value is unambiguous - if ``readline()`` returns an empty string, you have reached the end of the file. If a ``\n`` is returned, a string containing only an empty line it is probably a line break.
-
-    If you want to read each line of the file you can use ``list(file)`` or ``readlines()``. Your job in this step is to take the word list obtained in the previous step and load it into your application at the end of the function print the word list.
-
-    4. During the previous step you probably faced a number of inconvenient problems, missing files, wacky formats which is a great segue into the next part exception handling. Now if you have ever used software you will know that things don't always go the way we intend so sometimes we need to be extraordinary and handle those conditions.
-
-    .. note:: In Python we follow the motto "ask for forgiveness, not permission" when handling data, variables, anything. Meaning that before we check if the file is `valid` we try opening it. If it doesn't because of an exception, we ask for forgiveness (by handling said exception).
-
-    In Python we use ``try.. except..`` to handle exceptions. In the ``try`` block we write what we are trying to do, open a file, access a value in a dictionary etc. If that fails we catch the problem in the ``except`` block. For example:
+In Python you can use the more compact syntax:
 
     .. sourcecode:: python
 
-        try:
-            with open(my_file) as new_file:
-                lines = new_file.readlines()
-        except FileNotFoundError:
-            sys.exit(2)
+        if my_list:
+            print("List is not empty")
 
-    In the example above we attempt to open a file and read the lines into a list, if the file cannot be found we can catch that exception and terminate the program before we encounter more issues, however exception handling doesn't always need to lead to termination, it can also log a warning or set a variable.
+With this information you should be able to check if the path to the word list is specified or is ``None``, if it is ``None`` remember to set something to use the in-built word list.
 
-    It's important to remember that we must specify which exceptions we are going to catch, and to order them from the most specific to the least, something that admittedly when you're getting started can be difficult to workout. For example when handling a file in Python 3+ we handle ``FileNotFound`` then ``IOError`` then ``Exception`` however, generally speaking it is better to extend the base ``Exception`` class instead as it is too broad.
+Now that we know where the path to our word list is we can `try` to open it. The function we use to do this is ``open()`` which will return a file object. ``open()`` can be used in one of two ways, with, or without a mode, by default the mode to access files is read-only:
 
-    .. tip:: Python exception handling doesn't just end with ``try... except...`` this is just the tip of the iceberg. The ``else`` clause also exists and allows you to run code if and only if the ``try`` clause does not raise any exceptions, for example:
+.. sourcecode:: python
 
-        .. sourcecode:: python
+    my_file = open('filename')
 
-            try:
-                with open(my_file) as new_file:
-                    lines = new_file.readlines()
-            except FileNotFoundError:
-                load_backup_config()
-            else:
-                parse_user_config()
+If you want to read and write, write, or append to a file you can use ``r+``, ``w`` or ``w+`` respectively.
 
-        You also have the ``finally`` clause, it can be used to define clean_up actions that must be executed under all circumstances, whether an exception has occurred or not:
+.. caution:: When using the write mode (``w``) it is important to remember if a file exists with the same name, the existing file will be erased and overwritten with the newer version.
 
-        .. sourcecode:: python
+When handling it is considered good practise to use the ``with`` keyword when dealing with file objects. This is because using the ``with`` keyword will ensure the file is closed properly even if an exception is raised.
 
-            try:
-                with open(my_file) as new_file:
-                    lines = new_file.readlines()
-            except FileNotFoundError:
-                load_backup_config()
-            else:
-                parse_user_config()
-            finally:
-                clean_up_artifacts()
-                print("Thanks for using our software! Goodbye")
+.. tip:: If you are not using the ``with`` keyword, you should ensure you call the ``close()`` function to close the file and free up system resources used by the application. If you do not Python’s garbage collector will eventually destroy the object and close the open file for you, but the file may stay open for a while.
 
-    5. You may have noticed when you were printing the word list you have some inconvenient trailing characters like ``\n``. These are normally not seen when you are reading a file in a text based application, but these little beasties will become a common occurrence when doing text processing.
+Additionally, different Python implementations will do this clean-up at different times meaning your application could continue to use resources for an extended period of time.
 
-    To remove these before our ``print()`` statement we can quickly strip them out using the aptly named ``strip()`` function. This function returns a **copy** of the string where all the characters provided have been stripped from the **beginning** and **end** of the original string. The default behaviour is to strip white space characters (like a space).
+To access the files contents we can use a variety of functions ``read(size)`` will read a quantity of data and returns the value as a string. The ``size`` parameter is completely optional, and if not supplied the whole file will be read and returned.
 
-        .. sourcecode:: python
+.. caution:: Python doesn't care if you use ``read()`` and the file is two, three or four times the size of your computer’s memory -- so before reading in large files ensure your (and your user's) computer can handle it.
 
-            str = "88888888this is string example....wow!!!8888888";
-            print str.strip('8);
+``readline()`` reads a single line from a file, newline characters (``\n``) are left at the end of the string and only omitted for the last line of the file, if the file doesn't end in a new line. The benefit of this is the returned value is unambiguous - if ``readline()`` returns an empty string, you have reached the end of the file. If a ``\n`` is returned, a string containing only an empty line it is probably a line break.
 
-    **Result:**
+If you want to read each line of the file you can use ``list(file)`` or ``readlines()``. Your job in this step is to take the word list obtained in the previous step and load it into your application at the end of the function print the word list.
 
-        .. sourcecode:: console
+During the previous step you probably faced a number of inconvenient problems, missing files, wacky formats which is a great segue into the next part exception handling. Now if you have ever used software you will know that things do not always go the way we intend so sometimes we need to be extraordinary and handle those conditions.
 
-            this is string example....wow!!!
+.. note:: In Python we follow the motto "ask for forgiveness, not permission" when handling data, variables, anything. Meaning that before we check if the file is `valid` we try opening it. If it doesn't because of an exception, we ask for forgiveness (by handling said exception).
 
-    Now you will have noticed I have bolded some keywords in that previous paragraph, because these are important things to remember. Let's address them now.
+In Python we use ``try.. except..`` to handle exceptions. In the ``try`` block we write what we are trying to do, open a file, access a value in a dictionary etc. If that fails, we catch the problem in the ``except`` block. For example:
 
-    - The ``strip()`` function returns a copy of the original string you need to assign the new value to a variable. This can be a new variable, or you can over-ride the old one. Just remember simply using this function will not modify the original string.
+.. sourcecode:: python
 
-    - When you are stripping characters from a string, sometimes you want to strip characters on the left, sometimes only those on the right and sometimes there is an easy solutions to these problems! (This is one of those times).
+    try:
+        with open(my_file) as new_file:
+            lines = new_file.readlines()
+    except FileNotFoundError:
+        sys.exit(2)
 
-    ``lstrip()`` is an alternative to ``strip()`` that returns a copy of the string where all characters have been stripped from the beginning of the string, for example:
+In the example above we attempt to open a file and read the lines into a list, if the file cannot be found we can catch that exception and terminate the program before we encounter more issues, however exception handling doesn't always need to lead to termination, it can also log a warning or set a variable.
 
-        .. sourcecode:: python
+It's important to remember that we must specify which exceptions we are going to catch, and to order them from the most specific to the least, something that admittedly when you're getting started can be difficult to workout. For example when handling a file in Python 3+ we handle ``FileNotFound`` then ``IOError`` then ``Exception`` however, generally speaking it is better to extend the base ``Exception`` class instead as it is too broad.
 
-            str = "88888888this is string example....wow!!!8888888";
-            print str.lstrip('8')
+.. tip:: Python exception handling doesn't just end with ``try... except...`` this is just the tip of the iceberg. The ``else`` clause also exists and allows you to run code if and only if the ``try`` clause does not raise any exceptions, for example:
 
-    **Result:**
+.. sourcecode:: python
 
-        .. sourcecode:: console
+    try:
+        with open(my_file) as new_file:
+            lines = new_file.readlines()
+    except FileNotFoundError:
+        load_backup_config()
+    else:
+        parse_user_config()
 
-            this is string example....wow!!!8888888
+You also have the ``finally`` clause, it can be used to define clean-up actions that must be executed under all circumstances, whether an exception has occurred or not:
 
-    ``rstrip()`` is an alternative to ``strip()`` that returns a copy of the string where all characters have been stripped from the end of the string, for example:
+.. sourcecode:: python
 
-        .. sourcecode:: python
+    try:
+        with open(my_file) as new_file:
+            lines = new_file.readlines()
+    except FileNotFoundError:
+        load_backup_config()
+    else:
+        parse_user_config()
+    finally:
+        clean_up_artifacts()
+        print("Thanks for using our software! Goodbye")
 
-            str = "88888888this is string example....wow!!!8888888";
-            print str.rstrip('8')
+You may have noticed when you were printing the word list you have some inconvenient trailing characters like ``\n``. These are normally not seen when you are reading a file in a text based application, but these little beasties will become a common occurrence when doing text processing.
 
-    **Result:**
+To remove these before our ``print()`` statement we can quickly strip them out using the aptly named ``strip()`` function. This function returns a **copy** of the string where all the characters provided have been stripped from the **beginning** and **end** of the original string. The default behaviour is to strip white space characters (like a space).
 
-        .. sourcecode:: console
+.. sourcecode:: python
 
-            88888888this is string example....wow!!!
+    str = "88888888this is string example....wow!!!8888888";
+    print str.strip('8);
 
-    Using a ``for`` loop you will be able to modify the values in the list and replace them, for more advanced users, using a list comprehension to achieve the same goal.
+**Result:**
 
-    A list comprehension can be created using this general guide ``new_list = [expression(i) for i in old_list if filter(i)]``.
+.. sourcecode:: console
 
-    By now you should have an application that takes a file, whether that be user supplied, or built-in and print it out. The final step in this section is to add some logging.
+    this is string example....wow!!!
+
+Now you will have noticed I have bolded some keywords in that previous paragraph, because these are important things to remember. Let's address them now.
+
+- The ``strip()`` function returns a copy of the original string you need to assign the new value to a variable. This can be a new variable, or you can over-ride the old one. Just remember simply using this function will not modify the original string.
+
+- When you are stripping characters from a string, sometimes you want to strip characters on the left, sometimes only those on the right and sometimes there is an easy solutions to these problems! (This is one of those times).
+
+``lstrip``
+=========================================================
+
+``lstrip()`` is an alternative to ``strip()`` that returns a copy of the string where all characters have been stripped from the beginning of the string, for example:
+
+.. sourcecode:: python
+
+    str = "88888888this is string example....wow!!!8888888";
+    print str.lstrip('8')
+
+Result
+---------------------------------------------------------
+
+.. sourcecode:: console
+
+    this is string example....wow!!!8888888
+
+``rstrip``
+=========================================================
+
+``rstrip()`` is an alternative to ``strip()`` that returns a copy of the string where all characters have been stripped from the end of the string, for example:
+
+.. sourcecode:: python
+
+    str = "88888888this is string example....wow!!!8888888";
+    print str.rstrip('8')
+
+Result
+---------------------------------------------------------
+
+.. sourcecode:: console
+
+    88888888this is string example....wow!!!
+
+Using a ``for`` loop you will be able to modify the values in the list and replace them, for more advanced users, using a list comprehension to achieve the same goal.
+
+A ``for`` loop can be created by using the syntax ``for x in y`` where ``x`` is the name of the thing you are currently looking at and y is a collection of things, not to be confused with the Python ``collection`` module which is made up of high-performance container datatypes.
+
+In this case, our collection is being stored as a ``list``.
+
+.. important:: In the context of this training, when we refer to a collection we are referring to a group of things.
+
+It is considered Pythonic to name your ``list`` as if it were a collection of things, so if you had a number of books you may call your list ``books``, this would mean your ``x`` value should be called something like ``book`` this is so when you read the code the context is implied, "I am looking at a book in a list of books".
+
+A ``for`` loop can then be created using the following syntax ``for book in books:``.
+
+List comprehensions do the exact same thing as a normal ``for`` loop however, provide a concise way to create lists meaning less code. They however, can sometimes become difficult to understand so while it is considered more Pythonic to use list comprehensions, sometimes being more verbose is easier on the programmer.
+
+A list comprehension can be created using this general guide ``new_list = [expression(i) for i in old_list if filter(i)]``.
+
+By now you should have an application that takes a file, whether that be user supplied, or built-in and print it out. The final step in this section is to add some logging.
 
 ---------------------------------------------------------
 An Incantation for Application Truths (i.e. Logging)
 ---------------------------------------------------------
 
-Logging allows us to track events that happen during runtime, we add these calls to our code to determine, when events happened and what may have caused problems during runtime. These events are classified into importance, or severity to the developer or the user. These can vary depending on the built-in configuration however are generally customisable. For today we will just be working with the default severities provided by Python.
+Logging allows us to track events that happen during runtime, we add these calls to our code to determine, when events happened and what may have caused problems during runtime. These events are classified into importance, or severity to the developer or the user. These can vary depending on the built-in configuration however are customisable. For today we will just be working with the default severities provided by Python.
 
 But Buffy does this mean we need to log every activity? Heck. to. the. no. The Python documentation provides a handy table to determine if, and when you should do logging (reproduced below). I personally tend to blur this line a little bit by configuring my logger to display logging to the console as well as saving it to a file, this way the end-user can determine how much information they care about (but that's a story for another time).
 
-**When to use Logging**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When to use Logging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 +---------------------------+-----------------------------+
 | Task you are performing   | The best tool for the task  |
@@ -277,9 +306,10 @@ Python provides five default levels of severity, these are standard levels and t
 |                           | running.                    |
 +---------------------------+-----------------------------+
 
-The default logger is configured to record events classified as a ``WARNING`` or higher, meaning ``ERROR`` and ``CRITICAL`` will also be recorded. Events can be recorded in a number of different ways. In more advanced systems these may be piped to ``syslog`` so the device can send events to a centralised server, however, more often than not, local logging to the console or to a text file is sufficient.
+The default logger is configured to record events classified as a ``WARNING`` or higher, meaning ``ERROR`` and ``CRITICAL`` will also be recorded. Events can be recorded in several different ways. In more advanced systems these may be piped to ``syslog`` so the device can send events to a centralised server, however, more often than not, local logging to the console or to a text file is sufficient.
 
-**A Simple Logger Example**
+A Simple Logger Example
+=========================================================
 
 .. code-block:: python
 
@@ -299,9 +329,9 @@ This will produce the following output:
 
 As mentioned previously, because we have not configured the logger, it will by default only log ``WARNING`` events and higher meaning the ``INFO`` event is suppressed.
 
-**Logging to a File**
-
-It's very common to want to hold onto events that occur during the runtime of an application which is what we will cover next, logging to a file. There are lots of different options available when configuring loggers and we won't go through them today, because that alone could be it's own training, but you can find more details available in the Further Reading section down below.
+Logging to a File
+---------------------------------------------------------
+It's very common to want to hold onto events that occur during the runtime of an application which is what we will cover next, logging to a file. There are lots of different options available when configuring loggers and we won't go through them today, because that alone could be its own training, but you can find more details available in the Further Reading section down below.
 
 .. code-block:: python
 
@@ -316,24 +346,30 @@ It's very common to want to hold onto events that occur during the runtime of an
 
     logging.warning('This is a warning. You should be careful now.')
 
+If you copy and run this code, you should find a new file called ``example.log`` inside should look something like:
+
+.. code-block:: console
+
+    DEBUG:root:This is a debug message that contains important debugging information and will be saved to example.log
+    INFO:root:This is an informational message that contains information and will be saved to example.log
+    WARNING:root:This is a warning. You should be careful now.
+
 Using the two examples above, you should be able to now configure a logger for your application and have messages saved to a file.
 
-.. topic:: Optional
+Optional
+=========================================================
+- Using the Python in-build Comma Separated Values (CSV) library add the option to use a CSV file instead of a Plain Text file. See if you can make your application detect if it is Plain Text or a CSV.
 
-    - Using the Python in-build Comma Separated Values (CSV) library add the option to use a CSV file instead of a Plain Text file. See if you can make your application detect if it is Plain Text or a CSV.
+- Archive your log files in a directory called ``logs`` saving each new log file with the time, date, month and year - this should be in ISO 8601 Notation (yyyy-mm-dd hh:mm:ss).
 
-    - Archive your log files in a directory called ``logs`` saving each new log file with the time, date, month and year - this should be in ISO 8601 Notation (yyyy-mm-dd hh:mm:ss).
+Further Reading
+=========================================================
 
-.. topic:: Further Reading
-
-    - For more information on Type Hints in Python see: https://www.python.org/dev/peps/pep-0484/
-    - For more information on The Theory of Type Hints in Python see: https://www.python.org/dev/peps/pep-0483/
-    - For more information about dynamic languages and "duck typing" see: https://en.wikipedia.org/wiki/Duck_typing
-    - For more information on Errors and Exceptions in Python 3.7 see: https://docs.python.org/3/tutorial/errors.html
-    - For more information on Logging see: https://docs.python.org/3/library/logging.html
-    - For more basic tutorials on Logging see: https://docs.python.org/3/howto/logging.html#logging-basic-tutorial
-    - For more advanced tutorials on logging see: https://docs.python.org/3/howto/logging-cookbook.html
-
-.. topic:: Notes
-
-    //todo
+- `PEP 484 -- Type Hints <https://www.python.org/dev/peps/pep-0484/>`_.
+- `The Theory of Type Hints in Python <https://www.python.org/dev/peps/pep-0483/>`_.
+- `Duck Typing <https://en.wikipedia.org/wiki/Duck_typing>`_.
+- `Errors and Exceptions <https://docs.python.org/3/tutorial/errors.html>`_.
+- `logging — Logging facility for Python <https://docs.python.org/3/library/logging.html>`_.
+- `Basic Logging Tutorial <https://docs.python.org/3/howto/logging.html#logging-basic-tutorial>`_.
+- `Logging Cookbook <https://docs.python.org/3/howto/logging-cookbook.html>`_.
+- `Python Datetime <https://www.w3schools.com/python/python_datetime.asp>`_.

@@ -1,3 +1,308 @@
 =========================================================
-Gathering System Level Information
+Gathering System Level Information Cheat Sheet
 =========================================================
+
+For various reasons when writing applications you will want to gather system level information, it may to be to fingerprint, it may be to produce output that tells you which systems you application is having issues with. In this section we will cover a number of helpful Python functions you can use for gathering system level information.
+
+---------------------------------------------------------
+Operating System and Version
+---------------------------------------------------------
+
+``platform.machine()``
+
+``platform.node()``
+
+``platform.processor()``
+
+``platform.python_build()``
+
+``platform.python_compiler()``
+
+``platform.python_version()``
+
+``platform.system()``
+
+``platform.uname()``
+
+---------------------------------------------------------
+Networking
+---------------------------------------------------------
+
+``socket.gethostname()``
+
+``socket.getfqdn([name])``
+
+``socket.gethostbyname(hostname)``
+
+``socket.gethostname()``
+
+``socket.gethostbyaddr(ip_address)``
+
+``socket.getnameinfo(sockaddr, flags)``
+
+``socket.getservbyname(servicename[, protocolname])``
+
+``socket.getservbyport(port[, protocolname])``
+
+``socket.inet_ntoa(packed_ip)``
+
+---------------------------------------------------------
+Operating System Interfaces
+---------------------------------------------------------
+
+``os.getegid()``
+
+``os.geteuid()``
+
+``os.getgid()``
+
+``os.getgrouplist()``
+
+``os.getlogin()``
+
+
+---------------------------------------------------------
+Pathname Manipulation
+---------------------------------------------------------
+
+The built-in ``os.path`` module has a number of useful function for manipulating, and finding pathname information.
+
+.. tip:: Python does not do any automatic path expansions, so you will have to do this yourself.
+
+``os.path.abspath(path)``
+    Returns an absolute version of the pathname path.
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.path.abspath('.')
+        '/Users/rebecca/tmp/pythoncharmingforbeginners'
+        >>>  os.path.abspath('Images')
+        '/Users/rebecca/tmp/pythoncharmingforbeginners/Images'
+
+``os.path.exists(path)``
+    Returns ``True`` if the path refers to an existing path or an open file.
+    Returns ``False`` for broken symbolic links. On some platforms if you do
+    not have permission to execute ``oz.stat()`` on the file, it will return
+    ``False`` even if the path physically exists.
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.path.exists('/build/html')
+        False
+        >>> os.path.exists('./build/html')
+        True
+
+``os.path.expanduser(path)``
+    When using relative paths, returns the initial ``~`` with the users home
+    directory.
+
+    On UNIX the initial ``~`` is replaced by the ``HOME`` environment variable
+    if it is set, otherwise the current user's home directory is looked up in
+    the password directory though the ``pwd`` module.
+
+    On Windows ``HOME`` and ``USERPROFILE`` will be used if set, otherwise a
+    combination of ``HOMEPATH`` and ``HOMEDRIVE`` will be used.
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.path.expanduser('~')
+        '/Users/rebecca'
+        >>> os.path.expanduser('~/tmp/pythoncharmingforbeginners')
+        '/Users/rebecca/tmp/pythoncharmingforbeginners'
+
+``os.path.getatime(path)``
+    Return the time of last access of path. The return value is a number
+    representing the number of seconds since EPOCH (e.g. ``1551832874``)
+
+    .. tip:: EPOCH is also known as POSIX time or UNIX Epoch time and is a
+        system used for describing a point in time, it is the number of second
+        that have elapsed since 00:00:00 Thursday, 1 January 1970 (UTC) minus
+        leap seconds.
+
+    Raises an ``OSError`` if the file does not exist or is inaccessible.
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.path.getatime('.')
+        1551834369.9661243
+        >>> os.path.getatime('./build/html')
+        1551832462.8749728
+
+``os.path.getmtime(path)``
+    Return the time of last modified of path. The return value is a number
+    representing the number of seconds since EPOCH (e.g. ``1551832874``)
+
+    Raises an ``OSError`` if the file does not exist or is inaccessible.
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.path.getatime('.')
+        1551834369.9661243
+        >>> os.path.getatime('./build/html')
+        1551832462.8749728
+
+``os.path.getsize(path)``
+    Returns the size of a path in bytes. Raises an ``OSError`` if the file
+    does not exist or is inaccessible.
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.path.getsize('.')
+        320
+        >>> os.path.getsize('./build/html')
+        800
+
+``os.path.isabs(path)``
+
+``os.path.isfile(path)``
+
+``os.path.isdir(path)``
+
+``os.path.ismount(path)``
+
+
+---------------------------------------------------------
+Operating System Interfaces
+---------------------------------------------------------
+
+---------------------------------------------------------
+``psutil``
+---------------------------------------------------------
+
+``psutil`` (process and system utilities) is a third-party cross-platform library for retrieving information on running processes and system utilization (CPU, memory, disks, network, sensors) in Python. It implements a number of UNIX based command line tools and works on Linux, Windows, Mac OS X, FreeBSD, OpenBSD, NetBSD, Sun Solaris and AIX.
+
+It can be installed using ``pipenv install psutil`` on Python 2.7+.
+
+``psutil.pids()``
+    Return a sorted list of current running PIDs. To iterate over all processes and avoid race conditions ``process_iter()`` should be preferred.
+
+    .. code-block:: python
+
+        >>> import psutil
+        >>> psutil.pids()
+        [0, 1, 40, 41, 44, 45, 46, 48, 51, 52, 54, 55, 58, 59, 65, 66, 67, 70, 71, 75, 76, 77, 78, 79, 80, 81, 82, 84, 86, 87, 89, 91, 93, 94, 95, 96, 98, 100, 101, 102, 103, 104, 107, 109, 114, 115, 125, 148, 162, 164, 173, 175, 176, 177, 178, 179, 186, 192, 193, 197, 199, 200, 201, 202, 203, 204, 206, 207, 208, 209, 210, 211, 212, 213, 215, 216, 217, 218, 219, 224, 228, 229, 230, 231, 232, 233, 236, 238, 239, 240, 241, 242, 250, 251, 253, 254, 259, 263, 264, 265, 268, 271, 272, 274, 276, 277, 278, 279, 280, 281, 282, 284, 286, 287, 288, 289, 290, 291, 292, 293, 296, 297, 298, 303, 304, 305, 306, 307, 308, 311, 314, 315, 316, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 359, 361, 363, 364, 365, 366, 367, 370, 372, 373, 374, 375, 377, 378, 379, 380, 381, 382, 384, 385, 389, 392, 393, 394, 397, 398, 400, 401, 405, 406, 407, 409, 411, 412, 415, 416, 417, 421, 423, 425, 426, 427, 428, 429, 430, 431, 432, 434, 435, 448, 450, 451, 462, 463, 464, 465, 466, 469, 479, 480, 481, 483, 484, 485, 489, 495, 497, 555, 557, 562, 565, 567, 568, 641, 642, 653, 656, 662, 665, 666, 673, 674, 675, 676, 689, 690, 691, 694, 695, 697, 699, 700, 701, 705, 708, 709, 711, 712, 719, 727, 729, 730, 731, 732, 733, 735, 737, 738, 739, 740, 744, 745, 746, 747, 750, 751, 752, 755, 756, 757, 758, 762, 763, 835, 838, 839, 842, 844, 872, 918, 1074, 1080, 1081, 1082, 1083, 1113, 1126, 1128, 1135, 1146, 1149, 1150, 1161, 1163, 1164, 1165, 1237, 1281, 1283, 1284, 1286, 1289, 1290, 1293, 1350, 1351, 1396, 1416, 1439, 1461, 1467, 1471, 1472, 1473, 1474, 1475, 1477, 1481, 1506, 1511, 1512, 1514, 1584, 1593, 1662, 1664, 1666, 1667, 1671, 1673, 1690, 1710, 1775, 1928, 2112, 2117, 2118, 2119, 2125, 2126, 2127, 2128, 2163, 2164, 2165, 2166, 2167, 2168, 2171, 2176, 2183, 2184, 2185, 2188, 2190, 2218, 2219]
+
+``psutil.pid_exists(pid)``
+    Check whether the given PID exists in the current process list.
+
+    .. code-block:: python
+
+        >>> import psutil
+        >>> psutil.pid_exists(415)
+        True
+        >>> psutil.pid_exists(20)
+        False
+
+``psutil.Process(pid=None)``
+    Represents an OS process with the given pid. If pid is omitted current process pid (``os.getpid``) is used.
+
+    .. code-block:: python
+
+        >>> process = psutil.Process(740)
+
+``psutil.Process(pid=None).name()``
+    The process name. On Windows the return value is cached after first call. Not on POSIX because the process name may change.
+
+    .. code-block:: python
+
+        >>> process = psutil.Process(740)
+        >>> process.name()
+        'Brave Browser Helper'
+
+``psutil.Process().environ()``
+    The environment variables of the process as a dict.
+
+    .. caution:: May not reflect changes made after the process has started.
+
+    .. code-block:: python
+
+        >>> import psutil
+        >>> psutil.Process().environ()
+        {'PATH': '/Users/rebecca/.virtualenvs/heartbleed-NDBE3uzQ/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/Users/rebecca/.rbenv/shims:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/opt/sqlite/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/TeX/texbin:/opt/X11/bin:/Applications/Wireshark.app/Contents/MacOS', 'WORKON_HOME': '/Users/rebecca/.virtualenvs', 'VIRTUALENVWRAPPER_PYTHON': '/usr/local/bin/python3', 'TERM': 'xterm-color', 'RBENV_SHELL': 'bash', 'PS1': '(heartbleed) ', 'VIRTUALENVWRAPPER_SCRIPT': '/usr/local/bin/virtualenvwrapper.sh', 'PYDEVD_LOAD_VALUES_ASYNC': 'True', 'DISPLAY': '/private/tmp/com.apple.launchd.8WMuE7EHzQ/org.macosforge.xquartz:0', 'VERSIONER_PYTHON_VERSION': '2.7', 'VIRTUALENVWRAPPER_WORKON_CD': '1', 'LOGNAME': 'rebecca', 'XPC_SERVICE_NAME': 'com.jetbrains.pycharm.21084', 'PYCHARM_HOSTED': '1', 'PYTHONPATH': '/Volumes/0X00/python/heartbleed:/Applications/PyCharm CE.app/Contents/helpers/third_party/thriftpy:/Applications/PyCharm CE.app/Contents/helpers/pydev', 'SHELL': '/bin/bash', 'PYTHONIOENCODING': 'UTF-8', 'VERSIONER_PYTHON_PREFER_32_BIT': 'no', 'USER': 'rebecca', 'VIRTUALENVWRAPPER_HOOK_DIR': '/Users/rebecca/.virtualenvs', 'VIRTUALENVWRAPPER_VIRTUALENV': '/usr/local/bin/virtualenv', 'IPYTHONENABLE': 'True', 'TMPDIR': '/var/folders/3m/bs8_9h9970x4sl1966hfksxc0000gn/T/', 'SSH_AUTH_SOCK': '/private/tmp/com.apple.launchd.jb1TywbXEj/Listeners', 'VIRTUAL_ENV': '/Users/rebecca/.virtualenvs/heartbleed-NDBE3uzQ', 'XPC_FLAGS': '0x0', 'PYTHONUNBUFFERED': '1', 'VIRTUALENVWRAPPER_PROJECT_FILENAME': '.project', 'PROJECT_HOME': '/Users/rebecca/sauce', '__CF_USER_TEXT_ENCODING': '0x1F5:0x0:0xF', 'Apple_PubSub_Socket_Render': '/private/tmp/com.apple.launchd.cEaOcdXuXU/Render', 'LC_CTYPE': 'en_AU.UTF-8', 'HOME': '/Users/rebecca'}
+
+``psutil.Process().environ()``
+    The process current working directory as an absolute path.
+
+    .. code-block:: python
+
+        >>> psutil.Process().cwd()
+        '/Volumes/0X00/python/heartbleed'
+
+``psutil.cpu_count()``
+    Returns the number of CPU's a PC has available
+
+   .. code-block:: python
+
+        >>> import psutil
+        >>> psutil.cpu_count()
+        4
+
+``psutil.disk_partitions()``
+    Return all mounted disk partitions as a list of named tuples including device, mount point and filesystem type. There is an optional ``all`` argument that when set to ``False`` will try to distinguish physical devices such as hard-drives, cd-roms, USB devices from memory partitions.
+
+    .. code-block:: python
+
+        >>> import psutil
+        >>> psutil.disk_partitions(all=False)
+        [sdiskpart(device='/dev/disk1s1', mountpoint='/', fstype='apfs', opts='rw,local,rootfs,dovolfs,journaled,multilabel'), sdiskpart(device='/dev/disk1s4', mountpoint='/private/var/vm', fstype='apfs', opts='rw,noexec,local,dovolfs,dontbrowse,journaled,multilabel,noatime'), sdiskpart(device='/dev/disk2s1', mountpoint='/Volumes/0X00', fstype='exfat', opts='rw,nosuid,local,ignore-ownership')]
+        >>> psutil.disk_partitions(all=False)
+        [sdiskpart(device='/dev/disk1s1', mountpoint='/', fstype='apfs', opts='rw,local,rootfs,dovolfs,journaled,multilabel'), sdiskpart(device='/dev/disk1s4', mountpoint='/private/var/vm', fstype='apfs', opts='rw,noexec,local,dovolfs,dontbrowse,journaled,multilabel,noatime'), sdiskpart(device='/dev/disk2s1', mountpoint='/Volumes/0X00', fstype='exfat', opts='rw,nosuid,local,ignore-ownership')]
+
+
+``psutil.Popen(*args, **kwargs)``
+    A more convenient interface to built-in ``subprocess.Popen``
+
+    .. code-block:: python
+
+        >>> import psutil
+        >>> from subprocess import PIPE
+        >>> p = psutil.Popen(["/usr/bin/python", "-c", "print('hello')"], stdout=PIPE)
+        >>> p.name()
+        'Python'
+        >>> p.username()
+        'rebecca'
+        >>> p.communicate()
+        (b'hello\n', None)
+
+    ``psutil.Popen`` also work as context managers (``with`` supported) meaning that on exit file descriptors are closed and the process is waited for meaning a cleaner shut down:
+
+    .. code-block:: python
+
+        >>> import psutil
+        >>> import subprocess
+        >>> with psutil.Popen(["ifconfig"], stdout=subprocess.PIPE) as proc:
+        >>>     log.write(proc.stdout.read())
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A Recipe for Finding a Process by Name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+    import psutil
+
+    def find_procs_by_name(name: str):
+        ls = []
+        for process in psutil.process_iter(attrs=['name']):
+            if process.info['name'] == name:
+                ls.append(process)
+        return ls
+
+---------------------------------------------------------
+A Recipe for IP GeoLocation
+---------------------------------------------------------
+
+.. literalinclude:: identify_geolocation.py
+   :linenos:
+
+
+Further Reading
+=========================================================
+

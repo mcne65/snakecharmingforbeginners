@@ -31,13 +31,13 @@ If you are running Python2 and Python3 you may need to use ``pip3`` rather than 
    % pip3 --version
    % pip3 install requests
 
-If you installed Python from source or with an installer from https://python.org, or via Homebrew, ``pip`` should be installed by default. If you are on Linux and used your package manager (``apt``), you may need to install pip separately.
+If you installed Python from source or with an installer from `Python.org <https://python.org>`_, or via Homebrew, ``pip`` should be installed by default. If you are on Linux and used your package manager (``apt``), you may need to install pip separately.
 
 ---------------------------------------------------------
 ``virtualenv``
 ---------------------------------------------------------
 
-``virtualenv`` is a tool used to create isolated Python environments, it does this by creating a directory that contains all the executables, including the correct Python version needed to use the package - this can be helpful in situations where you have conflicting package requirements, or are developing tools that use a different Python version -- for example when your system version of Python is 2.7.1 but you want to write Python 3.7.1 tools.
+``virtualenv`` is a tool used to create isolated Python environments, it does this by creating a directory that contains all the executables, including the correct Python version needed to use the package - this can be helpful in situations where you have conflicting package requirements, or are developing tools that use a different Python version -- for example when your system version of Python is 2.7 but you want to write Python 3.7 tools.
 
 .. hint:: ``virtualenv`` can be used standalone, instead of ``pipenv`` however, we suggest using ``pipenv``.
 
@@ -75,7 +75,7 @@ You can also specify a particular Python interpreter (like Python 3.7!)
    /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
    % virtualenv -p /Library/Frameworks/Python.framework/Versions/3.7/bin/python3 venv
 
-2. Before starting work on your project you will want to activate the virtual environment:
+2. Before starting work on your project, you will want to activate the virtual environment:
 
 .. sourcecode:: console
 
@@ -113,7 +113,7 @@ You can also specify a particular Python interpreter (like Python 3.7!)
    > cd project_folder
    > virtualenv -p C:\Program Files\Python 3.7 venv
 
-2. Before starting work on your project you will want to activate the virtual environment:
+2. Before starting work on your project, you will want to activate the virtual environment:
 
 .. sourcecode:: bat
 
@@ -198,7 +198,7 @@ This will help ensure consistency across installations and developers.
 > We need to go deeper...
 - Not actually a quote from Inception (2010)
 
-``Virtualenvwrapper`` as the name suggests is a handy little wrapper application for ``virtualenv`` that provides a set of (easier to remember) commands that make working with virtual environments easier. It also places all your virtual environments in one place meaning, !. You are less likely to commit them to source control by accident and 2. Makes them easier to manage in the long term.
+``Virtualenvwrapper`` as the name suggests is a handy little wrapper application for ``virtualenv`` that provides a set of (easier to remember) commands that make working with virtual environments easier. It also places all your virtual environments in one place meaning, 1. You are less likely to commit them to source control by accident and 2. Makes them easier to manage in the long term.
 
 Installation
 ---------------------------------------------------------
@@ -209,9 +209,9 @@ To install ``virtualenvwrapper`` you will want to be in the global environment, 
 
    % pip install virtualenvwrapper
 
-Once the package has been installed you will need to configure ``virtualenvwrapper`` once by adding the following three lines to your shell start up file (``.bashrc`` for most Linux Bourne-Again SHell (BASH) users, and ``.bash_profile`` for Mac OS X users) to set where the virtual environment directories should live, the location of your development projects, and location of the ``virtualenvwrapper.sh`` script that was installed with the package.
+Once the package has been installed you will need to configure ``virtualenvwrapper`` once by adding the following three lines to your shell start up file (``.bashrc`` for most :abbr:`BASH (Linux Bourne-Again SHell)`  users, and ``.bash_profile`` for Mac OS X users) to set where the virtual environment directories should live, the location of your development projects, and location of the ``virtualenvwrapper.sh`` script that was installed with the package.
 
-We have included comments along the way describing what each entry is doing, for those who are unfamiliar with BASH configuration.
+We have included comments along the way describing what each entry is doing, for those who are unfamiliar with :abbr:`BASH (Linux Bourne-Again SHell)` configuration.
 
 .. sourcecode:: bash
 
@@ -241,9 +241,9 @@ After you have made these modifications you should either close all your termina
    # or if you are using Mac OS X
    % source ~/.bash_profile
 
-You can also configure ``virtualenvwrapper`` but we won't go into detail about that here, instead if you are interested you can checkout the official documentation for the project at https://virtualenvwrapper.readthedocs.io. What we will mention before moving onto the key commands, is you can add a line into the same file that you modified in the previous step to set the default version of Python ``virtualenvwrapper`` will use when creating new environments for you.
+You can also configure ``virtualenvwrapper`` but we won't go into detail about that here, instead if you are interested you can checkout the `official documentation for the project <https://virtualenvwrapper.readthedocs.io>`_. What we will mention before moving onto the key commands, is you can add a line into the same file that you modified in the previous step to set the default version of Python ``virtualenvwrapper`` will use when creating new environments for you.
 
-Once you know where Python is installed we can open up the file we were modifying earlier (your shell start up file (``.bashrc`` for most Linux Bourne-Again SHell (BASH) users, and ``.bash_profile`` for Mac OS X users)) and adding the following line:
+Once you know where Python is installed we can open up the file we were modifying earlier (your shell start up file (``.bashrc`` for most :abbr:`BASH (Linux Bourne-Again SHell)` users, and ``.bash_profile`` for Mac OS X users)) and adding the following line:
 
 .. sourcecode:: bash
 
@@ -387,7 +387,7 @@ Pipenv
 
 If you have ever used ``npm`` for Node.js or ``bundler`` for Ruby, that is what ``pipenv`` is for Python. While ``pip`` can handle installation of Python packages, ``Pipenv`` gives you better control over dependency management in testing and development as well as ensuring less problems with version conflicts.
 
-You can try it out on "Root 'n' Roll" at https://rootnroll.com/d/pipenv
+You can `try Pipenv out on "Root 'n' Roll" <https://rootnroll.com/d/pipenv>`_.
 
 Installation on OS X and Linux
 ---------------------------------------------------------
@@ -405,7 +405,7 @@ Linux users can install ``Pipenv`` using Linuxbrew:
 
    % brew install pipenv
 
-For more installation options checkout their official documentation at https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv
+For more installation options checkout `Pipenv's official documentation <https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv>`_.
 
 Installing packages
 ---------------------------------------------------------
@@ -416,7 +416,7 @@ Pipenv will manage your dependencies on a per-project basis, so to install packa
 
    % pipenv install requests
 
-Pipenv will take care of the hard work, installing the Requests library and create a ``Pipfile`` for you in the project's directory. This ``Pipfile`` is used to track which dependencies your project needs. It will also create the ever important ``Pipfile.lock``, which is used to produce reproducible builds, which is just a fancy way of saying the compilation will always build the same binary. For more information about reproducible builds and why they are important see Wikipedia https://en.wikipedia.org/wiki/Reproducible_builds.
+Pipenv will take care of the hard work, installing the Requests library and create a ``Pipfile`` for you in the project's directory. This ``Pipfile`` is used to track which dependencies your project needs. It will also create the ever important ``Pipfile.lock``, which is used to produce `reproducible builds <https://en.wikipedia.org/wiki/Reproducible_builds>`_, which is just a fancy way of saying the compilation will always build the same binary.
 
 ``pipenv`` Key Commands
 ---------------------------------------------------------
@@ -471,7 +471,7 @@ If you are running Python2 and Python3 you may need to use ``pip3`` rather than 
    % pip3 --version
    % pip3 install requests
 
-If you installed Python from source or with an installer from https://python.org, or via Homebrew, ``pip`` should be installed by default. If you are on Linux and used your package manager (``apt``), you may need to install pip separately.
+If you installed Python from source or with an installer from `Python.org <https://python.org>`_, or via Homebrew, ``pip`` should be installed by default. If you are on Linux and used your package manager (``apt``), you may need to install pip separately.
 
 ---------------------------------------------------------
 ``pip`` and ``virtualenv``
@@ -515,7 +515,7 @@ You can also specify a particular Python interpreter (like Python 3.7!)
    /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
    % virtualenv -p /Library/Frameworks/Python.framework/Versions/3.7/bin/python3 venv
 
-2. Before starting work on your project you will want to activate the virtual environment:
+2. Before starting work on your project, you will want to activate the virtual environment:
 
 .. sourcecode:: console
 
@@ -638,7 +638,7 @@ This will help ensure consistency across installations and developers.
 > We need to go deeper...
 - Not actually a quote from Inception (2010)
 
-``Virtualenvwrapper`` as the name suggests is a handy little wrapper application for ``virtualenv`` that provides a set of (easier to remember) commands that make working with virtual environments easier. It also places all your virtual environments in one place meaning, !. You are less likely to commit them to source control by accident and 2. Makes them easier to manage in the long term.
+``Virtualenvwrapper`` as the name suggests is a handy little wrapper application for ``virtualenv`` that provides a set of (easier to remember) commands that make working with virtual environments easier. It also places all your virtual environments in one place meaning, 1. You are less likely to commit them to source control by accident and 2. Makes them easier to manage in the long term.
 
 Installation
 ---------------------------------------------------------
@@ -649,7 +649,7 @@ To install ``virtualenvwrapper`` you will want to be in the global environment, 
 
    % pip install virtualenvwrapper
 
-Once the package has been installed you will need to configure ``virtualenvwrapper`` once by adding the following three lines to your shell start up file (``.bashrc`` for most Linux Bourne-Again SHell (BASH) users, and ``.bash_profile`` for Mac OS X users) to set where the virtual environment directories should live, the location of your development projects, and location of the ``virtualenvwrapper.sh`` script that was installed with the package.
+Once the package has been installed you will need to configure ``virtualenvwrapper`` once by adding the following three lines to your shell start up file (``.bashrc`` for most :abbr:`BASH (Linux Bourne-Again SHell)`  users, and ``.bash_profile`` for Mac OS X users) to set where the virtual environment directories should live, the location of your development projects, and location of the ``virtualenvwrapper.sh`` script that was installed with the package.
 
 We have included comments along the way describing what each entry is doing, for those who are unfamiliar with BASH configuration.
 
@@ -681,9 +681,9 @@ After you have made these modifications you should either close all your termina
    # or if you are using Mac OS X
    % source ~/.bash_profile
 
-You can also configure ``virtualenvwrapper`` but we won't go into detail about that here, instead if you are interested you can checkout the official documentation for the project at https://virtualenvwrapper.readthedocs.io. What we will mention before moving onto the key commands, is you can add a line into the same file that you modified in the previous step to set the default version of Python ``virtualenvwrapper`` will use when creating new environments for you.
+You can also configure ``virtualenvwrapper`` but we won't go into detail about that here, instead if you are interested you can checkout the `official documentation for the project <https://virtualenvwrapper.readthedocs.io>`_. What we will mention before moving onto the key commands, is you can add a line into the same file that you modified in the previous step to set the default version of Python ``virtualenvwrapper`` will use when creating new environments for you.
 
-Once you know where Python is installed we can open up the file we were modifying earlier (your shell start up file (``.bashrc`` for most Linux Bourne-Again SHell (BASH) users, and ``.bash_profile`` for Mac OS X users)) and adding the following line:
+Once you know where Python is installed we can open up the file we were modifying earlier (your shell start up file (``.bashrc`` for most :abbr:`BASH (Linux Bourne-Again SHell)` users, and ``.bash_profile`` for Mac OS X users)) and adding the following line:
 
 .. sourcecode:: bash
 
@@ -827,7 +827,7 @@ Pipenv
 
 If you have ever used ``npm`` for Node.js or ``bundler`` for Ruby, that is what ``pipenv`` is for Python. While ``pip`` can handle installation of Python packages, ``Pipenv`` gives you better control over dependency management in testing and development as well as ensuring less problems with version conflicts.
 
-You can try it out on "Root 'n' Roll" at https://rootnroll.com/d/pipenv
+You can `try Pipenv out on "Root 'n' Roll" <https://rootnroll.com/d/pipenv>`_.
 
 Installation on OS X and Linux
 ---------------------------------------------------------
@@ -845,7 +845,7 @@ Linux users can install ``Pipenv`` using Linuxbrew:
 
    % brew install pipenv
 
-For more installation options checkout their official documentation at https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv
+For more installation options checkout `Pipenv's official documentation <https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv>`_.
 
 Installing packages
 ---------------------------------------------------------
@@ -856,7 +856,7 @@ Pipenv will manage your dependencies on a per-project basis, so to install packa
 
    % pipenv install requests
 
-Pipenv will take care of the hard work, installing the Requests library and create a ``Pipfile`` for you in the project's directory. This ``Pipfile`` is used to track which dependencies your project needs. It will also create the ever important ``Pipfile.lock``, which is used to produce reproducible builds, which is just a fancy way of saying the compilation will always build the same binary. For more information about reproducible builds and why they are important see Wikipedia https://en.wikipedia.org/wiki/Reproducible_builds.
+Pipenv will take care of the hard work, installing the Requests library and create a ``Pipfile`` for you in the project's directory. This ``Pipfile`` is used to track which dependencies your project needs. It will also create the ever important ``Pipfile.lock``, which is used to produce `reproducible builds <https://en.wikipedia.org/wiki/Reproducible_builds>`_, which is just a fancy way of saying the compilation will always build the same binary.
 
 ``pipenv`` Key Commands
 ---------------------------------------------------------

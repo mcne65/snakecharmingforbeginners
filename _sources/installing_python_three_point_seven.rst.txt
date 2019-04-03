@@ -2,10 +2,9 @@
 Installing Python 3.7
 =========================================================
 
-.. image:: _static/imgs/here_be_dragons.jpg
+.. image:: _static/imgs/DragonLady.png
       :height: 396.750px
-      :width: 300px
-      :alt: Dragon with arm ache because of abusing the computer mouse
+      :alt: Dragon lady by Firkin
       :align: center
 
 .. epigraph::
@@ -30,13 +29,12 @@ Installation on Windows 7+
 If you are running Windows 7+ we are going to install Python via Chocolatey, a community system package manager for
 Windows similar to Homebrew on OS X.
 
-The instructions on how to install Chocolatey can be found at https://chocolatey.org/install>.
+The instructions on how to install Chocolatey can be found on the `Chocolatey website <https://chocolatey.org/install>`_.
 
 1. To install the latest version of Python run ``choco install python`` as Chocolatey pushes Python3 as the default
 version of Python.
 
-Chocolatey will automatically add Python to your ``PATH`` so you don't need to worry about configuring that. In addition, ``pip``
-and ``setuptools`` are both installed by default.
+Chocolatey will automatically add Python to your ``PATH`` so you don't need to worry about configuring that. In addition, ``pip`` and ``setuptools`` are both installed by default.
 
 Installation on pre-Windows 7
 =========================================================
@@ -44,10 +42,9 @@ Installation on pre-Windows 7
 If you are using a version of Windows prior to Windows 7 you will need to install Python from source, by following the
 instructions below:
 
-1. Visit https://www.python.org/downloads/ and download the latest version. At the time of writing (14 December 2018) this
-was `https://www.python.org/downloads/release/python-371/.
-2. To change install location, click on ``Customize installation``, then ``Next`` and enter ``C:\python36`` (or another appropriate location) as the install location.
-3. If you didn't check the ``Add Python 3.5 PATH`` option earlier, check ``Add Python to environment variables``. This does the same thing as ``Add Python 3.5 to PATH`` on the first install screen.
+1. Visit `python.org downloads <https://www.python.org/downloads/>`_ and download the latest version. At the time of writing (3 April 2019) this was `Python 3.7.3 <https://www.python.org/downloads/release/python-373/>`.
+2. To change install location, click on ``Customize installation``, then ``Next`` and enter ``C:\python37`` (or another appropriate location) as the install location.
+3. If you did not check the ``Add Python 3.7 PATH`` option earlier, check ``Add Python to environment variables``. This does the same thing as ``Add Python 3.7 to PATH`` on the first install screen.
 4. You can choose to install Launcher for all users or not, either option is fine, as it simply allows you to switch between different versions of Python installed.
 
 If you set the ``PATH`` variable properly, you will be able to run the interpreter from the command line.
@@ -61,7 +58,7 @@ Installation on GNU/Linux
 
 There is a very good chance your Linux distribution has Python installed, however, in most cases it probably won't be the latest versions, and in many cases it will be Python 2.7 instead of Python 3.x.
 
-.. warning:: If your system comes with Python 2.x.x installed by default do not under any circumstances uninstall this version. In many cases, a lot of packages still depend on these versions of Python and uninstalling it may leave you with a very minimal install of your operating system.
+.. attention:: If your system comes with Python 2.x.x installed by default do not under any circumstances uninstall this version. In many cases, a lot of packages still depend on these versions of Python and uninstalling it may leave you with a very minimal install of your operating system.
 
 To find out what version(s) you have, open a terminal window and try the following commands:
 
@@ -108,15 +105,11 @@ Does not come with Python 3.7 by default, but is available for download (and ins
 
 .. topic:: Step One: Download Source Code
 
-   Before starting you will want to download the Python source code, you can do this by visiting https://www.python.org/downloads/source/. For the purposes of this walk through you will want to download the "Latest Python 3 Release" the link for which can be found near the top of the page - this is updated to list the current stable release. At the time of writing this was Python 3.7.1.
-
-   Once you have selected the version you are after, you will notice a **Files** section at the bottom of the page, you want to download the **Gzipped source tarball**. If you prefer using the command line, you can also use ``wget`` to download the current directory:
-
    .. sourcecode:: bash
 
       % mkdir /usr/src
       % cd /usr/src
-      % wget https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tgz
+      % wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
 
 
 .. topic:: Step Two: Prepare Your System
@@ -138,13 +131,13 @@ Does not come with Python 3.7 by default, but is available for download (and ins
 
 .. topic:: Step Three: Build Python
 
-   Once you have successfully installed all the required packages, you can unpack the source into a directory. Without getting too much into Linux directory internals I'd suggest unpacking the directory into ``/usr/local/bin`` the commands you will want to run in a terminal windows is shown in the code block below. However, before we blindly run into that screaming about Pythons and other slithery delights, let's walkthrough what's going on on lines, 3, 4 and 5.
+   Once you have successfully installed all the required packages, you can unpack the source into a directory. Without getting too much into Linux directory internals I'd suggest unpacking the directory into ``/usr/local/bin`` the commands you will want to run in a terminal windows is shown in the code block below. However, before we blindly run into that screaming about Pythons and other slithery delights, let's walk-through what's going on on lines, 3, 4 and 5.
 
    .. sourcecode:: bash
       :linenos:
       :emphasize-lines: 3,4,5
 
-      $ sudo tar xzf Python-3.7.1.tgz --directory /usr/local/bin
+      $ sudo tar xzf Python-3.7.3.tgz --directory /usr/local/bin
       $ sudo cd /usr/local/bin/Python-3.7.1
       $ sudo ./configure --enable-optimizations --with-ensurepip=install
       $ sudo make -j 8
@@ -161,7 +154,7 @@ Does not come with Python 3.7 by default, but is available for download (and ins
 
    The configure script is responsible for getting the software ready to build on your system. It makes sure dependencies are met and ensures the software is installed just the way you want. It's sort of like adding walnuts into the banana bread batter just before you put it in the oven.
 
-   If you are curious to see what a ``configure`` file looks like you can check out the Python one on GitHub https://github.com/python/cpython/blob/master/configure - there is absolutely no reason you need to do this and frankly this is the authors first time looking at the file as well.
+   If you are curious to see what a ``configure`` file looks like you can check out the `Python one on GitHub <https://github.com/python/cpython/blob/master/configure>`_ - there is absolutely no reason you need to do this and frankly this is the authors first time looking at the file as well.
 
    .. tip:: There are many (like lots) of options available when building Python if you are ever curious about these you can run ``./configure --help``
 
@@ -203,13 +196,16 @@ Depending on which version of Debian you are running, the Python installation in
 
    lsb_release -a
    No LSB modules are available.
-   Distributor ID:	Debian
-   Description:	Debian GNU/Linux 9.5 (stretch)
-   Release:	9.5
-   Codename:	stretch
+   Distributor ID: Debian
+   Description:    Debian GNU/Linux 9.5 (stretch)
+   Release:    9.5
+   Codename:   stretch
+
+Debian 9 (stretch)
+---------------------------------------------------------
 
 Configuring ``sudo``
----------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Typically (read: read all the time) ``sudo`` is not installed on Debian, so before we install Python we will want to install ``sudo``.
 
@@ -228,49 +224,43 @@ Now even though we just talked about why using ``sudo`` is better than logging i
    $ su
    $ apt-get install sudo
 
-Option One: Configure ``sudo`` using ``adduser``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. topic:: Option One: Configure ``sudo`` using ``adduser``
 
-This is the Debian suggested way. To add an existing user to the ``sudo`` group, open a terminal window and typing the following, remembering to change ``your-username`` to your actual username:
+      This is the Debian suggested way. To add an existing user to the ``sudo`` group, open a terminal window and typing the following, remembering to change ``your-username`` to your actual username:
 
-.. sourcecode:: bash
+      .. sourcecode:: bash
 
-   $ adduser your-username sudo
-   $ exit
+         $ adduser your-username sudo
+         $ exit
 
-Option Two: Configure ``sudo`` using ``visudo``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. topic:: Option Two: Configure ``sudo`` using ``visudo``
 
-This option will open the ``/etc/sudoers`` file for editing (in a safe fashion). To add yourself to the ``sudoers`` file, you will want to append the following text to the end of the file, remembering to change ``your-username`` to your actual username:
+      This option will open the ``/etc/sudoers`` file for editing (in a safe fashion). To add yourself to the ``sudoers`` file, you will want to append the following text to the end of the file, remembering to change ``your-username`` to your actual username:
 
-.. sourcecode:: bash
+      .. sourcecode:: bash
 
-   $ visudo
-   your_username ALL=(ALL) ALL
+         $ visudo
+         your_username ALL=(ALL) ALL
 
-After being added to a new group you much log out and then log back in for the new group to take effect.
+      After being added to a new group you much log out and then log back in for the new group to take effect.
 
-.. hint:: To learn more about ``sudo`` and how to debug common problems see the Debian Sudo page at https://wiki.debian.org/sudo
+      .. hint:: To learn more about ``sudo`` and how to debug common problems see the Debian Sudo page at https://wiki.debian.org/sudo
 
-Installing Python 3.7.1
----------------------------------------------------------
+Installing Python 3.7.3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. topic:: Step One: Download Source Code
 
-   Before starting you will want to download the Python source code, you can do this by visiting https://www.python.org/downloads/source. For the purposes of this walk through you will want to download the "Latest Python 3 Release" the link for which can be found near the top of the page - this is updated to list the current stable release. At the time of writing this was Python 3.7.1.
-
-   Once you have selected the version you are after, you will notice a **Files** section at the bottom of the page, you want to download the **Gzipped source tarball**. If you prefer using the command line, you can also use ``wget`` to download the current directory:
-
    .. sourcecode:: bash
 
-      % wget https://www.python.org/ftp/python/3.x.x/Python-3.x.x.tgz
+      % mkdir /usr/src
+      % cd /usr/src
+      % wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
 
-      # For Python 3.7.1
-      % wget https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tgz
 
 .. topic:: Step Two: Prepare Your System
 
-   You will first want to make sure your package manager is up to date, on Debian we do this by runing the following commands:
+   You will first want to make sure your package manager is up to date, on Ubuntu we do this by running the following commands:
 
    .. sourcecode:: bash
 
@@ -285,31 +275,44 @@ Installing Python 3.7.1
       libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev  libncursesw5-dev \
       xz-utils tk-dev
 
-.. topic:: Step Two: Build Python
+.. topic:: Step Three: Build Python
 
-   Once you have successfully installed all the required packages, you can unpack the source into a directory. Without getting too much into Linux directory internals I'd suggest unpacking the directory into ``/usr/local/bin`` the commands you will want to run in a terminal windows is shown in the code block below. However, before we blindly run into that screaming about Pythons and other slithery delights, let's walkthrough what's going on on lines, 2, 3 and 4.
-
-.. topic:: Line 2
+   Once you have successfully installed all the required packages, you can unpack the source into a directory. Without getting too much into Linux directory internals I'd suggest unpacking the directory into ``/usr/local/bin`` the commands you will want to run in a terminal window is shown in the code block below. However, before we blindly run into that screaming about Pythons and other slithery delights, let's walk-through what's going on on lines, 3, 4 and 5.
 
    .. sourcecode:: bash
+      :linenos:
+      :emphasize-lines: 3,4,5
 
-      % ./configure --enable-optimizations --with-ensurepip=install
+      $ sudo tar xzf Python-3.7.3.tgz --directory /usr/local/bin
+      $ sudo cd /usr/local/bin/Python-3.7.1
+      $ sudo ./configure --enable-optimizations --with-ensurepip=install
+      $ sudo make -j 8
+      $ sudo make altinstall
+      % cd ..
+      % cd ~
 
-   The configure script is responsible for getting the software ready to build on your system. It makes sure dependencies are met and ensures the software is installed just the way you want. It's sort of like adding walnuts into the banana bread batter just before you put it in the oven.
-
-   If you are curious to see what a ``configure`` file looks like you can check out the Python one at https://github.com/python/cpython/blob/master/configure - there is absolutely no reason you need to do this and frankly this is the authors first time looking at the file as well.
-
-   .. tip:: There are many (like lots) of options available when building Python if you are ever curious about these you can run ``./configure --help``
 
 .. topic:: Line 3
 
    .. sourcecode:: bash
 
-      % make -j 8
+      % sudo ./configure --enable-optimizations --with-ensurepip=install
+
+   The configure script is responsible for getting the software ready to build on your system. It makes sure dependencies are met and ensures the software is installed just the way you want. It's sort of like adding walnuts into the banana bread batter just before you put it in the oven.
+
+   If you are curious to see what a ``configure`` file looks like you can check out the `Python configuration file on GitHub <https://github.com/python/cpython/blob/master/configure>`_ - there is absolutely no reason you need to do this and frankly this is the authors first time looking at the file as well.
+
+   .. tip:: There are many (like lots) of options available when building Python if you are ever curious about these you can run ``./configure --help``
+
+.. topic:: Line 4
+
+   .. sourcecode:: bash
+
+      $ sudo make -j 8
 
    We then build the Python programs using ``make``. The ``-j`` flag tells ``make`` to split the build into parallel steps to help speed up the time it takes to compile - however, keep in mind that even with parallel builds this can still take a few minutes.
 
-.. topic:: Line 4
+.. topic:: Line 5
 
    .. sourcecode:: bash
 
@@ -317,20 +320,7 @@ Installing Python 3.7.1
 
    Then we can install our new version of Python, however, unlike building other programs we use ``altinstall`` instead of ``make install`` this is to ensure we do **not** overwrite the systems version of Python, which on Debian is catastrophic (the author has done this more than once).
 
-   .. warning:: Please only use the altinstall target on make. Using the install target will overwrite the python binary. While it might seem like a good idea to try and upgrade the system version of Python to 3.7.1 there are significant parts of Debian that rely on the pre-installed system version, which cannot be repaired later!
-
-   .. sourcecode:: bash
-      :linenos:
-      :emphasize-lines: 2,3,4
-
-      % tar xzf Python-3.7.0.tgz --directory /usr/local/bin
-      % cd /usr/local/bin/Python-3.7.0
-      % ./configure --enable-optimizations --with-ensurepip=install
-      % make -j 8
-      $ sudo make altinstall
-      % chmod +x python3.7
-      % cd ..
-      % cd ~
+   .. warning:: Only use the ``altinstall`` target on ``make``. Using the install target will overwrite the python binary. While it might seem like a good idea to try and upgrade the system version of Python to 3.7.1 there are significant parts of Ubuntu that rely on the pre-installed system version, which cannot be (easily) repaired later!
 
    You can then invoke Python by opening a terminal window and typing the following:
 
@@ -344,14 +334,14 @@ Installation on OSX
 
 Before installing a newer version of Python you will need to install the GNU Compiler Collection (GCC). GCC can be installed by downloading and installing Xcode.
 
-.. warning:: If you already have Xcode installed, do not install OSX-GCC-Installer. In combination, the software can cause issues that are difficult to diagnose.
+.. caution:: If you already have Xcode installed, do not install OSX-GCC-Installer. In combination, the software can cause issues that are difficult to diagnose.
 
 Additionally, if you've been a long time OS X user, you will know while it comes with a number of UNIX like utilities it is missing one key feature - a package manager, so first up if you haven't already, you'll want to install Homebrew.
 
-The instructions on how to install Homebrew can be found at https://brew.sh.
+The instructions on how to install Homebrew can be found on the `Homebrew website <https://brew.sh>`_.
 
-1. To install the latest version of version of Python run ``brew install python3``. At the time of writing (14 December 2018) this was https://www.python.org/downloads/release/python-371.
+1. To install the latest version of version of Python run ``brew install python3``.
 2. To verify the installation worked, open a terminal by pressing ``[COMMAND + SPACE]`` keys (or manually open Spotlight search) and type ``Terminal`` and press ``[ENTER]``.
 3. Once the terminal is open type ``python3`` and you will be dropped into a Python interpreter.
 
-.. hint:: To install previous versions of Python 3.x.x you will need to visit https://www.python.org/downloads and manually download and install them as Homebrew does not provide other major versions.
+.. hint:: To install previous versions of Python 3.x.x you will need to visit the `Official Python website <https://www.python.org/downloads>`_ and manually download and install them as Homebrew does not provide other major versions.

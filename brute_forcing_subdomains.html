@@ -1,0 +1,451 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Brute Forcing Subdomains &mdash; Snake Charming for Beginners 0.0.1 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/rtd_theme_override.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Exploiting CVE-2014-0160" href="exploiting_cve_2014_0160.html" />
+    <link rel="prev" title="Handling Word Lists" href="handling_word_lists.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Snake Charming for Beginners
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="welcome_to_the_jungle.html">Welcome to the Jungle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing_python_three_point_seven.html">Installing Python 3.7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_development_environment.html">Python Development Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started_with_pycharm.html">Getting Started with PyCharm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_your_command_center.html">Build Your Command Centre</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handling_word_lists.html">Handling Word Lists</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Brute Forcing Subdomains</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#about-the-domain-name-system">About the Domain Name System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#understanding-subdomains">Understanding Subdomains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-recipe-for-building-a-subdomain-enumerator">A Recipe for Building a Subdomain Enumerator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ingredients">Ingredients</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#method">Method</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#further-reading">Further Reading</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exploiting_cve_2014_0160.html">Exploiting CVE-2014-0160</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gathering_system_level_information.html">Gathering System Level Information Cheat Sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contacting_the_unix_daemons_of_old.html">Contacting the UNIX Daemons of Old</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solutions_for_domain_bruteforcer.html">Subdomain Bruteforcing Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solutions_for_cve_2014_0160.html">Exploitiong CVE-2014-0160 Solutions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Snake Charming for Beginners</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Brute Forcing Subdomains</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/brute_forcing_subdomains.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="brute-forcing-subdomains">
+<h1>Brute Forcing Subdomains<a class="headerlink" href="#brute-forcing-subdomains" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="about-the-domain-name-system">
+<h2>About the Domain Name System<a class="headerlink" href="#about-the-domain-name-system" title="Permalink to this headline">¶</a></h2>
+<p>Before we talk about enumerating subdomains, we need to have a chat about <abbr title="Domain Name System">DNS</abbr>.</p>
+<p>So long story short, <abbr title="Domain Name System">DNS</abbr> is the phone book of the Internet. When you browse to <code class="docutils literal notranslate"><span class="pre">snakecharmingforbeginners.com</span></code> part of the network connection is turning this into an <abbr title="Internet Protocol">IP</abbr> address so your browser can load the resources.</p>
+<p>Each device connected to the Internet has a unique <abbr title="Internet Protocol">IP</abbr> address which is used to find the device, this is referred to as a public <abbr title="Internet Protocol">IP</abbr> address and is different to the <abbr title="Internet Protocol">IP</abbr> address you may see on your computer which is a private <abbr title="Internet Protocol">IP</abbr> address, this address is a unique identifier for any device behind your router.</p>
+<p>The following ranges are reserved by <abbr title="Internet Assigned Numbers Authority">IANA</abbr> for use as private <abbr title="Internet Protocol">IP</abbr> addresses:</p>
+<ul class="simple">
+<li><p>10.0.0.0 - 10.255.255.255</p></li>
+<li><p>172.16.0.0 - 172.31.255.255</p></li>
+<li><p>192.168.0.0 - 192.168.255.255</p></li>
+</ul>
+<p>So excluding the above ranges, public <abbr title="Internet Protocol">IP</abbr> addresses range from <code class="docutils literal notranslate"><span class="pre">1...</span></code> to <code class="docutils literal notranslate"><span class="pre">191...</span></code>. All of the addresses starting with <code class="docutils literal notranslate"><span class="pre">192</span></code> are not registered for public use, which means they can only be used as a private IP address and is often one of the most commonly used private spaces.</p>
+<p>To find out your public IP address you can Google “What’s my IP address” or using Python you can use the following:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">urllib.request</span>
+
+<span class="n">external_ip</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;https://ident.me&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Your public IP address is: {external_ip}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>When talking about brute forcing and enumeration there a number of records you want to take not of, these are listed in the table below with a description of the records job:</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>DNS Record</p></th>
+<th class="head"><p>Usage</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A Record</p></td>
+<td><p>Also known as a DNS Host
+record, it stores a hostname
+and its corresponding IPv4
+addresses</p></td>
+</tr>
+<tr class="row-odd"><td><p>AAAA Record</p></td>
+<td><p>The same as an A Record but
+for IPv6</p></td>
+</tr>
+<tr class="row-even"><td><p>A Record</p></td>
+<td><p>Also known as a DNS Host
+record, it stores a hostname
+and its corresponding IPv4
+addresses</p></td>
+</tr>
+<tr class="row-odd"><td><p><abbr title="Canonical Name">CNAME</abbr> Record</p></td>
+<td><p>Can be used to alias a
+hostname to another hostname
+When a DNS client requests
+a record that contains a
+CNAME, which points to
+another hostname, the DNS
+resolution process is then
+repeated with the new
+hostname</p></td>
+</tr>
+<tr class="row-even"><td><p><abbr title="Mail Exchange">MX</abbr>
+Record</p></td>
+<td><p>Specifies an <abbr title="Simple Mail Transfer Protocol">SMTP</abbr> email server for
+the domain, used to route
+outgoing emails to an email
+server</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="understanding-subdomains">
+<h2>Understanding Subdomains<a class="headerlink" href="#understanding-subdomains" title="Permalink to this headline">¶</a></h2>
+<p>So in the <abbr title="Domain Name System">DNS</abbr> hierarchy, a subdomain is a domain that is a part of another main domain. For example, <code class="docutils literal notranslate"><span class="pre">tweetdeck.twitter.com</span></code> where <code class="docutils literal notranslate"><span class="pre">tweetdeck</span></code> is a subdomain of <code class="docutils literal notranslate"><span class="pre">twitter.com</span></code>.</p>
+<p>Depending on the application, a record inside the domain, or subdomain, the subdomain may point to a machine cluster. While this can vary on the configuration of the system, a common occurrence of this is the usage <code class="docutils literal notranslate"><span class="pre">www.example.com</span></code> to point to cluster one, <code class="docutils literal notranslate"><span class="pre">www2.example.com</span></code> to point to cluster two etc.</p>
+<p>Some domains may also host their nameservers as <code class="docutils literal notranslate"><span class="pre">ns1.example.com</span></code>, <code class="docutils literal notranslate"><span class="pre">ns2.example.com</span></code> etc. However these are not typically external resources and may not typically show up in search engine results.</p>
+<p>Subdomain enumeration is therefore part of the reconnaissance phase, where you are looking for other domains that may reveal other in scope domains which helps increase the chances of finding vulnerabilities and issues, you may uncover long forgotten applications, or applications that were not supposed to see the light of day.</p>
+</div>
+<div class="section" id="a-recipe-for-building-a-subdomain-enumerator">
+<h2>A Recipe for Building a Subdomain Enumerator<a class="headerlink" href="#a-recipe-for-building-a-subdomain-enumerator" title="Permalink to this headline">¶</a></h2>
+<div class="topic">
+<p class="topic-title first">Concepts Covered</p>
+<ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">requests</span></code></p></li>
+<li><p>String concatenation</p></li>
+<li><p>Using named <code class="docutils literal notranslate"><span class="pre">parameters</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="ingredients">
+<h3>Ingredients<a class="headerlink" href="#ingredients" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>One dash of <code class="docutils literal notranslate"><span class="pre">requests</span></code></p></li>
+<li><p>One liberal handful of exception handling</p></li>
+<li><p>A pinch of <code class="docutils literal notranslate"><span class="pre">list</span></code> enumeration</p></li>
+</ul>
+</div>
+<div class="section" id="method">
+<h3>Method<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h3>
+<p>Now that we have processed our word list we are going to start with the simplest type of subdomain brute-forcing. The web kind.</p>
+<p>Normally when we talk about subdomain brute forcing we also talk about enumeration, however enumeration relies on drawing from more sources which inherently makes it more complex as you are dealing with search engine <abbr title="Application Programming Interfaces">APIs</abbr> <abbr title="Domain Name System) records and :abbr:`SSL/TLS (Secure Socket Layer/Transport Layer Security">DNS</abbr> certificates.</p>
+<p>These are all things that can be built in later, so first we will start out with the basics.</p>
+<p>As we mentioned previously, a subdomain in its simplest form can be like <code class="docutils literal notranslate"><span class="pre">tweetdeck.twitter.com</span></code> however in theory this subdivision can go 127 levels deep (though that limit is not in any published <abbr title="Request For Comment">RFC</abbr> so mileage with this sort of system will vary, however it is not common to see that many levels of subdivision.</p>
+<p>The first thing we will want to do is iterate over the word list we processed in the previous step.</p>
+<p>Now we can start queries.</p>
+<p>Requests is a third-party Python library created by Kenneth Reitz however significant contributions have also been made by Cory Benfield, Ian Stapleton Cordasco and Nate Prewitt. It’s a fantastic alternative to <code class="docutils literal notranslate"><span class="pre">urllib</span></code> as it provides a much higher level interface to use, making it easier for quick jobs.</p>
+<p>It can be installed by running <code class="docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">install</span> <span class="pre">requests</span></code>.</p>
+<p>The syntax, for those who have worked with web requests before is very straight forward:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># where r is the response from the request made</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://api.github.com/user&#39;</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;pass&#39;</span><span class="p">))</span>
+<span class="c1"># you can also gather other important information such as status code</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span>
+<span class="mi">200</span>
+<span class="c1"># headers</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">r</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;content-type&#39;</span><span class="p">]</span>
+<span class="s1">&#39;application/json; charset=utf8&#39;</span>
+<span class="c1"># encoding</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">r</span><span class="o">.</span><span class="n">encoding</span>
+<span class="s1">&#39;utf-8&#39;</span>
+<span class="c1"># the response body as text output</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
+<span class="sa">u</span><span class="s1">&#39;{&quot;type&quot;:&quot;User&quot;...&#39;</span>
+<span class="c1"># the response body as JavaScript Object Notation (JSON)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="p">{</span><span class="sa">u</span><span class="s1">&#39;private_gists&#39;</span><span class="p">:</span> <span class="mi">419</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;total_private_repos&#39;</span><span class="p">:</span> <span class="mi">77</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Using the first example above, we want to query the domain the user supplied with each word in our word list appended at the start, remembering to place a <code class="docutils literal notranslate"><span class="pre">.</span></code> in-between.</p>
+<p>This can be done in a number of ways:</p>
+<ul>
+<li><p>Python supports string concatenation using <code class="docutils literal notranslate"><span class="pre">+</span></code> operator:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">runtime_options</span><span class="o">.</span><span class="n">domain</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>We can also use the string <code class="docutils literal notranslate"><span class="pre">format()</span></code> function too for concatenation:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;{}.{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">runtime_options</span><span class="o">.</span><span class="n">domain</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>In Python 3.6 and higher (that’s us) you can also use f-strings (my personal favorite):</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="s2">&quot;{word}.{runtime_options.domain}&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<p>Each has its benefits and drawbacks, however we won’t get into them here.</p>
+<p>So now, you should have <code class="docutils literal notranslate"><span class="pre">get</span></code> request that is (almost) ready to go. If you have already run your code, you may have noticed a problem. Requests raises a <code class="docutils literal notranslate"><span class="pre">MissingSchema</span></code> exception.</p>
+<p>This is because on our URL in its current form, we don’t specify the protocol we are using, should it be made using <code class="docutils literal notranslate"><span class="pre">http</span></code> or <code class="docutils literal notranslate"><span class="pre">https</span></code>? You have a few options here:</p>
+<ul class="simple">
+<li><p>Hard code the schema by appending <code class="docutils literal notranslate"><span class="pre">http://</span></code> or <code class="docutils literal notranslate"><span class="pre">https://</span></code> to the start of your URL (fastest)</p></li>
+<li><p>Adding an option into our argument parser that allows the user to pick if the queries are made using <code class="docutils literal notranslate"><span class="pre">http://</span></code> or <code class="docutils literal notranslate"><span class="pre">https://</span></code> (flexible, but assumes only web based)</p></li>
+<li><p>Forcing the user to supply the full URL, including the schema and then splitting it up so you can inject your <code class="docutils literal notranslate"><span class="pre">word</span></code> value between the schema and the domain. (most flexible, but more complex)</p></li>
+</ul>
+<p>Any option you pick right now is fine, you can always change and update your code later.</p>
+<p>Once you have picked how you plan to handle the schema, you can try running your code. You may notice however your code never gets past the first entry.</p>
+<p>This happens because in our request we don’t specify the how long we should wait before determining that the server is unavailable – this can be affected by a number of things, such as network speed, the server actually being unavailable to serve content because it is down, doesn’t exist or some other reason.</p>
+<p>Creating too many open connections and never closing them can also be problematic for servers, and can cause a <abbr title="Denial of Service">DoS</abbr> often referred to as a Slowloris.</p>
+<p>So how can we fix it?</p>
+<p>Requests is handy that way and have an optional <code class="docutils literal notranslate"><span class="pre">timeout</span></code> argument that can be specified. Again, how we provide this can be done in a number of ways:</p>
+<ul class="simple">
+<li><p>Hard code the number of seconds to wait before we timeout. (Faster)</p></li>
+<li><p>Add an option that can be specified so the user can account for slow network connections or servers that may take longer to respond. (More flexible)</p></li>
+</ul>
+<p>So now we have the timeout problem fixed! However, something lurks deeper. After running it again, you will notice your application throwing a <code class="docutils literal notranslate"><span class="pre">requests.exceptions.ConnectTimeout</span></code> this is how the Requests library handles a connection time out, this is because depending on what you are doing a connection timeout may mean your application cannot run so you will need to handle this yourself.</p>
+<p>If you recall Python’s motto is “Ask for forgiveness, not permission” which is what we are doing here, we are attempting to connect to a server without knowing if the server is up or even available.</p>
+<p>The syntax for exception handling is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">my_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">new_file</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">new_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">FileNotFoundError</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Run the application again and ensure all exceptions are handled and the output is as expected.</p>
+<p>Once everything is working as expected you are done you have the simplest form of a subdomain brute forcer. Depending on the time available and how much you want to develop your tool there are a number of improvements you can make:</p>
+<ul class="simple">
+<li><p>Directly querying <abbr title="Domain Name System">DNS</abbr> and checking for records</p></li>
+<li><p>Querying <abbr title="Secure Socket Layer/Transport Layer Security">SSL/TLS</abbr> certificates for the domains the certificate covers</p></li>
+<li><dl class="simple">
+<dt>Using search engines or public resources to query for subdomains, some good sources include:</dt><dd><ul>
+<li><p>Google</p></li>
+<li><p>Bing</p></li>
+<li><p>Yahoo</p></li>
+<li><p>Baidu: a Chinese search engine</p></li>
+<li><p>Virus Total: provides extensive information in addition to observed subdomains, which is a list of all subdomains it knows about.</p></li>
+<li><p>DNS Dumpster: a free domain research tool that can discover hosts related to a domain</p></li>
+<li><p>Censys.io: a security based search engine, the free tier provides 250 queries per month</p></li>
+<li><p>SearchDNS: allows you to query subdomains gives a domain name</p></li>
+<li><p>Shodan:  an infrastructure based spider with an associated information caching database</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>While many of these are created for the purpose of subdomain enumeration, others such as Google Bing, Yahoo and Baidu index subdomains because that is part of their job.</p>
+<p>Keep in mind these techniques will provide more accurate results, they can be much more involved to implement.</p>
+<div class="section" id="further-reading">
+<h4>Further Reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.cloudflare.com/learning/dns/what-is-dns/">What Is DNS? | How DNS Works</a>.</p></li>
+<li><p><a class="reference external" href="https://www.cloudflare.com/learning/dns/dns-records/">DNS Records</a>.</p></li>
+<li><p><a class="reference external" href="https://tools.ietf.org/html/rfc1035">RFC 1035 Domain Names - Implementation And Specification</a>.</p></li>
+<li><p><a class="reference external" href="https://restfulapi.net/http-methods/">HTTP Methods</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/urllib.request.html#module-urllib.request">urllib.request — Extensible library for opening URLs</a>.</p></li>
+<li><p><a class="reference external" href="http://docs.python-requests.org/en/master/">Requests: HTTP for Humans™</a>.</p></li>
+<li><p><a class="reference external" href="https://realpython.com/python-string-split-concatenate-join/">Splitting, Concatenating, and Joining Strings in Python</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str">Text Sequence Type - str</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files">Reading and Writing Files</a>.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="exploiting_cve_2014_0160.html" class="btn btn-neutral float-right" title="Exploiting CVE-2014-0160" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="handling_word_lists.html" class="btn btn-neutral float-left" title="Handling Word Lists" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, errbufferoverfl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -3,25 +3,24 @@
     :caption: Contents:
 
     welcome_to_the_jungle
-    conventions_used_in_this_guide
     installing_python_three_point_seven
     python_development_environment
     getting_started_with_pycharm
     build_your_command_center
     handling_word_lists
-    exploit
+    brute_forcing_subdomains
+    exploiting_cve_2014_0160
     gathering_system_level_information
     contacting_the_unix_daemons_of_old
     credits
-    solutions
+    solutions_for_domain_bruteforcer
+    solutions_for_cve_2014_0160
 
 =========================================================
 Snake Charming for Beginners
 =========================================================
 
-"Snake Charming for Beginners" is a free two day Python training course put together for 0xCC an information security
-training conference by women for women. It serves as a tutorial and guide to the Python language for a beginner audience
-with a focus on using Python for penetration testing or bug hunting.
+"Snake Charming for Beginners" is a free two day Python training course put together for 0xCC an information security training conference by women for women. It serves as a tutorial and guide to the Python language for a beginner audience with a focus on using Python for penetration testing or bug hunting.
 
 While not mandatory, if you have never done any programming, we suggest you attend the free-thirty minute primer on Python.
 
@@ -35,13 +34,13 @@ On the first day of our trek through the dense jungles of Pythonia we will be lo
 
 Day two we will move further into the dark jungles of Pythonia delving into forbidden user-land territory and how you can use Python to gather useful system-level information, and contact the UNIX daemons of old.
 
-While writing this training description, errbufferoverfl wrote two Python fan fictions, the next cyber-themed Hollywood blockbuster and Shakespearian a play about the training.
+While writing this training description, errbufferoverfl wrote two Python fan fictions, the next cyber-themed Hollywood blockbuster and Snakespearian a play about the training.
 
 ---------------------------------------------------------
 What we won't be covering
 ---------------------------------------------------------
 
-- ``git`` and how to use it, there are many tutorials and walk-throughs available for ``git`` online and I want to focus as much time as possible on actually building things. My favorite resources are:
+- ``git`` and how to use it, there are many tutorials and walk-throughs available for ``git`` online and I want to focus as much time as possible on actually building things. My favourite resources are:
 
    - https://try.github.io - how to use GitHub, this translates relatively well for most ``git`` based services (BitBucket, goget, GitLab)
 
@@ -81,19 +80,12 @@ Download
 ---------------------------------------------------------
 Visit https://github.com/errbufferoverfl/snakecharmingforbeginners for the following types of downloads:
 
-* PDF (for desktop readting, etc.)
+* PDF (for desktop reading, etc.)
 * PDF (for desktop reading, etc.)
 * EPUB (for iPhone/iPad, ebook readers, etc.)
 * Mobi (for Kindle)
 
 Visit https://github.com/errbufferoverfl/snakecharmingforbeginners for the raw content (for suggesting corrections, changes, translating, etc.)
-
----------------------------------------------------------
-Dedication
----------------------------------------------------------
-To @chkconfig, @zemmip0bia and @nanomebia for always being there, encouraging me to do dumb projects and reading over the first drafts (P.S. I wrote this before any of you agreed to it).
-
-To all my favorite rats for allowing me the time to put this together and asking me all the hard questions.
 
 ---------------------------------------------------------
 Preface
@@ -111,6 +103,4 @@ So whether this is the first time you are using Python, or you have been using i
 ---------------------------------------------------------
 Credits
 ---------------------------------------------------------
-All work work within the Public Domain or licensed can be found attributed within the :ref:`Credits` page. If you find any work incorrectly referenced or licensed please contact snakecharmingforbegineers@errbufferoverfl.me.
-
-
+All work work within the Public Domain or licensed can be found attributed within the :ref:`Credits` page. If you find any work incorrectly referenced or licensed, please contact `snakecharmingforbegineers@errbufferoverfl.me <mailto:snakecharmingforbegineers@errbufferoverfl.me>`_.

@@ -1,0 +1,253 @@
+=========================================================
+Brute Forcing Subdomains
+=========================================================
+
+---------------------------------------------------------
+About the Domain Name System
+---------------------------------------------------------
+
+Before we talk about enumerating subdomains, we need to have a chat about :abbr:`DNS (Domain Name System)`.
+
+So long story short, :abbr:`DNS (Domain Name System)` is the phone book of the Internet. When you browse to ``snakecharmingforbeginners.com`` part of the network connection is turning this into an :abbr:`IP (Internet Protocol)` address so your browser can load the resources.
+
+Each device connected to the Internet has a unique :abbr:`IP (Internet Protocol)` address which is used to find the device, this is referred to as a public :abbr:`IP (Internet Protocol)` address and is different to the :abbr:`IP (Internet Protocol)` address you may see on your computer which is a private :abbr:`IP (Internet Protocol)` address, this address is a unique identifier for any device behind your router.
+
+The following ranges are reserved by :abbr:`IANA (Internet Assigned Numbers Authority)` for use as private :abbr:`IP (Internet Protocol)` addresses:
+
+- 10.0.0.0 - 10.255.255.255
+
+- 172.16.0.0 - 172.31.255.255
+
+- 192.168.0.0 - 192.168.255.255
+
+So excluding the above ranges, public :abbr:`IP (Internet Protocol)` addresses range from ``1...`` to ``191...``. All of the addresses starting with ``192`` are not registered for public use, which means they can only be used as a private IP address and is often one of the most commonly used private spaces.
+
+To find out your public IP address you can Google "What's my IP address" or using Python you can use the following:
+
+    .. code-block:: python
+
+        import urllib.request
+
+        external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
+
+        print(f'Your public IP address is: {external_ip}')
+
+When talking about brute forcing and enumeration there a number of records you want to take not of, these are listed in the table below with a description of the records job:
+
++---------------------------+-----------------------------+
+| DNS Record                | Usage                       |
++===========================+=============================+
+| A Record                  | Also known as a DNS Host    |
+|                           | record, it stores a hostname|
+|                           | and its corresponding IPv4  |
+|                           | addresses                   |
++---------------------------+-----------------------------+
+| AAAA Record               | The same as an A Record but |
+|                           | for IPv6                    |
++---------------------------+-----------------------------+
+| A Record                  | Also known as a DNS Host    |
+|                           | record, it stores a hostname|
+|                           | and its corresponding IPv4  |
+|                           | addresses                   |
++---------------------------+-----------------------------+
+| :abbr:`CNAME (Canonical   | Can be used to alias a      |
+| Name)` Record             | hostname to another hostname|
+|                           | When a DNS client requests  |
+|                           | a record that contains a    |
+|                           | CNAME, which points to      |
+|                           | another hostname, the DNS   |
+|                           | resolution process is then  |
+|                           | repeated with the new       |
+|                           | hostname                    |
++---------------------------+-----------------------------+
+| :abbr:`MX (Mail Exchange)`| Specifies an :abbr:`SMTP    |
+| Record                    | (Simple Mail Transfer       |
+|                           | Protocol)` email server for |
+|                           | the domain, used to route   |
+|                           | outgoing emails to an email |
+|                           | server                      |
++---------------------------+-----------------------------+
+
+---------------------------------------------------------
+Understanding Subdomains
+---------------------------------------------------------
+
+So in the :abbr:`DNS (Domain Name System)` hierarchy, a subdomain is a domain that is a part of another main domain. For example, ``tweetdeck.twitter.com`` where ``tweetdeck`` is a subdomain of ``twitter.com``.
+
+Depending on the application, a record inside the domain, or subdomain, the subdomain may point to a machine cluster. While this can vary on the configuration of the system, a common occurrence of this is the usage ``www.example.com`` to point to cluster one, ``www2.example.com`` to point to cluster two etc.
+
+Some domains may also host their nameservers as ``ns1.example.com``, ``ns2.example.com`` etc. However these are not typically external resources and may not typically show up in search engine results.
+
+Subdomain enumeration is therefore part of the reconnaissance phase, where you are looking for other domains that may reveal other in scope domains which helps increase the chances of finding vulnerabilities and issues, you may uncover long forgotten applications, or applications that were not supposed to see the light of day.
+
+---------------------------------------------------------
+A Recipe for Building a Subdomain Enumerator
+---------------------------------------------------------
+
+.. topic:: Concepts Covered
+
+    - Using ``requests``
+
+    - String concatenation
+
+    - Using named ``parameters``
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Ingredients
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- One dash of ``requests``
+
+- One liberal handful of exception handling
+
+- A pinch of ``list`` enumeration
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Method
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now that we have processed our word list we are going to start with the simplest type of subdomain brute-forcing. The web kind.
+
+Normally when we talk about subdomain brute forcing we also talk about enumeration, however enumeration relies on drawing from more sources which inherently makes it more complex as you are dealing with search engine :abbr:`APIs (Application Programming Interfaces)` :abbr:`DNS (Domain Name System) records and :abbr:`SSL/TLS (Secure Socket Layer/Transport Layer Security)` certificates.
+
+These are all things that can be built in later, so first we will start out with the basics.
+
+As we mentioned previously, a subdomain in its simplest form can be like ``tweetdeck.twitter.com`` however in theory this subdivision can go 127 levels deep (though that limit is not in any published :abbr:`RFC (Request For Comment)` so mileage with this sort of system will vary, however it is not common to see that many levels of subdivision.
+
+The first thing we will want to do is iterate over the word list we processed in the previous step.
+
+Now we can start queries.
+
+Requests is a third-party Python library created by Kenneth Reitz however significant contributions have also been made by Cory Benfield, Ian Stapleton Cordasco and Nate Prewitt. It's a fantastic alternative to ``urllib`` as it provides a much higher level interface to use, making it easier for quick jobs.
+
+It can be installed by running ``pipenv install requests``.
+
+The syntax, for those who have worked with web requests before is very straight forward:
+
+.. code-block:: python
+
+    # where r is the response from the request made
+    >>> r = requests.get('https://api.github.com/user', auth=('user', 'pass'))
+    # you can also gather other important information such as status code
+    >>> r.status_code
+    200
+    # headers
+    >>> r.headers['content-type']
+    'application/json; charset=utf8'
+    # encoding
+    >>> r.encoding
+    'utf-8'
+    # the response body as text output
+    >>> r.text
+    u'{"type":"User"...'
+    # the response body as JavaScript Object Notation (JSON)
+    >>> r.json()
+    {u'private_gists': 419, u'total_private_repos': 77, ...}
+
+Using the first example above, we want to query the domain the user supplied with each word in our word list appended at the start, remembering to place a ``.`` in-between.
+
+This can be done in a number of ways:
+
+- Python supports string concatenation using ``+`` operator:
+
+    .. code-block:: python
+
+        word + "." + runtime_options.domain
+
+- We can also use the string ``format()`` function too for concatenation:
+
+    .. code-block:: python
+
+        "{}.{}".format(word, runtime_options.domain)
+
+- In Python 3.6 and higher (that's us) you can also use f-strings (my personal favorite):
+
+    .. code-block:: python
+
+        f"{word}.{runtime_options.domain}"
+
+Each has its benefits and drawbacks, however we won't get into them here.
+
+So now, you should have ``get`` request that is (almost) ready to go. If you have already run your code, you may have noticed a problem. Requests raises a ``MissingSchema`` exception.
+
+This is because on our URL in its current form, we don't specify the protocol we are using, should it be made using ``http`` or ``https``? You have a few options here:
+
+- Hard code the schema by appending ``http://`` or ``https://`` to the start of your URL (fastest)
+
+- Adding an option into our argument parser that allows the user to pick if the queries are made using ``http://`` or ``https://`` (flexible, but assumes only web based)
+
+- Forcing the user to supply the full URL, including the schema and then splitting it up so you can inject your ``word`` value between the schema and the domain. (most flexible, but more complex)
+
+Any option you pick right now is fine, you can always change and update your code later.
+
+Once you have picked how you plan to handle the schema, you can try running your code. You may notice however your code never gets past the first entry.
+
+This happens because in our request we don't specify the how long we should wait before determining that the server is unavailable -- this can be affected by a number of things, such as network speed, the server actually being unavailable to serve content because it is down, doesn't exist or some other reason.
+
+Creating too many open connections and never closing them can also be problematic for servers, and can cause a :abbr:`DoS (Denial of Service)` often referred to as a Slowloris.
+
+So how can we fix it?
+
+Requests is handy that way and have an optional ``timeout`` argument that can be specified. Again, how we provide this can be done in a number of ways:
+
+- Hard code the number of seconds to wait before we timeout. (Faster)
+
+- Add an option that can be specified so the user can account for slow network connections or servers that may take longer to respond. (More flexible)
+
+So now we have the timeout problem fixed! However, something lurks deeper. After running it again, you will notice your application throwing a ``requests.exceptions.ConnectTimeout`` this is how the Requests library handles a connection time out, this is because depending on what you are doing a connection timeout may mean your application cannot run so you will need to handle this yourself.
+
+If you recall Python's motto is "Ask for forgiveness, not permission" which is what we are doing here, we are attempting to connect to a server without knowing if the server is up or even available.
+
+The syntax for exception handling is:
+
+.. sourcecode:: python
+
+    try:
+        with open(my_file) as new_file:
+            lines = new_file.readlines()
+    except FileNotFoundError:
+        sys.exit(2)
+
+Run the application again and ensure all exceptions are handled and the output is as expected.
+
+Once everything is working as expected you are done you have the simplest form of a subdomain brute forcer. Depending on the time available and how much you want to develop your tool there are a number of improvements you can make:
+
+- Directly querying :abbr:`DNS (Domain Name System)` and checking for records
+
+- Querying :abbr:`SSL/TLS (Secure Socket Layer/Transport Layer Security)` certificates for the domains the certificate covers
+
+- Using search engines or public resources to query for subdomains, some good sources include:
+    - Google
+    - Bing
+    - Yahoo
+    - Baidu: a Chinese search engine
+    - Virus Total: provides extensive information in addition to observed subdomains, which is a list of all subdomains it knows about.
+    - DNS Dumpster: a free domain research tool that can discover hosts related to a domain
+    - Censys.io: a security based search engine, the free tier provides 250 queries per month
+    - SearchDNS: allows you to query subdomains gives a domain name
+    - Shodan:  an infrastructure based spider with an associated information caching database
+
+While many of these are created for the purpose of subdomain enumeration, others such as Google Bing, Yahoo and Baidu index subdomains because that is part of their job.
+
+Keep in mind these techniques will provide more accurate results, they can be much more involved to implement.
+
+Further Reading
+=========================================================
+
+- `What Is DNS? | How DNS Works <https://www.cloudflare.com/learning/dns/what-is-dns/>`_.
+
+- `DNS Records <https://www.cloudflare.com/learning/dns/dns-records/>`_.
+
+- `RFC 1035 Domain Names - Implementation And Specification <https://tools.ietf.org/html/rfc1035>`_.
+
+- `HTTP Methods <https://restfulapi.net/http-methods/>`_.
+
+- `urllib.request — Extensible library for opening URLs <https://docs.python.org/3/library/urllib.request.html#module-urllib.request>`_.
+
+- `Requests: HTTP for Humans™ <http://docs.python-requests.org/en/master/>`_.
+
+- `Splitting, Concatenating, and Joining Strings in Python <https://realpython.com/python-string-split-concatenate-join/>`_.
+
+- `Text Sequence Type - str <https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str>`_.
+
+- `Reading and Writing Files <https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files>`_.
