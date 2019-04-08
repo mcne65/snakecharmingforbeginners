@@ -97,10 +97,27 @@
 <li class="toctree-l1"><a class="reference internal" href="brute_forcing_subdomains.html">Brute Forcing Subdomains</a></li>
 <li class="toctree-l1"><a class="reference internal" href="exploiting_cve_2014_0160.html">Exploiting CVE-2014-0160</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gathering_system_level_information.html">Gathering System Level Information Cheat Sheet</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Contacting the UNIX Daemons of Old</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contacting the UNIX Daemons of Old</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-system-d">Using <code class="docutils literal notranslate"><span class="pre">system.d</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-python-daemon">Using <code class="docutils literal notranslate"><span class="pre">python-daemon</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#handling-the-file-system">Handling the File System</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-calculate-umask">How to Calculate <code class="docutils literal notranslate"><span class="pre">umask</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#preserving-files">Preserving Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#handing-operating-system-signals">Handing Operating System Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#there-can-be-only-one">There Can Be Only ONE!</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#starting-stopping-restarting">Starting/Stopping/Restarting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#further-reading">Further Reading</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="solutions_for_domain_bruteforcer.html">Subdomain Bruteforcing Solutions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="solutions_for_cve_2014_0160.html">Exploitiong CVE-2014-0160 Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solutions_for_cve_2014_0160.html">Exploiting CVE-2014-0160 Solutions</a></li>
 </ul>
 
             
@@ -167,8 +184,545 @@
             
   <div class="section" id="contacting-the-unix-daemons-of-old">
 <h1>Contacting the UNIX Daemons of Old<a class="headerlink" href="#contacting-the-unix-daemons-of-old" title="Permalink to this headline">¶</a></h1>
-<p>Daemons are a long-running background process that answers requests for services. In Windows these are typically referred to as Services and are a little bit more complicated.</p>
-<p>While we won’t be going into depth today about daemons, because it tends to be a narrow and twisty rabbit hole I will be covering the basics of creating your own UNIX-like daemons.</p>
+<p>Daemons is a type of program on UNIX-based systems that run unobtrusively in the background unlike most applications you may be used to where you are in direct control. On Windows these types of programs are often called services however the concept is relatively the same, however it’s important to note that while services can be daemons, not all services are daemons - a user application with a graphical user interface could have a service built into it (something often seen is file sharing applications).</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Mac OS X is a UNIC based system and uses daemons, while the term service is used for software that performs a function selected from the services menu.</p>
+</div>
+<p>In UNIX daemons are usually started as a process. A process is a running instance of a program. Processes are run by the kernel (the core of the operating system) which assigned a unique <abbr title="Process Identification Number">PID</abbr>.</p>
+<p>So a daemon is created when it’s parent process is terminated and the daemon is assigned a <abbr title="Process Identification Number">PID</abbr> of one as it has no parent process and no controlling terminal – however, when speaking more generally a daemons can be any background process whether it is a child of another process or not.</p>
+<p>There are generally a number of steps that need to be taken by a computer to turn a process into a daemon which we will be covering here, but don’t worry this isn’t daemon making one-o-one, I’ll leave teaching that to the more advanced witches and wizards.</p>
+<ol class="arabic simple">
+<li><p>(Optional) Remove unnecessary variables from the environment - variables not passed when the daemon is started are often lost to the ether as the child process has no context of what the parent was doing</p></li>
+<li><p>Execute as a background task by forking (breaking off) and exiting in the parent half of the fork. This allows the daemons parent to receive exit notifications and run like normal</p></li>
+<li><p>Detach from the session that invoked the daemon</p>
+<ol class="loweralpha simple">
+<li><p>Dissociating from the controlling <abbr title="Text Terminals">tty</abbr></p></li>
+<li><p>Create a new session and become the leader of that session</p></li>
+<li><p>Become a process group leader</p></li>
+</ol>
+</li>
+<li><p>If the daemon wants to ensure that it won’t acquire a new controlling <abbr title="Text Terminals">tty</abbr> even by accident the daemon may fork and exit again.</p></li>
+<li><p>Set the root directory <code class="docutils literal notranslate"><span class="pre">/</span></code> as the current working directory so the process does not keep any directory in use that may be on a mounted file system – this allows the computer to continue normal operation and allow unmounting of the file system</p></li>
+<li><p>Change the <code class="docutils literal notranslate"><span class="pre">umask</span></code> to 0 - this allows <code class="docutils literal notranslate"><span class="pre">open()</span></code>, <code class="docutils literal notranslate"><span class="pre">creat()</span></code> and other operating system calls to specify their own permissions and not depend on those provided by the parent</p></li>
+<li><p>Close all files opened by the parent, this may include file descriptors, standard streams (<code class="docutils literal notranslate"><span class="pre">stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">stderr</span></code>). Any files required by the daemon can be opened later, or passed in</p></li>
+<li><p>Using a logfile, the console, or <code class="docutils literal notranslate"><span class="pre">/dev/null</span></code> as <code class="docutils literal notranslate"><span class="pre">stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">stdout</span></code>, and <code class="docutils literal notranslate"><span class="pre">stderr</span></code>.</p></li>
+</ol>
+<p>Further to this, you will often hear people talk about what makes a “well-behaved” daemon, and let me tell you it generally means it stays in the circle you summoned it in without needing to bring out the table salt.</p>
+<div class="section" id="using-system-d">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">system.d</span></code><a class="headerlink" href="#using-system-d" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">systemd</span></code> is a UNIX based software suite that provides the fundamental building blocks for Linux. It includes a System and Service Manager as well as an <code class="docutils literal notranslate"><span class="pre">init</span></code> system that can be used to bootstrap user space, and manage user processes. <code class="docutils literal notranslate"><span class="pre">systemd</span></code> aims to unify service configuration and behavior across Linux distributions.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><code class="docutils literal notranslate"><span class="pre">systemd</span></code> often makes daemonising applications a thing of the past, however it’s important to consider who is using your application and whether they are using <code class="docutils literal notranslate"><span class="pre">systemd</span></code>.</p>
+</div>
+<p>Once you have your Python application ready to go you will want to create a service file for <code class="docutils literal notranslate"><span class="pre">systemd</span></code>. This will need the <code class="docutils literal notranslate"><span class="pre">.service</span></code> extension and it should be saved in <code class="docutils literal notranslate"><span class="pre">/lib/systemd/system/</span></code> (this will require <code class="docutils literal notranslate"><span class="pre">sudo</span></code>).</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">vim /lib/systemd/system/myapplication.service</span>
+</pre></div>
+</div>
+<p>You will want to add the following content to the file. Ensure you change the script filename and location as well as the description.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[Unit]</span>
+<span class="go">Description=Dummy Service</span>
+<span class="go">After=multi-user.target</span>
+<span class="go">Conflicts=getty@tty1.service</span>
+
+<span class="go">[Service]</span>
+<span class="go">Type=simple</span>
+<span class="go">ExecStart=/usr/bin/python3 /usr/bin/dummy_service.py</span>
+<span class="go">StandardInput=tty-force</span>
+
+<span class="go">[Install]</span>
+<span class="go">WantedBy=multi-user.target</span>
+</pre></div>
+</div>
+<p>To escape and save the file using <code class="docutils literal notranslate"><span class="pre">sudo</span></code> you can use the following <code class="docutils literal notranslate"><span class="pre">:w</span> <span class="pre">!sudo</span> <span class="pre">tee</span> <span class="pre">%</span></code></p>
+<p>Once you have created the service you will want to reload the <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon to read the new file.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>You will need to make sure you reload the daemon each time you make changes to the <code class="docutils literal notranslate"><span class="pre">.service</span></code> file.</p>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo systemctl damemon-reload
+</pre></div>
+</div>
+<p>Next, we will want to enable the servie to start on system-boot as well as start the service in general.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo systemctl <span class="nb">enable</span> myapplication.service
+<span class="gp">$</span> sudo systemctl start myapplication.service
+</pre></div>
+</div>
+<p>If you want to check the status of the service you can run the <code class="docutils literal notranslate"><span class="pre">status</span></code> command which will show you important information about wether the status is running, the <code class="docutils literal notranslate"><span class="pre">pid</span></code> it is using, memory usage and <abbr title="Central Processing Unit">CPU</abbr> usage.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo systemctl status myapplication.service
+</pre></div>
+</div>
+<p>Finally, if for any reason you need to stop the service you can simply run the <code class="docutils literal notranslate"><span class="pre">stop</span></code> command.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> sudo systemctl stop myapplication.service
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-python-daemon">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">python-daemon</span></code><a class="headerlink" href="#using-python-daemon" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">python-daemon</span></code> is based on <span class="target" id="index-0"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-3143"><strong>PEP 3143</strong></a> which defines a standard daemon process library. It is not in Python 3.7 by default so should be installed using <code class="docutils literal notranslate"><span class="pre">pipenv</span> <span class="pre">install</span> <span class="pre">python-daemon</span></code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Many examples on Google and Stack Overflow will suggest you use the <code class="docutils literal notranslate"><span class="pre">DaemonRunner</span></code> object to handle your daemon, however this is now considered depricated and <code class="docutils literal notranslate"><span class="pre">DameonContext</span></code> should be used instead.</p>
+</div>
+<p>To get started with <code class="docutils literal notranslate"><span class="pre">DaemonContext</span></code> all you need to do is create a <code class="docutils literal notranslate"><span class="pre">with</span></code> control flow using the <code class="docutils literal notranslate"><span class="pre">DaemonContext</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">daemon</span><span class="o">.</span><span class="n">DaemonContext</span><span class="p">():</span>
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This implementation will give you a working albeit simple implementation of a daemon. You’re probably wondering about all the other things like setting the working directory, preserving important files and handling operating system signals. So let’s get into it!</p>
+<div class="section" id="handling-the-file-system">
+<h3>Handling the File System<a class="headerlink" href="#handling-the-file-system" title="Permalink to this headline">¶</a></h3>
+<p>As we mentioned earlier daemons are funny little things, because they are unbound from our command (i.e. we have no control over them) will have its own keys to be identified user-wise. This means that, irrespective of the user that started a daemon, it will have its own <abbr title="User Identification">UID</abbr>, <abbr title="Group Identification">GID</abbr>, its own root and working directories, and its own umask. While the default configuration will handle all of this automatically, sometimes we need to customise to make sure our little miscreants work the way we expect.</p>
+<p>To change the root directory, useful for confining your daemon to it’s directory, you can set the <code class="docutils literal notranslate"><span class="pre">chroot_directory</span></code> variable to a valid directory on your file system. The <code class="docutils literal notranslate"><span class="pre">working_directory</span></code> can be set in a similar way, and it the more common way of confining you daemon. By default, DaemonContext will set your working directory to root “/”.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">daemon</span><span class="o">.</span><span class="n">DaemonContext</span><span class="p">(</span>
+<span class="n">chroot_directory</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<span class="n">working_directory</span><span class="o">=</span><span class="s1">&#39;/var/lib/ose&#39;</span><span class="p">):</span>
+<span class="k">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Ose is a Great President of Hell and part of the Goetia. Ose can also conveniently turn people into loafs of bread.</p>
+</div>
+<p>However you might notice that you don’t get any output from <code class="docutils literal notranslate"><span class="pre">print(os.getcwd())</span></code> this is because when we daemonise a process step seven says that we “Close all files opened by the parent, this may include file descriptors, standard streams (<code class="docutils literal notranslate"><span class="pre">stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">stderr</span></code>). Any files required by the daemon can be opened later, or passed in”. But never fear! Preserving files is straight-forward enough and is covered in the next section.</p>
+<p>Configuring the <abbr title="User Identification">UID</abbr> and <abbr title="Group Identification">GID</abbr> may also be critical to preserve any privilege elevation the user who started the daemon may of had. This can easily be done by setting the <code class="docutils literal notranslate"><span class="pre">uid</span></code> and/or the <code class="docutils literal notranslate"><span class="pre">gid</span></code>. Keep in mind your user running the daemon will need to have these permissions, in the case they don’t <code class="docutils literal notranslate"><span class="pre">DaemonContext</span></code> will raise a <code class="docutils literal notranslate"><span class="pre">DaemonOSEnvironmentError</span></code> exception.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">daemon</span><span class="o">.</span><span class="n">DaemonContext</span><span class="p">(</span>
+    <span class="n">uid</span><span class="o">=</span><span class="mi">1001</span><span class="p">,</span>
+    <span class="n">gid</span><span class="o">=</span><span class="mi">777</span><span class="p">):</span>
+<span class="k">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getgid</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Additionally, you might want to set the daemon umask, which will set the mode the daemon will create files with.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">daemon</span><span class="o">.</span><span class="n">DaemonContext</span><span class="p">(</span>
+        <span class="n">umask</span><span class="o">=</span><span class="mi">0</span><span class="n">o002</span><span class="p">):</span>
+    <span class="n">your_mask</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">umask</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">your_mask</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">umask</span><span class="p">(</span><span class="n">your_mask</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="how-to-calculate-umask">
+<h4>How to Calculate <code class="docutils literal notranslate"><span class="pre">umask</span></code><a class="headerlink" href="#how-to-calculate-umask" title="Permalink to this headline">¶</a></h4>
+<p>To calculate the final permission for directories you can simply subtract the umask from the base permissions to determine the final permission for a directory. Keeping in mind the left most bit is the permission for the <strong>owner</strong>, the second left-most bit is for the <strong>group</strong> and the final bit if for <strong>others</strong>.</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Octal Value</p></th>
+<th class="head"><p>Permission</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>read, write and execute</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>read and write</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p>read and execute</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">3</span></code></p></td>
+<td><p>read only</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">4</span></code></p></td>
+<td><p>write and execute</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">5</span></code></p></td>
+<td><p>write only</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">6</span></code></p></td>
+<td><p>execute only</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">7</span></code></p></td>
+<td><p>no permissions</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="preserving-files">
+<h3>Preserving Files<a class="headerlink" href="#preserving-files" title="Permalink to this headline">¶</a></h3>
+<p>So while we know closing any files is what the <code class="docutils literal notranslate"><span class="pre">DaemonContext</span></code> is supposed to do, this can sometimes be undesirable as we need particular files open. We can ensure when the daemon starts it still has access to these files by specifying which files should remain open using the <code class="docutils literal notranslate"><span class="pre">files_preserve</span></code> variable.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">some_important_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;camio.db&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">daemon</span><span class="o">.</span><span class="n">DaemonContext</span><span class="p">(</span>
+<span class="n">files_preserve</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;camio.db&#39;</span><span class="p">]):</span>
+<span class="k">print</span><span class="p">(</span><span class="n">some_important_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Camio will answer questions, tell you about the past and teach you a thing or two about “Liberal Sciences” as well as grant you “the Understanding of all Birds, Lowing of Bullocks, Barking of Dogs and other Creatures; and also of the Voice of the Waters.”.</p>
+</div>
+<p>So along with keeping files open, we can also redirect <code class="docutils literal notranslate"><span class="pre">stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">stderr</span></code> from <code class="docutils literal notranslate"><span class="pre">os.devnull</span></code> and keep them open.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">daemon</span><span class="o">.</span><span class="n">DaemonContext</span><span class="p">(</span>
+<span class="n">stdout</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span>
+<span class="n">stderr</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">):</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Hello Forneus!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The demon Marquis Forneus is all about chit-chat – which is why we conveniently say hello! Forneus can also make you totally rad at rhetoric, which is the art of talking to people and getting them to think and do what you want. Like thinking they are a loaf of bread. But not really that’s Ose’s job.</p>
+</div>
+</div>
+<div class="section" id="handing-operating-system-signals">
+<h3>Handing Operating System Signals<a class="headerlink" href="#handing-operating-system-signals" title="Permalink to this headline">¶</a></h3>
+<p>Signals coming from the operating system are important irrespective of the way the process is used. Because of this it makes it even more important to ensure we preserve these signals as they may be one of the few ways a user can interact with the daemon. <code class="docutils literal notranslate"><span class="pre">DaemonContext</span></code> will allow you to define a dictionary using the <code class="docutils literal notranslate"><span class="pre">signal_map</span></code> argument that allows you to map to common signals used.</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Signal</p></th>
+<th class="head"><p>Portable Number</p></th>
+<th class="head"><p>Default action</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGABRT</span></code></p></td>
+<td><p>6</p></td>
+<td><p>Terminate (core dump)</p></td>
+<td><p>Process abort signal</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGALRM</span></code></p></td>
+<td><p>14</p></td>
+<td><p>Terminate</p></td>
+<td><p>Alarm clock</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGBUS</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate (core dump)</p></td>
+<td><p>Access to an undefined portion of a memory object</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGCHLD</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Ignore</p></td>
+<td><p>Child process terminated, stopped, or continued</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGCONT</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Continue</p></td>
+<td><p>Continue executing, if stopped</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGFPE</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate (core dump)</p></td>
+<td><p>Erroneous arithmetic operation</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGHUP</span></code></p></td>
+<td><p>1</p></td>
+<td><p>Terminate</p></td>
+<td><p>Hangup</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGILL</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate (core dump)</p></td>
+<td><p>Illegal instruction</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGINT</span></code></p></td>
+<td><p>2</p></td>
+<td><p>Terminate</p></td>
+<td><p>Terminal interrupt signal</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGKILL</span></code></p></td>
+<td><p>9</p></td>
+<td><p>Terminate</p></td>
+<td><p>Kill (cannot be caught or ignored)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGPIPE</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate</p></td>
+<td><p>Write on a pipe with no one to read it</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGPOLL</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate</p></td>
+<td><p>Pollable event</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGPROF</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate</p></td>
+<td><p>Profiling timer expired</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGQUIT</span></code></p></td>
+<td><p>3</p></td>
+<td><p>Terminate (core dump)</p></td>
+<td><p>Terminal quit signal</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGSEGV</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate (core dump)</p></td>
+<td><p>Invalid memory reference</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGSTOP</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Stop</p></td>
+<td><p>Stop executing (cannot be caught or ignored)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGSYS</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate (core dump)</p></td>
+<td><p>Bad system call</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGTERM</span></code></p></td>
+<td><p>15</p></td>
+<td><p>Terminate</p></td>
+<td><p>Termination signal</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGTRAP</span></code></p></td>
+<td><p>5</p></td>
+<td><p>Terminate (core dump)</p></td>
+<td><p>Trace/breakpoint trap</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGTSTP</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Stop</p></td>
+<td><p>Terminal stop signal</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGTTIN</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Stop</p></td>
+<td><p>Background process attempting read</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGTTOU</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Stop</p></td>
+<td><p>Background process attempting write</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGURG</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Ignore</p></td>
+<td><p>High bandwidth data is available at a socket</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGUSR1</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate</p></td>
+<td><p>User-defined signal 1</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGUSR2</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate</p></td>
+<td><p>User-defined signal 2</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGVTALRM</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate</p></td>
+<td><p>Virtual timer expired</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGWINCH</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Ignore</p></td>
+<td><p>Terminal window size changed</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SIGXCPU</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate (core dump)</p></td>
+<td><p>CPU time limit exceeded</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIGXFSZ</span></code></p></td>
+<td><p>N/A</p></td>
+<td><p>Terminate (core dump)</p></td>
+<td><p>File size limit exceeded</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">signal</span>
+
+<span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="n">signum</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>  <span class="c1"># signum and frame are mandatory</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">daemon</span><span class="o">.</span><span class="n">DaemonContext</span><span class="p">(</span>
+        <span class="n">signal_map</span><span class="o">=</span><span class="p">{</span>
+            <span class="n">signal</span><span class="o">.</span><span class="n">SIGTERM</span><span class="p">:</span> <span class="n">shutdown</span><span class="p">,</span>
+            <span class="n">signal</span><span class="o">.</span><span class="n">SIGTSTP</span><span class="p">:</span> <span class="n">shutdown</span>
+        <span class="p">}):</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="there-can-be-only-one">
+<h3>There Can Be Only ONE!<a class="headerlink" href="#there-can-be-only-one" title="Permalink to this headline">¶</a></h3>
+<p>Daemons often use resources, the problem with some resources is that only one thing can access them at a time. This is often the case for <abbr title="">TCP</abbr> ports or some files on disk. Therefore, you want to make sure that multiple daemons aren’t competing for these resources as it can often lead to exceptions or race-conditions.</p>
+<p>To ensure only one daemon is running at a time we can create a PID lock file. This is a file that contains the PID of a process that prevents the same program from running on more than one instance.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Part of the spawning a new process is ensuring there is no lock file.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lockfile</span>
+
+<span class="k">with</span> <span class="n">daemon</span><span class="o">.</span><span class="n">DaemonContext</span><span class="p">(</span>
+        <span class="n">pidfile</span><span class="o">=</span><span class="n">lockfile</span><span class="o">.</span><span class="n">FileLock</span><span class="p">(</span><span class="s1">&#39;/var/run/spam.pid&#39;</span><span class="p">)):</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="starting-stopping-restarting">
+<h3>Starting/Stopping/Restarting<a class="headerlink" href="#starting-stopping-restarting" title="Permalink to this headline">¶</a></h3>
+<p>This is unfortunately where the benefits of <code class="docutils literal notranslate"><span class="pre">python-daemon</span></code> run out. <code class="docutils literal notranslate"><span class="pre">DaemonContext</span></code> doesn’t take care of this functionality for you and while <code class="docutils literal notranslate"><span class="pre">DaemonRunner</span></code> does have code in regard to this behaviour it is not advisable for you to use it as it is deprecated. For those feeling adventurous you can always use it as a reference for building out these functions.</p>
+<p>One extension to this (although not the most eloquent) can be useful in getting around this problem.</p>
+<p>Given a Python application that <cite>does something</cite> (that’s the technical term for it anyway) we can create an initialisation shell script that runs the application for you and manages termination and restarting.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3.5</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">daemon</span>
+<span class="kn">from</span> <span class="nn">daemon</span> <span class="kn">import</span> <span class="n">pidfile</span>
+
+<span class="n">debug_p</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">def</span> <span class="nf">do_something</span><span class="p">(</span><span class="n">logf</span><span class="p">):</span>
+    <span class="c1">### This does the &quot;work&quot; of the daemon</span>
+
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;eg_daemon&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+    <span class="n">fh</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">logf</span><span class="p">)</span>
+    <span class="n">fh</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+    <span class="n">formatstr</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(name)s</span><span class="s1"> - </span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">&#39;</span>
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">formatstr</span><span class="p">)</span>
+
+    <span class="n">fh</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;this is a DEBUG message&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;this is an INFO message&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;this is an ERROR message&quot;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">start_daemon</span><span class="p">(</span><span class="n">pidf</span><span class="p">,</span> <span class="n">logf</span><span class="p">):</span>
+    <span class="c1">### This launches the daemon in its context</span>
+    <span class="k">with</span> <span class="n">daemon</span><span class="o">.</span><span class="n">DaemonContext</span><span class="p">(</span>
+        <span class="n">working_directory</span><span class="o">=</span><span class="s1">&#39;/var/lib/eg_daemon&#39;</span><span class="p">,</span>
+        <span class="n">umask</span><span class="o">=</span><span class="mi">0</span><span class="n">o002</span><span class="p">,</span>
+        <span class="n">pidfile</span><span class="o">=</span><span class="n">pidfile</span><span class="o">.</span><span class="n">TimeoutPIDLockFile</span><span class="p">(</span><span class="n">pidf</span><span class="p">),</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">context</span><span class="p">:</span>
+        <span class="n">do_something</span><span class="p">(</span><span class="n">logf</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Example daemon in Python&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s1">&#39;--pid-file&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;/var/run/eg_daemon.pid&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="s1">&#39;--log-file&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;/var/log/eg_daemon.log&#39;</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">start_daemon</span><span class="p">(</span><span class="n">pidf</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">pid_file</span><span class="p">,</span> <span class="n">logf</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then use the following <code class="docutils literal notranslate"><span class="pre">.sh</span></code> script to start, stop and restart the application. One of the features I prefer to add when creating an application this way is also a <code class="docutils literal notranslate"><span class="pre">run()</span></code> command that allows me to not daemonise the application. This can be especially helpful for debugging or if I don’t want it running in the background.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="c1">#  A bash script for better management of python-daemon</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+
+<span class="nv">VERSION</span><span class="o">=</span><span class="m">0</span>.1.0
+<span class="nv">SUBJECT</span><span class="o">=</span>some-unique-id
+<span class="nv">USAGE</span><span class="o">=</span><span class="s2">&quot;Usage: command -ihv args&quot;</span>
+
+startscript<span class="o">(){</span>
+    <span class="c1"># get the current PID of the script you are trying to run</span>
+    <span class="nv">PID</span><span class="o">=</span><span class="k">$(</span>ps aux <span class="p">|</span> grep <span class="s1">&#39;[s]criptname.py&#39;</span> <span class="p">|</span> awk <span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+
+    <span class="c1"># if the PID does not exist start the application</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$PID</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        ./scriptname.py start
+    <span class="k">else</span>
+        <span class="c1"># else print an error and do not start the process</span>
+        <span class="nb">echo</span> -n <span class="s2">&quot;ERROR: The process is already running.&quot;</span>
+        <span class="nb">echo</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+stopscriptname<span class="o">(){</span>
+    <span class="c1"># get the current PID of the script you are trying to run</span>
+    <span class="nv">PID</span><span class="o">=</span><span class="k">$(</span>ps aux <span class="p">|</span> grep <span class="s1">&#39;[s]criptname.py&#39;</span> <span class="p">|</span> awk <span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+
+    <span class="c1"># if the PID does not exist there is nothing to stop</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$PID</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> -n <span class="s2">&quot;ERROR: scriptname is not running&quot;</span>
+    <span class="k">else</span>
+        <span class="c1"># else kill the script using the UNIX in built kill</span>
+        <span class="nb">kill</span> <span class="nv">$PID</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+statusscriptname<span class="o">(){</span>
+    <span class="c1"># get the current PID of the script you are trying to run</span>
+    <span class="nv">PID</span><span class="o">=</span><span class="k">$(</span>ps aux <span class="p">|</span> grep <span class="s1">&#39;[s]criptname.py&#39;</span> <span class="p">|</span> awk <span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+
+    <span class="c1"># return if the application is running or not and return the PID</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$PID</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;scriptname is not running&quot;</span>
+    <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;scriptname is running with PID </span><span class="nv">$PID</span><span class="s2">&quot;</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+runscriptname<span class="o">(){</span>
+    <span class="c1"># get the current PID of the script you are trying to run</span>
+    <span class="nv">PID</span><span class="o">=</span><span class="k">$(</span>ps aux <span class="p">|</span> grep <span class="s1">&#39;[s]criptname.py&#39;</span> <span class="p">|</span> awk <span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+
+    <span class="c1"># if the PID does not exist run the application like normal - do not daemonise</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$PID</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        ./scriptname.py run
+    <span class="k">else</span>
+        <span class="c1"># else print an error and do not start the process</span>
+        <span class="nb">echo</span> -n <span class="s2">&quot;ERROR: The process is already running.&quot;</span>
+        <span class="nb">echo</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+restartscriptname<span class="o">(){</span>
+    <span class="c1"># run the stop script and then the start script to restart the process (turn it off and on again)</span>
+    stopscriptname
+    startscriptname
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> in
+    <span class="c1"># sort of like a case statement, depending on the first argument determines which function to run</span>
+    start<span class="o">)</span> startscriptname <span class="p">;;</span>
+    stop<span class="o">)</span> stopscriptname <span class="p">;;</span>
+    run<span class="o">)</span> runscriptname <span class="p">;;</span>
+    restart<span class="o">)</span> restartscriptname <span class="p">;;</span>
+    status<span class="o">)</span> statusscriptname <span class="p">;;</span>
+    *<span class="o">)</span> <span class="nb">echo</span> <span class="s2">&quot;usage: </span><span class="nv">$0</span><span class="s2"> start | stop | run | restart | status&quot;</span> &gt;<span class="nv">$2</span>
+       <span class="nb">exit</span> <span class="m">1</span>
+       <span class="p">;;</span>
+<span class="k">esac</span>
+</pre></div>
+</div>
+<div class="section" id="further-reading">
+<h4>Further Reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="http://www.linfo.org/daemon.html">Daemon Definition</a>.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Fork_(system_call)">Fork (System Call)</a>.</p></li>
+<li><p><a class="reference external" href="https://pagure.io/python-daemon/">python-daemon Source Code</a>.</p></li>
+<li><p><a class="reference external" href="https://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html">What is Umask and How To Setup Default umask Under Linux?</a>.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Signal_(IPC)#POSIX_signals">Signal (IPC) - POSIX Signals</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Lock">class threading.Lock</a>.</p></li>
+<li><p><a class="reference external" href="http://www.tldp.org/LDP/tlk/kernel/processes.html">Linux Documentation on Processes</a>.</p></li>
+<li><p><a class="reference external" href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html">Mac OS X Documentation of Launch Daemons and Agents</a>.</p></li>
+<li><p><a class="reference external" href="https://www.python.org/dev/peps/pep-3143/">PEP 3143 - Standard Daemon Process Library</a>.</p></li>
+<li><p><a class="reference external" href="https://linuxfollies.blogspot.com/2016/11/linux-daemon-using-python-daemon-with.html">Linux Daemon Using python-daemon with PID File and Logging</a>.</p></li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 
 

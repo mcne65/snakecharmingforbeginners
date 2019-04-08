@@ -9,57 +9,210 @@ Operating System and Version
 ---------------------------------------------------------
 
 ``platform.machine()``
+    Returns the machine type, e.g. ``i386``. An empty string is returned if the value cannot be determined.
+
+    .. code-block:: python
+
+        >>> import platform
+        >>> platform.machine()
+        'x86_64'
 
 ``platform.node()``
+    Returns the computer’s network name. An empty string is returned if the value cannot be determined.
+
+    .. warning:: The network name may not be fully qualified!
+
+    .. code-block:: python
+
+        >>> import platform
+        >>> platform.node()
+        'salem'
 
 ``platform.processor()``
+    Returns the (real) processor name, e.g. ``'amdk6'``. An empty string is returned if the value cannot be determined.
+
+    .. code-block:: python
+
+        >>> import platform
+        >>> platform.processor()
+        ''
 
 ``platform.python_build()``
+    Returns a tuple ``(buildno, builddate)`` stating the Python build number and date as strings.
+
+    .. code-block:: python
+
+        >>> import platform
+        >>> platform.python_build()
+        ('default', 'Jan 22 2019 21:57:15')
 
 ``platform.python_compiler()``
+    Returns a string identifying the compiler used for compiling Python.
+
+    .. code-block:: python
+
+        >>> import platform
+        >>> platform.python_compiler()
+        'GCC 6.3.0 20170516'
 
 ``platform.python_version()``
+    Returns the Python version as string ``'major.minor.patchlevel'``.
+
+    .. code-block:: python
+
+        >>> import platform
+        >>> platform.python_version()
+        '3.7.1'
 
 ``platform.system()``
+    Returns the system/OS name, e.g. ``'Linux'``, ``'Windows'``, or ``'Java'``. An empty string is returned if the value cannot be determined.
+
+    .. code-block:: python
+
+        >>> import platform
+        >>> platform.system()
+        'Linux'
 
 ``platform.uname()``
+    Fairly portable uname interface. Returns a ``namedtuple()`` containing six attributes: ``system``, ``node``, ``release``, ``version``, ``machine``, and ``processor``.
+
+    .. code-block:: python
+
+        >>> import platform
+        >>> platform.uname()
+        uname_result(system='Linux', node='salem', release='4.9.0-8-amd64', version='#1 SMP Debian 4.9.144-3.1 (2019-02-19)', machine='x86_64', processor='')
 
 ---------------------------------------------------------
 Networking
 ---------------------------------------------------------
 
-``socket.gethostname()``
+.. caution:: Some behavior may be platform dependent, since calls are made to the operating system socket APIs.
 
 ``socket.getfqdn([name])``
+    Return a fully qualified domain name for name. If name is omitted or empty, it is interpreted as the local host.
+
+    .. code-block:: python
+
+        >>> import socket
+        >>> socket.getfqdn("8.8.8.8")
+        'google-public-dns-a.google.com'
 
 ``socket.gethostbyname(hostname)``
+    Translate a host name to IPv4 address format. The IPv4 address is returned as a string, such as '100.50.200.5'. If the host name is an IPv4 address itself it is returned unchanged.
+
+    .. code-block:: python
+
+        >>> import socket
+        >>> socket.gethostbyname("google.com")
+        '216.58.199.78'
 
 ``socket.gethostname()``
+    Return a string containing the hostname of the machine where the Python interpreter is currently executing.
+
+    .. warning:: ``gethostname()`` doesn't always return the :abbr:`FQDN (Fully Qualified Domain Name)`; if a :abbr:`FQDN (Fully Qualified Domain Name)` is required use ``socket.getfqdn()``.
+
+    .. code-block:: python
+
+        >>> import socket
+        >>> socket.gethostname()
+        'salem'
 
 ``socket.gethostbyaddr(ip_address)``
+    Return a tuple ``(hostname, aliaslist, ipaddrlist)`` where hostname is the primary host name responding to the given :abbr:`IP (Internet Protocol)` address, ``aliaslist`` is a list of alternative host names for the same address, and ``ipaddrlist`` is a list of :abbr:`IP (Internet Protocol)` v4/v6 addresses for the same interface on the same host.
 
-``socket.getnameinfo(sockaddr, flags)``
+    .. code-block:: python
+
+        >>> import socket
+        >>> socket.gethostbyaddr("8.8.8.8")
+        ('google-public-dns-a.google.com', [], ['8.8.8.8'])
+
 
 ``socket.getservbyname(servicename[, protocolname])``
+    Translate an Internet service name and protocol name to a port number for that service.
+
+    If the protocol name is given this should be ``tcp`` or ``udp`` otherwise will match on any protocol.
+
+    .. code-block:: python
+
+        >>> import socket
+        >>> socket.getservbyname("gopher", 'tcp')
+        70
+        >>> socket.getservbyname("pop3")
+        110
 
 ``socket.getservbyport(port[, protocolname])``
+    Translate an Internet port number and protocol name to a service name for that service.
 
-``socket.inet_ntoa(packed_ip)``
+    If the protocol name is given this should be ``tcp`` or ``udp`` otherwise will match on any protocol.
+
+    .. code-block:: python
+
+        >>> import socket
+        >>> socket.getservbyport(70)
+        'gopher'
+        >>> socket.getservbyport(70, 'udp')
+        Traceback (most recent call last):
+          File "<input>", line 1, in <module>
+        OSError: port/proto not found
 
 ---------------------------------------------------------
 Operating System Interfaces
 ---------------------------------------------------------
 
-``os.getegid()``
+``os.getgid()``
+    Return the effective group id of the current process. This corresponds to the “set id” bit on the file being executed in the current process.
 
-``os.geteuid()``
+    Only available on UNIX (and Mac OS X).
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.getgid()
+        1000
+
+``os.getuid()``
+    Return the current process’s real user id.
+
+    Only available on UNIX (and Mac OS X).
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.getuid()
+        1000
 
 ``os.getgid()``
+    Return the real group id of the current process.
+
+    Only available on UNIX (and Mac OS X).
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.getgid()
+        1000
 
 ``os.getgrouplist()``
+    Return list of group ids that user belongs to. If group is not in the list, it is included; typically, group is specified as the group ID field from the password record for user.
+
+    Only available on UNIX (and Mac OS X).
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.getgrouplist('alzion', 1)
+        [1, 24, 25, 27, 29, 30, 44, 46, 108, 113, 114]
 
 ``os.getlogin()``
+    Return the name of the user logged in on the controlling terminal of the process.
 
+    Only available on UNIX (and Mac OS X) and Windows.
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.getlogin()
+        'alzion'
 
 ---------------------------------------------------------
 Pathname Manipulation
@@ -81,10 +234,7 @@ The built-in ``os.path`` module has a number of useful function for manipulating
         '/Users/rebecca/tmp/pythoncharmingforbeginners/Images'
 
 ``os.path.exists(path)``
-    Returns ``True`` if the path refers to an existing path or an open file.
-    Returns ``False`` for broken symbolic links. On some platforms if you do
-    not have permission to execute ``oz.stat()`` on the file, it will return
-    ``False`` even if the path physically exists.
+    Returns ``True`` if the path refers to an existing path or an open file. Returns ``False`` for broken symbolic links. On some platforms if you do not have permission to execute ``oz.stat()`` on the file, it will return ``False`` even if the path physically exists.
 
     .. code-block:: python
 
@@ -95,15 +245,11 @@ The built-in ``os.path`` module has a number of useful function for manipulating
         True
 
 ``os.path.expanduser(path)``
-    When using relative paths, returns the initial ``~`` with the users home
-    directory.
+    When using relative paths, returns the initial ``~`` with the users home directory.
 
-    On UNIX the initial ``~`` is replaced by the ``HOME`` environment variable
-    if it is set, otherwise the current user's home directory is looked up in
-    the password directory though the ``pwd`` module.
+    On UNIX the initial ``~`` is replaced by the ``HOME`` environment variable if it is set, otherwise the current user's home directory is looked up in the password directory though the ``pwd`` module.
 
-    On Windows ``HOME`` and ``USERPROFILE`` will be used if set, otherwise a
-    combination of ``HOMEPATH`` and ``HOMEDRIVE`` will be used.
+    On Windows ``HOME`` and ``USERPROFILE`` will be used if set, otherwise a combination of ``HOMEPATH`` and ``HOMEDRIVE`` will be used.
 
     .. code-block:: python
 
@@ -114,13 +260,9 @@ The built-in ``os.path`` module has a number of useful function for manipulating
         '/Users/rebecca/tmp/pythoncharmingforbeginners'
 
 ``os.path.getatime(path)``
-    Return the time of last access of path. The return value is a number
-    representing the number of seconds since EPOCH (e.g. ``1551832874``)
+    Return the time of last access of path. The return value is a number representing the number of seconds since EPOCH (e.g. ``1551832874``)
 
-    .. tip:: EPOCH is also known as POSIX time or UNIX Epoch time and is a
-        system used for describing a point in time, it is the number of second
-        that have elapsed since 00:00:00 Thursday, 1 January 1970 (UTC) minus
-        leap seconds.
+    .. tip:: EPOCH is also known as POSIX time or UNIX Epoch time and is a system used for describing a point in time, it is the number of second that have elapsed since 00:00:00 Thursday, 1 January 1970 (UTC) minus leap seconds.
 
     Raises an ``OSError`` if the file does not exist or is inaccessible.
 
@@ -133,8 +275,7 @@ The built-in ``os.path`` module has a number of useful function for manipulating
         1551832462.8749728
 
 ``os.path.getmtime(path)``
-    Return the time of last modified of path. The return value is a number
-    representing the number of seconds since EPOCH (e.g. ``1551832874``)
+    Return the time of last modified of path. The return value is a number representing the number of seconds since EPOCH (e.g. ``1551832874``)
 
     Raises an ``OSError`` if the file does not exist or is inaccessible.
 
@@ -147,8 +288,7 @@ The built-in ``os.path`` module has a number of useful function for manipulating
         1551832462.8749728
 
 ``os.path.getsize(path)``
-    Returns the size of a path in bytes. Raises an ``OSError`` if the file
-    does not exist or is inaccessible.
+    Returns the size of a path in bytes. Raises an ``OSError`` if the file does not exist or is inaccessible.
 
     .. code-block:: python
 
@@ -159,17 +299,42 @@ The built-in ``os.path`` module has a number of useful function for manipulating
         800
 
 ``os.path.isabs(path)``
+    Returns ``True`` if path is an absolute pathname. On Unix, this means it begins with a slash, on Windows it begins with a (back)slash after chopping off a potential drive letter.
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.path.isabs('.')
+        False
+        >>> os.path.isabs('/home/alzion/sauce/pythoncharmingforbeginners')
+        True
 
 ``os.path.isfile(path)``
+    Returns ``True`` if path is an existing regular file.
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.path.isfile('.')
+        False
+        >>> os.path.isfile('/home/alzion/sauce/pythoncharmingforbeginners/Pipfile')
+        True
 
 ``os.path.isdir(path)``
+    Returns ``True`` if path is an existing directory.
+
+    .. code-block:: python
+
+        >>> import os
+        >>> os.path.isdir('.')
+        True
+        >>> os.path.isdir('/home/alzion/sauce/pythoncharmingforbeginners/Pipfile')
+        False
 
 ``os.path.ismount(path)``
+    Returns ``True`` if pathname path is a mount point: a point in a file system where a different file system has been mounted.
 
-
----------------------------------------------------------
-Operating System Interfaces
----------------------------------------------------------
+.. warning:: There is currently a bug open for Python 3.7 and 3.8 as "``os.path.ismount()`` always returns false for mount --bind on same filesystem" that is currently being reviewed. For more information see `Issue 29707 <https://bugs.python.org/issue29707>`_.
 
 ---------------------------------------------------------
 ``psutil``
@@ -302,7 +467,13 @@ A Recipe for IP GeoLocation
 .. literalinclude:: identify_geolocation.py
    :linenos:
 
-
 Further Reading
 =========================================================
 
+- `platform — Access to underlying platform’s identifying data <https://docs.python.org/3/library/platform.html>`_.
+
+- `os — Miscellaneous operating system interfaces <https://docs.python.org/3/library/os.html>`_.
+
+- `os.path — Common pathname manipulations <https://docs.python.org/3/library/os.path.html>`_.
+
+- `psutil documentation <https://psutil.readthedocs.io/en/latest/>`_.

@@ -101,7 +101,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#networking">Networking</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#operating-system-interfaces">Operating System Interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pathname-manipulation">Pathname Manipulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Operating System Interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#psutil"><code class="docutils literal notranslate"><span class="pre">psutil</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#a-recipe-for-finding-a-process-by-name">A Recipe for Finding a Process by Name</a></li>
 </ul>
@@ -112,7 +111,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contacting_the_unix_daemons_of_old.html">Contacting the UNIX Daemons of Old</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="solutions_for_domain_bruteforcer.html">Subdomain Bruteforcing Solutions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="solutions_for_cve_2014_0160.html">Exploitiong CVE-2014-0160 Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solutions_for_cve_2014_0160.html">Exploiting CVE-2014-0160 Solutions</a></li>
 </ul>
 
             
@@ -182,34 +181,176 @@
 <p>For various reasons when writing applications you will want to gather system level information, it may to be to fingerprint, it may be to produce output that tells you which systems you application is having issues with. In this section we will cover a number of helpful Python functions you can use for gathering system level information.</p>
 <div class="section" id="operating-system-and-version">
 <h2>Operating System and Version<a class="headerlink" href="#operating-system-and-version" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">platform.machine()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">platform.node()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">platform.processor()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">platform.python_build()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">platform.python_compiler()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">platform.python_version()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">platform.system()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">platform.uname()</span></code></p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">platform.machine()</span></code></dt><dd><p>Returns the machine type, e.g. <code class="docutils literal notranslate"><span class="pre">i386</span></code>. An empty string is returned if the value cannot be determined.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">platform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">platform</span><span class="o">.</span><span class="n">machine</span><span class="p">()</span>
+<span class="go">&#39;x86_64&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">platform.node()</span></code></dt><dd><p>Returns the computer’s network name. An empty string is returned if the value cannot be determined.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The network name may not be fully qualified!</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">platform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">platform</span><span class="o">.</span><span class="n">node</span><span class="p">()</span>
+<span class="go">&#39;salem&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">platform.processor()</span></code></dt><dd><p>Returns the (real) processor name, e.g. <code class="docutils literal notranslate"><span class="pre">'amdk6'</span></code>. An empty string is returned if the value cannot be determined.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">platform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">platform</span><span class="o">.</span><span class="n">processor</span><span class="p">()</span>
+<span class="go">&#39;&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">platform.python_build()</span></code></dt><dd><p>Returns a tuple <code class="docutils literal notranslate"><span class="pre">(buildno,</span> <span class="pre">builddate)</span></code> stating the Python build number and date as strings.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">platform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">platform</span><span class="o">.</span><span class="n">python_build</span><span class="p">()</span>
+<span class="go">(&#39;default&#39;, &#39;Jan 22 2019 21:57:15&#39;)</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">platform.python_compiler()</span></code></dt><dd><p>Returns a string identifying the compiler used for compiling Python.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">platform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">platform</span><span class="o">.</span><span class="n">python_compiler</span><span class="p">()</span>
+<span class="go">&#39;GCC 6.3.0 20170516&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">platform.python_version()</span></code></dt><dd><p>Returns the Python version as string <code class="docutils literal notranslate"><span class="pre">'major.minor.patchlevel'</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">platform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">platform</span><span class="o">.</span><span class="n">python_version</span><span class="p">()</span>
+<span class="go">&#39;3.7.1&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">platform.system()</span></code></dt><dd><p>Returns the system/OS name, e.g. <code class="docutils literal notranslate"><span class="pre">'Linux'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Windows'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'Java'</span></code>. An empty string is returned if the value cannot be determined.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">platform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
+<span class="go">&#39;Linux&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">platform.uname()</span></code></dt><dd><p>Fairly portable uname interface. Returns a <code class="docutils literal notranslate"><span class="pre">namedtuple()</span></code> containing six attributes: <code class="docutils literal notranslate"><span class="pre">system</span></code>, <code class="docutils literal notranslate"><span class="pre">node</span></code>, <code class="docutils literal notranslate"><span class="pre">release</span></code>, <code class="docutils literal notranslate"><span class="pre">version</span></code>, <code class="docutils literal notranslate"><span class="pre">machine</span></code>, and <code class="docutils literal notranslate"><span class="pre">processor</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">platform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">platform</span><span class="o">.</span><span class="n">uname</span><span class="p">()</span>
+<span class="go">uname_result(system=&#39;Linux&#39;, node=&#39;salem&#39;, release=&#39;4.9.0-8-amd64&#39;, version=&#39;#1 SMP Debian 4.9.144-3.1 (2019-02-19)&#39;, machine=&#39;x86_64&#39;, processor=&#39;&#39;)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
 </div>
 <div class="section" id="networking">
 <h2>Networking<a class="headerlink" href="#networking" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">socket.gethostname()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">socket.getfqdn([name])</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">socket.gethostbyname(hostname)</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">socket.gethostname()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">socket.gethostbyaddr(ip_address)</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">socket.getnameinfo(sockaddr,</span> <span class="pre">flags)</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">socket.getservbyname(servicename[,</span> <span class="pre">protocolname])</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">socket.getservbyport(port[,</span> <span class="pre">protocolname])</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">socket.inet_ntoa(packed_ip)</span></code></p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Some behavior may be platform dependent, since calls are made to the operating system socket APIs.</p>
+</div>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">socket.getfqdn([name])</span></code></dt><dd><p>Return a fully qualified domain name for name. If name is omitted or empty, it is interpreted as the local host.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">socket</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">socket</span><span class="o">.</span><span class="n">getfqdn</span><span class="p">(</span><span class="s2">&quot;8.8.8.8&quot;</span><span class="p">)</span>
+<span class="go">&#39;google-public-dns-a.google.com&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">socket.gethostbyname(hostname)</span></code></dt><dd><p>Translate a host name to IPv4 address format. The IPv4 address is returned as a string, such as ‘100.50.200.5’. If the host name is an IPv4 address itself it is returned unchanged.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">socket</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="s2">&quot;google.com&quot;</span><span class="p">)</span>
+<span class="go">&#39;216.58.199.78&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">socket.gethostname()</span></code></dt><dd><p>Return a string containing the hostname of the machine where the Python interpreter is currently executing.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">gethostname()</span></code> doesn’t always return the <abbr title="Fully Qualified Domain Name">FQDN</abbr>; if a <abbr title="Fully Qualified Domain Name">FQDN</abbr> is required use <code class="docutils literal notranslate"><span class="pre">socket.getfqdn()</span></code>.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">socket</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()</span>
+<span class="go">&#39;salem&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">socket.gethostbyaddr(ip_address)</span></code></dt><dd><p>Return a tuple <code class="docutils literal notranslate"><span class="pre">(hostname,</span> <span class="pre">aliaslist,</span> <span class="pre">ipaddrlist)</span></code> where hostname is the primary host name responding to the given <abbr title="Internet Protocol">IP</abbr> address, <code class="docutils literal notranslate"><span class="pre">aliaslist</span></code> is a list of alternative host names for the same address, and <code class="docutils literal notranslate"><span class="pre">ipaddrlist</span></code> is a list of <abbr title="Internet Protocol">IP</abbr> v4/v6 addresses for the same interface on the same host.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">socket</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">socket</span><span class="o">.</span><span class="n">gethostbyaddr</span><span class="p">(</span><span class="s2">&quot;8.8.8.8&quot;</span><span class="p">)</span>
+<span class="go">(&#39;google-public-dns-a.google.com&#39;, [], [&#39;8.8.8.8&#39;])</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">socket.getservbyname(servicename[,</span> <span class="pre">protocolname])</span></code></dt><dd><p>Translate an Internet service name and protocol name to a port number for that service.</p>
+<p>If the protocol name is given this should be <code class="docutils literal notranslate"><span class="pre">tcp</span></code> or <code class="docutils literal notranslate"><span class="pre">udp</span></code> otherwise will match on any protocol.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">socket</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">socket</span><span class="o">.</span><span class="n">getservbyname</span><span class="p">(</span><span class="s2">&quot;gopher&quot;</span><span class="p">,</span> <span class="s1">&#39;tcp&#39;</span><span class="p">)</span>
+<span class="go">70</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">socket</span><span class="o">.</span><span class="n">getservbyname</span><span class="p">(</span><span class="s2">&quot;pop3&quot;</span><span class="p">)</span>
+<span class="go">110</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">socket.getservbyport(port[,</span> <span class="pre">protocolname])</span></code></dt><dd><p>Translate an Internet port number and protocol name to a service name for that service.</p>
+<p>If the protocol name is given this should be <code class="docutils literal notranslate"><span class="pre">tcp</span></code> or <code class="docutils literal notranslate"><span class="pre">udp</span></code> otherwise will match on any protocol.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">socket</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">socket</span><span class="o">.</span><span class="n">getservbyport</span><span class="p">(</span><span class="mi">70</span><span class="p">)</span>
+<span class="go">&#39;gopher&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">socket</span><span class="o">.</span><span class="n">getservbyport</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="s1">&#39;udp&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;input&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">OSError</span>: <span class="n">port/proto not found</span>
+</pre></div>
+</div>
+</dd>
+</dl>
 </div>
 <div class="section" id="operating-system-interfaces">
 <h2>Operating System Interfaces<a class="headerlink" href="#operating-system-interfaces" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">os.getegid()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">os.geteuid()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">os.getgid()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">os.getgrouplist()</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">os.getlogin()</span></code></p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">os.getgid()</span></code></dt><dd><p>Return the effective group id of the current process. This corresponds to the “set id” bit on the file being executed in the current process.</p>
+<p>Only available on UNIX (and Mac OS X).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">getgid</span><span class="p">()</span>
+<span class="go">1000</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.getuid()</span></code></dt><dd><p>Return the current process’s real user id.</p>
+<p>Only available on UNIX (and Mac OS X).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">()</span>
+<span class="go">1000</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.getgid()</span></code></dt><dd><p>Return the real group id of the current process.</p>
+<p>Only available on UNIX (and Mac OS X).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">getgid</span><span class="p">()</span>
+<span class="go">1000</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.getgrouplist()</span></code></dt><dd><p>Return list of group ids that user belongs to. If group is not in the list, it is included; typically, group is specified as the group ID field from the password record for user.</p>
+<p>Only available on UNIX (and Mac OS X).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">getgrouplist</span><span class="p">(</span><span class="s1">&#39;alzion&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">[1, 24, 25, 27, 29, 30, 44, 46, 108, 113, 114]</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.getlogin()</span></code></dt><dd><p>Return the name of the user logged in on the controlling terminal of the process.</p>
+<p>Only available on UNIX (and Mac OS X) and Windows.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">getlogin</span><span class="p">()</span>
+<span class="go">&#39;alzion&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
 </div>
 <div class="section" id="pathname-manipulation">
 <h2>Pathname Manipulation<a class="headerlink" href="#pathname-manipulation" title="Permalink to this headline">¶</a></h2>
@@ -228,10 +369,7 @@
 </pre></div>
 </div>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">os.path.exists(path)</span></code></dt><dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the path refers to an existing path or an open file.
-Returns <code class="docutils literal notranslate"><span class="pre">False</span></code> for broken symbolic links. On some platforms if you do
-not have permission to execute <code class="docutils literal notranslate"><span class="pre">oz.stat()</span></code> on the file, it will return
-<code class="docutils literal notranslate"><span class="pre">False</span></code> even if the path physically exists.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.exists(path)</span></code></dt><dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the path refers to an existing path or an open file. Returns <code class="docutils literal notranslate"><span class="pre">False</span></code> for broken symbolic links. On some platforms if you do not have permission to execute <code class="docutils literal notranslate"><span class="pre">oz.stat()</span></code> on the file, it will return <code class="docutils literal notranslate"><span class="pre">False</span></code> even if the path physically exists.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;/build/html&#39;</span><span class="p">)</span>
 <span class="go">False</span>
@@ -240,13 +378,9 @@ not have permission to execute <code class="docutils literal notranslate"><span 
 </pre></div>
 </div>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">os.path.expanduser(path)</span></code></dt><dd><p>When using relative paths, returns the initial <code class="docutils literal notranslate"><span class="pre">~</span></code> with the users home
-directory.</p>
-<p>On UNIX the initial <code class="docutils literal notranslate"><span class="pre">~</span></code> is replaced by the <code class="docutils literal notranslate"><span class="pre">HOME</span></code> environment variable
-if it is set, otherwise the current user’s home directory is looked up in
-the password directory though the <code class="docutils literal notranslate"><span class="pre">pwd</span></code> module.</p>
-<p>On Windows <code class="docutils literal notranslate"><span class="pre">HOME</span></code> and <code class="docutils literal notranslate"><span class="pre">USERPROFILE</span></code> will be used if set, otherwise a
-combination of <code class="docutils literal notranslate"><span class="pre">HOMEPATH</span></code> and <code class="docutils literal notranslate"><span class="pre">HOMEDRIVE</span></code> will be used.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.expanduser(path)</span></code></dt><dd><p>When using relative paths, returns the initial <code class="docutils literal notranslate"><span class="pre">~</span></code> with the users home directory.</p>
+<p>On UNIX the initial <code class="docutils literal notranslate"><span class="pre">~</span></code> is replaced by the <code class="docutils literal notranslate"><span class="pre">HOME</span></code> environment variable if it is set, otherwise the current user’s home directory is looked up in the password directory though the <code class="docutils literal notranslate"><span class="pre">pwd</span></code> module.</p>
+<p>On Windows <code class="docutils literal notranslate"><span class="pre">HOME</span></code> and <code class="docutils literal notranslate"><span class="pre">USERPROFILE</span></code> will be used if set, otherwise a combination of <code class="docutils literal notranslate"><span class="pre">HOMEPATH</span></code> and <code class="docutils literal notranslate"><span class="pre">HOMEDRIVE</span></code> will be used.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
 <span class="go">&#39;/Users/rebecca&#39;</span>
@@ -255,14 +389,10 @@ combination of <code class="docutils literal notranslate"><span class="pre">HOME
 </pre></div>
 </div>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">os.path.getatime(path)</span></code></dt><dd><p>Return the time of last access of path. The return value is a number
-representing the number of seconds since EPOCH (e.g. <code class="docutils literal notranslate"><span class="pre">1551832874</span></code>)</p>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.getatime(path)</span></code></dt><dd><p>Return the time of last access of path. The return value is a number representing the number of seconds since EPOCH (e.g. <code class="docutils literal notranslate"><span class="pre">1551832874</span></code>)</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>EPOCH is also known as POSIX time or UNIX Epoch time and is a
-system used for describing a point in time, it is the number of second
-that have elapsed since 00:00:00 Thursday, 1 January 1970 (UTC) minus
-leap seconds.</p>
+<p>EPOCH is also known as POSIX time or UNIX Epoch time and is a system used for describing a point in time, it is the number of second that have elapsed since 00:00:00 Thursday, 1 January 1970 (UTC) minus leap seconds.</p>
 </div>
 <p>Raises an <code class="docutils literal notranslate"><span class="pre">OSError</span></code> if the file does not exist or is inaccessible.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
@@ -273,8 +403,7 @@ leap seconds.</p>
 </pre></div>
 </div>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">os.path.getmtime(path)</span></code></dt><dd><p>Return the time of last modified of path. The return value is a number
-representing the number of seconds since EPOCH (e.g. <code class="docutils literal notranslate"><span class="pre">1551832874</span></code>)</p>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.getmtime(path)</span></code></dt><dd><p>Return the time of last modified of path. The return value is a number representing the number of seconds since EPOCH (e.g. <code class="docutils literal notranslate"><span class="pre">1551832874</span></code>)</p>
 <p>Raises an <code class="docutils literal notranslate"><span class="pre">OSError</span></code> if the file does not exist or is inaccessible.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getatime</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
@@ -284,8 +413,7 @@ representing the number of seconds since EPOCH (e.g. <code class="docutils liter
 </pre></div>
 </div>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">os.path.getsize(path)</span></code></dt><dd><p>Returns the size of a path in bytes. Raises an <code class="docutils literal notranslate"><span class="pre">OSError</span></code> if the file
-does not exist or is inaccessible.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.getsize(path)</span></code></dt><dd><p>Returns the size of a path in bytes. Raises an <code class="docutils literal notranslate"><span class="pre">OSError</span></code> if the file does not exist or is inaccessible.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 <span class="go">320</span>
@@ -294,14 +422,40 @@ does not exist or is inaccessible.</p>
 </pre></div>
 </div>
 </dd>
-</dl>
-<p><code class="docutils literal notranslate"><span class="pre">os.path.isabs(path)</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">os.path.isfile(path)</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">os.path.isdir(path)</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">os.path.ismount(path)</span></code></p>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.isabs(path)</span></code></dt><dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if path is an absolute pathname. On Unix, this means it begins with a slash, on Windows it begins with a (back)slash after chopping off a potential drive letter.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="s1">&#39;/home/alzion/sauce/pythoncharmingforbeginners&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
 </div>
-<div class="section" id="id1">
-<h2>Operating System Interfaces<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.isfile(path)</span></code></dt><dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if path is an existing regular file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;/home/alzion/sauce/pythoncharmingforbeginners/Pipfile&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.isdir(path)</span></code></dt><dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if path is an existing directory.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="s1">&#39;/home/alzion/sauce/pythoncharmingforbeginners/Pipfile&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">os.path.ismount(path)</span></code></dt><dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if pathname path is a mount point: a point in a file system where a different file system has been mounted.</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>There is currently a bug open for Python 3.7 and 3.8 as “<code class="docutils literal notranslate"><span class="pre">os.path.ismount()</span></code> always returns false for mount –bind on same filesystem” that is currently being reviewed. For more information see <a class="reference external" href="https://bugs.python.org/issue29707">Issue 29707</a>.</p>
+</div>
 </div>
 <div class="section" id="psutil">
 <h2><code class="docutils literal notranslate"><span class="pre">psutil</span></code><a class="headerlink" href="#psutil" title="Permalink to this headline">¶</a></h2>
@@ -493,6 +647,12 @@ does not exist or is inaccessible.</p>
     <span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/platform.html">platform — Access to underlying platform’s identifying data</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/os.html">os — Miscellaneous operating system interfaces</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/os.path.html">os.path — Common pathname manipulations</a>.</p></li>
+<li><p><a class="reference external" href="https://psutil.readthedocs.io/en/latest/">psutil documentation</a>.</p></li>
+</ul>
 </div>
 </div>
 

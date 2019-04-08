@@ -71,21 +71,12 @@ Under the following terms:
 For more information see Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0), located at https://creativecommons.org/licenses/by-nc-sa/4.0.
 
 ---------------------------------------------------------
-Read Now
----------------------------------------------------------
-You can read it online at https://snakecharmingforbeginners.com/
-
----------------------------------------------------------
 Download
 ---------------------------------------------------------
-Visit https://github.com/errbufferoverfl/snakecharmingforbeginners for the following types of downloads:
 
-* PDF (for desktop reading, etc.)
-* PDF (for desktop reading, etc.)
-* EPUB (for iPhone/iPad, ebook readers, etc.)
-* Mobi (for Kindle)
+`Download a PDF version for desktop reading. <https://blog.errbufferoverfl.me/snakecharmingforbeginners/snakecharmingforbeginners_0.0.1.pdf>`_
 
-Visit https://github.com/errbufferoverfl/snakecharmingforbeginners for the raw content (for suggesting corrections, changes, translating, etc.)
+`Visit my Github repository for the raw content (for suggesting corrections, changes, translating, etc.) <https://github.com/errbufferoverfl/snakecharmingforbeginners-raw>`_.
 
 ---------------------------------------------------------
 Preface

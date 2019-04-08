@@ -2,7 +2,543 @@
 Contacting the UNIX Daemons of Old
 =========================================================
 
-Daemons are a long-running background process that answers requests for services. In Windows these are typically referred to as Services and are a little bit more complicated.
+Daemons is a type of program on UNIX-based systems that run unobtrusively in the background unlike most applications you may be used to where you are in direct control. On Windows these types of programs are often called services however the concept is relatively the same, however it's important to note that while services can be daemons, not all services are daemons - a user application with a graphical user interface could have a service built into it (something often seen is file sharing applications).
 
-While we won't be going into depth today about daemons, because it tends to be a narrow and twisty rabbit hole I will be covering the basics of creating your own UNIX-like daemons.
+.. important:: Mac OS X is a UNIC based system and uses daemons, while the term service is used for software that performs a function selected from the services menu.
+
+In UNIX daemons are usually started as a process. A process is a running instance of a program. Processes are run by the kernel (the core of the operating system) which assigned a unique :abbr:`PID (Process Identification Number)`.
+
+So a daemon is created when it's parent process is terminated and the daemon is assigned a :abbr:`PID (Process Identification Number)` of one as it has no parent process and no controlling terminal -- however, when speaking more generally a daemons can be any background process whether it is a child of another process or not.
+
+There are generally a number of steps that need to be taken by a computer to turn a process into a daemon which we will be covering here, but don't worry this isn't daemon making one-o-one, I'll leave teaching that to the more advanced witches and wizards.
+
+1. (Optional) Remove unnecessary variables from the environment - variables not passed when the daemon is started are often lost to the ether as the child process has no context of what the parent was doing
+
+2. Execute as a background task by forking (breaking off) and exiting in the parent half of the fork. This allows the daemons parent to receive exit notifications and run like normal
+
+3. Detach from the session that invoked the daemon
+
+   a. Dissociating from the controlling :abbr:`tty (Text Terminals)`
+
+   b. Create a new session and become the leader of that session
+
+   c. Become a process group leader
+
+4. If the daemon wants to ensure that it won't acquire a new controlling :abbr:`tty (Text Terminals)` even by accident the daemon may fork and exit again.
+
+5. Set the root directory ``/`` as the current working directory so the process does not keep any directory in use that may be on a mounted file system -- this allows the computer to continue normal operation and allow unmounting of the file system
+
+6. Change the ``umask`` to 0 - this allows ``open()``, ``creat()`` and other operating system calls to specify their own permissions and not depend on those provided by the parent
+
+7. Close all files opened by the parent, this may include file descriptors, standard streams (``stdin``, ``stdout`` and ``stderr``). Any files required by the daemon can be opened later, or passed in
+
+8. Using a logfile, the console, or ``/dev/null`` as ``stdin``, ``stdout``, and ``stderr``.
+
+Further to this, you will often hear people talk about what makes a "well-behaved" daemon, and let me tell you it generally means it stays in the circle you summoned it in without needing to bring out the table salt.
+
+---------------------------------------------------------
+Using ``system.d``
+---------------------------------------------------------
+
+``systemd`` is a UNIX based software suite that provides the fundamental building blocks for Linux. It includes a System and Service Manager as well as an ``init`` system that can be used to bootstrap user space, and manage user processes. ``systemd`` aims to unify service configuration and behavior across Linux distributions.
+
+.. important:: ``systemd`` often makes daemonising applications a thing of the past, however it's important to consider who is using your application and whether they are using ``systemd``.
+
+Once you have your Python application ready to go you will want to create a service file for ``systemd``. This will need the ``.service`` extension and it should be saved in ``/lib/systemd/system/`` (this will require ``sudo``).
+
+.. code-block:: console
+
+   vim /lib/systemd/system/myapplication.service
+
+You will want to add the following content to the file. Ensure you change the script filename and location as well as the description.
+
+.. code-block:: console
+
+   [Unit]
+   Description=Dummy Service
+   After=multi-user.target
+   Conflicts=getty@tty1.service
+
+   [Service]
+   Type=simple
+   ExecStart=/usr/bin/python3 /usr/bin/dummy_service.py
+   StandardInput=tty-force
+
+   [Install]
+   WantedBy=multi-user.target
+
+To escape and save the file using ``sudo`` you can use the following ``:w !sudo tee %``
+
+Once you have created the service you will want to reload the ``systemctl`` daemon to read the new file.
+
+.. important:: You will need to make sure you reload the daemon each time you make changes to the ``.service`` file.
+
+.. code-block:: console
+
+   $ sudo systemctl damemon-reload
+
+Next, we will want to enable the servie to start on system-boot as well as start the service in general.
+
+.. code-block:: console
+
+   $ sudo systemctl enable myapplication.service
+   $ sudo systemctl start myapplication.service
+
+If you want to check the status of the service you can run the ``status`` command which will show you important information about wether the status is running, the ``pid`` it is using, memory usage and :abbr:`CPU (Central Processing Unit)` usage.
+
+.. code-block:: console
+
+   $ sudo systemctl status myapplication.service
+
+Finally, if for any reason you need to stop the service you can simply run the ``stop`` command.
+
+.. code-block:: console
+
+   $ sudo systemctl stop myapplication.service
+
+---------------------------------------------------------
+Using ``python-daemon``
+---------------------------------------------------------
+
+``python-daemon`` is based on :pep:`3143` which defines a standard daemon process library. It is not in Python 3.7 by default so should be installed using ``pipenv install python-daemon``.
+
+.. important:: Many examples on Google and Stack Overflow will suggest you use the ``DaemonRunner`` object to handle your daemon, however this is now considered depricated and ``DameonContext`` should be used instead.
+
+To get started with ``DaemonContext`` all you need to do is create a ``with`` control flow using the ``DaemonContext``.
+
+.. code-block:: python
+
+   with daemon.DaemonContext():
+   main()
+
+This implementation will give you a working albeit simple implementation of a daemon. You're probably wondering about all the other things like setting the working directory, preserving important files and handling operating system signals. So let's get into it!
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Handling the File System
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As we mentioned earlier daemons are funny little things, because they are unbound from our command (i.e. we have no control over them) will have its own keys to be identified user-wise. This means that, irrespective of the user that started a daemon, it will have its own :abbr:`UID (User Identification)`, :abbr:`GID (Group Identification)`, its own root and working directories, and its own umask. While the default configuration will handle all of this automatically, sometimes we need to customise to make sure our little miscreants work the way we expect.
+
+To change the root directory, useful for confining your daemon to it's directory, you can set the ``chroot_directory`` variable to a valid directory on your file system. The ``working_directory`` can be set in a similar way, and it the more common way of confining you daemon. By default, DaemonContext will set your working directory to root “/”.
+
+.. code-block:: python
+
+   with daemon.DaemonContext(
+   chroot_directory=None,
+   working_directory='/var/lib/ose'):
+   print(os.getcwd())
+
+.. tip:: Ose is a Great President of Hell and part of the Goetia. Ose can also conveniently turn people into loafs of bread.
+
+However you might notice that you don't get any output from ``print(os.getcwd())`` this is because when we daemonise a process step seven says that we "Close all files opened by the parent, this may include file descriptors, standard streams (``stdin``, ``stdout`` and ``stderr``). Any files required by the daemon can be opened later, or passed in". But never fear! Preserving files is straight-forward enough and is covered in the next section.
+
+Configuring the :abbr:`UID (User Identification)` and :abbr:`GID (Group Identification)` may also be critical to preserve any privilege elevation the user who started the daemon may of had. This can easily be done by setting the ``uid`` and/or the ``gid``. Keep in mind your user running the daemon will need to have these permissions, in the case they don't ``DaemonContext`` will raise a ``DaemonOSEnvironmentError`` exception.
+
+.. code-block:: python
+
+    with daemon.DaemonContext(
+        uid=1001,
+        gid=777):
+    print(os.getuid())
+    print(os.getgid())
+
+Additionally, you might want to set the daemon umask, which will set the mode the daemon will create files with.
+
+.. code-block:: python
+
+    with daemon.DaemonContext(
+            umask=0o002):
+        your_mask = os.umask(0)
+        print(your_mask)
+        os.umask(your_mask)
+
+How to Calculate ``umask``
+=========================================================
+
+To calculate the final permission for directories you can simply subtract the umask from the base permissions to determine the final permission for a directory. Keeping in mind the left most bit is the permission for the **owner**, the second left-most bit is for the **group** and the final bit if for **others**.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Octal Value
+     - Permission
+   * - ``0``
+     - read, write and execute
+   * - ``1``
+     - read and write
+   * - ``2``
+     - read and execute
+   * - ``3``
+     - read only
+   * - ``4``
+     - write and execute
+   * - ``5``
+     - write only
+   * - ``6``
+     - execute only
+   * - ``7``
+     - no permissions
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Preserving Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+So while we know closing any files is what the ``DaemonContext`` is supposed to do, this can sometimes be undesirable as we need particular files open. We can ensure when the daemon starts it still has access to these files by specifying which files should remain open using the ``files_preserve`` variable.
+
+.. code-block:: python
+
+   some_important_file = open('camio.db', 'r')
+
+   with daemon.DaemonContext(
+   files_preserve=['camio.db']):
+   print(some_important_file.readlines())
+
+.. tip:: Camio will answer questions, tell you about the past and teach you a thing or two about "Liberal Sciences" as well as grant you "the Understanding of all Birds, Lowing of Bullocks, Barking of Dogs and other Creatures; and also of the Voice of the Waters.".
+
+So along with keeping files open, we can also redirect ``stdin``, ``stdout`` and ``stderr`` from ``os.devnull`` and keep them open.
+
+.. code-block:: python
+
+   with daemon.DaemonContext(
+   stdout=sys.stdout,
+   stderr=sys.stderr):
+   print("Hello Forneus!")
+
+.. tip:: The demon Marquis Forneus is all about chit-chat -- which is why we conveniently say hello! Forneus can also make you totally rad at rhetoric, which is the art of talking to people and getting them to think and do what you want. Like thinking they are a loaf of bread. But not really that's Ose's job.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Handing Operating System Signals
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Signals coming from the operating system are important irrespective of the way the process is used. Because of this it makes it even more important to ensure we preserve these signals as they may be one of the few ways a user can interact with the daemon. ``DaemonContext`` will allow you to define a dictionary using the ``signal_map`` argument that allows you to map to common signals used.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Signal
+     - Portable Number
+     - Default action
+     - Description
+   * - ``SIGABRT``
+     - 6
+     - Terminate (core dump)
+     - Process abort signal
+   * - ``SIGALRM``
+     - 14
+     - Terminate
+     - Alarm clock
+   * - ``SIGBUS``
+     - N/A
+     - Terminate (core dump)
+     - Access to an undefined portion of a memory object
+   * - ``SIGCHLD``
+     - N/A
+     - Ignore
+     - Child process terminated, stopped, or continued
+   * - ``SIGCONT``
+     - N/A
+     - Continue
+     - Continue executing, if stopped
+   * - ``SIGFPE``
+     - N/A
+     - Terminate (core dump)
+     - Erroneous arithmetic operation
+   * - ``SIGHUP``
+     - 1
+     - Terminate
+     - Hangup
+   * - ``SIGILL``
+     - N/A
+     - Terminate (core dump)
+     - Illegal instruction
+   * - ``SIGINT``
+     - 2
+     - Terminate
+     - Terminal interrupt signal
+   * - ``SIGKILL``
+     - 9
+     - Terminate
+     - Kill (cannot be caught or ignored)
+   * - ``SIGPIPE``
+     - N/A
+     - Terminate
+     - Write on a pipe with no one to read it
+   * - ``SIGPOLL``
+     - N/A
+     - Terminate
+     - Pollable event
+   * - ``SIGPROF``
+     - N/A
+     - Terminate
+     - Profiling timer expired
+   * - ``SIGQUIT``
+     - 3
+     - Terminate (core dump)
+     - Terminal quit signal
+   * - ``SIGSEGV``
+     - N/A
+     - Terminate (core dump)
+     - Invalid memory reference
+   * - ``SIGSTOP``
+     - N/A
+     - Stop
+     - Stop executing (cannot be caught or ignored)
+   * - ``SIGSYS``
+     - N/A
+     - Terminate (core dump)
+     - Bad system call
+   * - ``SIGTERM``
+     - 15
+     - Terminate
+     - Termination signal
+   * - ``SIGTRAP``
+     - 5
+     - Terminate (core dump)
+     - Trace/breakpoint trap
+   * - ``SIGTSTP``
+     - N/A
+     - Stop
+     - Terminal stop signal
+   * - ``SIGTTIN``
+     - N/A
+     - Stop
+     - Background process attempting read
+   * - ``SIGTTOU``
+     - N/A
+     - Stop
+     - Background process attempting write
+   * - ``SIGURG``
+     - N/A
+     - Ignore
+     - High bandwidth data is available at a socket
+   * - ``SIGUSR1``
+     - N/A
+     - Terminate
+     - User-defined signal 1
+   * - ``SIGUSR2``
+     - N/A
+     - Terminate
+     - User-defined signal 2
+   * - ``SIGVTALRM``
+     - N/A
+     - Terminate
+     - Virtual timer expired
+   * - ``SIGWINCH``
+     - N/A
+     - Ignore
+     - Terminal window size changed
+   * - ``SIGXCPU``
+     - N/A
+     - Terminate (core dump)
+     - CPU time limit exceeded
+   * - ``SIGXFSZ``
+     - N/A
+     - Terminate (core dump)
+     - File size limit exceeded
+
+.. code-block:: python
+
+    import signal
+
+    def shutdown(signum, frame):  # signum and frame are mandatory
+        sys.exit(0)
+
+    with daemon.DaemonContext(
+            signal_map={
+                signal.SIGTERM: shutdown,
+                signal.SIGTSTP: shutdown
+            }):
+        main()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There Can Be Only ONE!
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Daemons often use resources, the problem with some resources is that only one thing can access them at a time. This is often the case for :abbr:`TCP ()` ports or some files on disk. Therefore, you want to make sure that multiple daemons aren't competing for these resources as it can often lead to exceptions or race-conditions.
+
+To ensure only one daemon is running at a time we can create a PID lock file. This is a file that contains the PID of a process that prevents the same program from running on more than one instance.
+
+.. note:: Part of the spawning a new process is ensuring there is no lock file.
+
+.. code-block:: python
+
+    import lockfile
+
+    with daemon.DaemonContext(
+            pidfile=lockfile.FileLock('/var/run/spam.pid')):
+        main()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Starting/Stopping/Restarting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is unfortunately where the benefits of ``python-daemon`` run out. ``DaemonContext`` doesn't take care of this functionality for you and while ``DaemonRunner`` does have code in regard to this behaviour it is not advisable for you to use it as it is deprecated. For those feeling adventurous you can always use it as a reference for building out these functions.
+
+One extension to this (although not the most eloquent) can be useful in getting around this problem.
+
+Given a Python application that `does something` (that's the technical term for it anyway) we can create an initialisation shell script that runs the application for you and manages termination and restarting.
+
+.. code-block:: python
+
+    #!/usr/bin/env python3.5
+    import sys
+    import os
+    import time
+    import argparse
+    import logging
+    import daemon
+    from daemon import pidfile
+
+    debug_p = False
+
+    def do_something(logf):
+        ### This does the "work" of the daemon
+
+        logger = logging.getLogger('eg_daemon')
+        logger.setLevel(logging.INFO)
+
+        fh = logging.FileHandler(logf)
+        fh.setLevel(logging.INFO)
+
+        formatstr = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        formatter = logging.Formatter(formatstr)
+
+        fh.setFormatter(formatter)
+
+        logger.addHandler(fh)
+
+        while True:
+            logger.debug("this is a DEBUG message")
+            logger.info("this is an INFO message")
+            logger.error("this is an ERROR message")
+            time.sleep(5)
+
+
+    def start_daemon(pidf, logf):
+        ### This launches the daemon in its context
+        with daemon.DaemonContext(
+            working_directory='/var/lib/eg_daemon',
+            umask=0o002,
+            pidfile=pidfile.TimeoutPIDLockFile(pidf),
+            ) as context:
+            do_something(logf)
+
+
+    if __name__ == "__main__":
+        parser = argparse.ArgumentParser(description="Example daemon in Python")
+        parser.add_argument('-p', '--pid-file', default='/var/run/eg_daemon.pid')
+        parser.add_argument('-l', '--log-file', default='/var/log/eg_daemon.log')
+
+        args = parser.parse_args()
+
+        start_daemon(pidf=args.pid_file, logf=args.log_file)
+
+You can then use the following ``.sh`` script to start, stop and restart the application. One of the features I prefer to add when creating an application this way is also a ``run()`` command that allows me to not daemonise the application. This can be especially helpful for debugging or if I don't want it running in the background.
+
+.. code-block:: shell
+
+    #!/bin/bash
+    # ------------------------------------------------------------------
+    #  A bash script for better management of python-daemon
+    # ------------------------------------------------------------------
+
+    VERSION=0.1.0
+    SUBJECT=some-unique-id
+    USAGE="Usage: command -ihv args"
+
+    startscript(){
+        # get the current PID of the script you are trying to run
+        PID=$(ps aux | grep '[s]criptname.py' | awk '{print $2}')
+
+        # if the PID does not exist start the application
+        if [ -z "$PID" ]; then
+            ./scriptname.py start
+        else
+            # else print an error and do not start the process
+            echo -n "ERROR: The process is already running."
+            echo
+        fi
+    }
+
+    stopscriptname(){
+        # get the current PID of the script you are trying to run
+        PID=$(ps aux | grep '[s]criptname.py' | awk '{print $2}')
+
+        # if the PID does not exist there is nothing to stop
+        if [ -z "$PID" ]; then
+            echo -n "ERROR: scriptname is not running"
+        else
+            # else kill the script using the UNIX in built kill
+            kill $PID
+        fi
+    }
+
+    statusscriptname(){
+        # get the current PID of the script you are trying to run
+        PID=$(ps aux | grep '[s]criptname.py' | awk '{print $2}')
+
+        # return if the application is running or not and return the PID
+        if [ -z "$PID" ]; then
+            echo "scriptname is not running"
+        else
+            echo "scriptname is running with PID $PID"
+        fi
+    }
+
+    runscriptname(){
+        # get the current PID of the script you are trying to run
+        PID=$(ps aux | grep '[s]criptname.py' | awk '{print $2}')
+
+        # if the PID does not exist run the application like normal - do not daemonise
+        if [ -z "$PID" ]; then
+            ./scriptname.py run
+        else
+            # else print an error and do not start the process
+            echo -n "ERROR: The process is already running."
+            echo
+        fi
+    }
+
+    restartscriptname(){
+        # run the stop script and then the start script to restart the process (turn it off and on again)
+        stopscriptname
+        startscriptname
+    }
+
+    case "$1" in
+        # sort of like a case statement, depending on the first argument determines which function to run
+        start) startscriptname ;;
+        stop) stopscriptname ;;
+        run) runscriptname ;;
+        restart) restartscriptname ;;
+        status) statusscriptname ;;
+        *) echo "usage: $0 start | stop | run | restart | status" >$2
+           exit 1
+           ;;
+    esac
+
+Further Reading
+=========================================================
+
+- `Daemon Definition <http://www.linfo.org/daemon.html>`_.
+
+- `Fork (System Call) <https://en.wikipedia.org/wiki/Fork_(system_call)>`_.
+
+- `python-daemon Source Code <https://pagure.io/python-daemon/>`_.
+
+- `What is Umask and How To Setup Default umask Under Linux? <https://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html>`_.
+
+- `Signal (IPC) - POSIX Signals <https://en.wikipedia.org/wiki/Signal_(IPC)#POSIX_signals>`_.
+
+- `class threading.Lock <https://docs.python.org/3/library/threading.html#threading.Lock>`_.
+
+- `Linux Documentation on Processes <http://www.tldp.org/LDP/tlk/kernel/processes.html>`_.
+
+- `Mac OS X Documentation of Launch Daemons and Agents <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html>`_.
+
+- `PEP 3143 - Standard Daemon Process Library <https://www.python.org/dev/peps/pep-3143/>`_.
+
+- `Linux Daemon Using python-daemon with PID File and Logging <https://linuxfollies.blogspot.com/2016/11/linux-daemon-using-python-daemon-with.html>`_.
+
+
 

